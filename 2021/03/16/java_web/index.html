@@ -1,0 +1,317 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>【Java Web】学习笔记 | Foryatto</title><meta name="keywords" content="Java Web"><meta name="author" content="Foryatto"><meta name="copyright" content="Foryatto"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Web基础在JavaEE平台上，处理TCP连接，解析HTTP协议这些底层工作统统扔给现成的Web服务器去做，我们只需要把自己的应用程序跑在Web服务器上。为了实现这一目的，JavaEE提供了Servlet API，我们使用Servlet API编写自己的Servlet来处理HTTP请求，Web服务器实现Servlet API接口，实现底层功能： 1234567                 ┌─">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Java Web】学习笔记">
+<meta property="og:url" content="https://www.foryatto.com/2021/03/16/java_web/index.html">
+<meta property="og:site_name" content="Foryatto">
+<meta property="og:description" content="Web基础在JavaEE平台上，处理TCP连接，解析HTTP协议这些底层工作统统扔给现成的Web服务器去做，我们只需要把自己的应用程序跑在Web服务器上。为了实现这一目的，JavaEE提供了Servlet API，我们使用Servlet API编写自己的Servlet来处理HTTP请求，Web服务器实现Servlet API接口，实现底层功能： 1234567                 ┌─">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png">
+<meta property="article:published_time" content="2021-03-16T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-04T13:04:50.066Z">
+<meta property="article:author" content="Foryatto">
+<meta property="article:tag" content="Java Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png"><link rel="shortcut icon" href="/img/logo.ico"><link rel="canonical" href="https://www.foryatto.com/2021/03/16/java_web/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Foryatto","link":"链接: ","source":"来源: Foryatto","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-04-04 21:04:50'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Foryatto" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" data-lazy-src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于作者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Foryatto</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于作者</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">【Java Web】学习笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-03-16T00:00:00.000Z" title="发表于 2021-03-16 08:00:00">2021-03-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-04-04T13:04:50.066Z" title="更新于 2021-04-04 21:04:50">2021-04-04</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/">Java</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="【Java Web】学习笔记"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><h1 id="Web基础"><a href="#Web基础" class="headerlink" title="Web基础"></a>Web基础</h1><p>在JavaEE平台上，处理TCP连接，解析HTTP协议这些底层工作统统扔给现成的Web服务器去做，我们只需要把自己的应用程序跑在Web服务器上。为了实现这一目的，JavaEE提供了Servlet API，我们使用Servlet API编写自己的Servlet来处理HTTP请求，Web服务器实现Servlet API接口，实现底层功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">                 ┌───────────┐</span><br><span class="line">                 │My Servlet │</span><br><span class="line">                 ├───────────┤</span><br><span class="line">                 │Servlet API│</span><br><span class="line">┌───────┐  HTTP  ├───────────┤</span><br><span class="line">│Browser│&lt;──────&gt;│Web Server │</span><br><span class="line">└───────┘        └───────────┘</span><br></pre></td></tr></table></figure>
+
+<p>类似Tomcat这样的Web服务器也称为Servlet容器。</p>
+<p>在Servlet容器中运行的Servlet具有如下特点：</p>
+<ul>
+<li>无法在代码中直接通过new创建Servlet实例，必须由Servlet容器自动创建Servlet实例；</li>
+<li>Servlet容器只会给每个Servlet类创建唯一实例；</li>
+<li>Servlet容器会使用多线程执行<code>doGet()</code>或<code>doPost()</code>方法。</li>
+</ul>
+<p>复习一下Java<a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/1252599548343744/1255943750561472">多线程</a>的内容，我们可以得出结论：</p>
+<ul>
+<li>在Servlet中定义的实例变量会被多个线程同时访问，要注意线程安全；</li>
+<li><code>HttpServletRequest</code>和<code>HttpServletResponse</code>实例是由Servlet容器传入的局部变量，它们只能被当前线程访问，不存在多个线程访问的问题；</li>
+<li>在<code>doGet()</code>或<code>doPost()</code>方法中，如果使用了<code>ThreadLocal</code>，但没有清理，那么它的状态很可能会影响到下次的某个请求，因为Servlet容器很可能用线程池实现线程复用。</li>
+</ul>
+<p>因此，正确编写Servlet，要清晰理解Java的多线程模型，需要同步访问的必须同步。</p>
+<p><strong>小结</strong></p>
+<p>编写Web应用程序就是编写Servlet处理HTTP请求；</p>
+<p>Servlet API提供了<code>HttpServletRequest</code>和<code>HttpServletResponse</code>两个高级接口来封装HTTP请求和响应；</p>
+<p>Web应用程序必须按固定结构组织并打包为<code>.war</code>文件；</p>
+<p>需要启动Web服务器来加载我们的war包来运行Servlet。</p>
+<h1 id="Servlet"><a href="#Servlet" class="headerlink" title="Servlet"></a>Servlet</h1><p>一个Webapp中的多个Servlet依靠路径映射来处理不同的请求；</p>
+<p>映射为<code>/</code>的Servlet可处理所有“未匹配”的请求；</p>
+<p>一个Servlet类在服务器中只有一个实例，但对于每个HTTP请求，Web服务器会使用多线程执行请求。因此，一个Servlet的<code>doGet()</code>、<code>doPost()</code>等处理请求的方法是多线程并发执行的。如果Servlet中定义了字段，要注意多线程并发访问的问题。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet(urlPatterns = &quot;/hello&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@WebServlet(urlPatterns = &quot;/signin&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SignInServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@WebServlet(urlPatterns = &quot;/&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IndexServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>浏览器发出的HTTP请求总是由Web Server先接收，然后，根据Servlet配置的映射，不同的路径转发到不同的Servlet：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">               ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐</span><br><span class="line"></span><br><span class="line">               │            &#x2F;hello    ┌───────────────┐│</span><br><span class="line">                          ┌──────────&gt;│ HelloServlet  │</span><br><span class="line">               │          │           └───────────────┘│</span><br><span class="line">┌───────┐    ┌──────────┐ │ &#x2F;signin   ┌───────────────┐</span><br><span class="line">│Browser│───&gt;│Dispatcher│─┼──────────&gt;│ SignInServlet ││</span><br><span class="line">└───────┘    └──────────┘ │           └───────────────┘</span><br><span class="line">               │          │ &#x2F;         ┌───────────────┐│</span><br><span class="line">                          └──────────&gt;│ IndexServlet  │</span><br><span class="line">               │                      └───────────────┘│</span><br><span class="line">                              Web Server</span><br><span class="line">               └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘</span><br></pre></td></tr></table></figure>
+
+<h2 id="HttpServletRequest"><a href="#HttpServletRequest" class="headerlink" title="HttpServletRequest"></a>HttpServletRequest</h2><p><code>HttpServletRequest</code>封装了一个HTTP请求，它实际上是从<code>ServletRequest</code>继承而来。最早设计Servlet时，设计者希望Servlet不仅能处理HTTP，也能处理类似SMTP等其他协议，因此，单独抽出了<code>ServletRequest</code>接口，但实际上除了HTTP外，并没有其他协议会用Servlet处理，所以这是一个过度设计。</p>
+<p>我们通过<code>HttpServletRequest</code>提供的接口方法可以拿到HTTP请求的几乎全部信息，常用的方法有：</p>
+<ul>
+<li>getMethod()：返回请求方法，例如，<code>&quot;GET&quot;</code>，<code>&quot;POST&quot;</code>；</li>
+<li>getRequestURI()：返回请求路径，但不包括请求参数，例如，<code>&quot;/hello&quot;</code>；</li>
+<li>getQueryString()：返回请求参数，例如，<code>&quot;name=Bob&amp;a=1&amp;b=2&quot;</code>；</li>
+<li>getParameter(name)：返回请求参数，GET请求从URL读取参数，POST请求从Body中读取参数；</li>
+<li>getContentType()：获取请求Body的类型，例如，<code>&quot;application/x-www-form-urlencoded&quot;</code>；</li>
+<li>getContextPath()：获取当前Webapp挂载的路径，对于ROOT来说，总是返回空字符串<code>&quot;&quot;</code>；</li>
+<li>getCookies()：返回请求携带的所有Cookie；</li>
+<li>getHeader(name)：获取指定的Header，对Header名称不区分大小写；</li>
+<li>getHeaderNames()：返回所有Header名称；</li>
+<li>getInputStream()：如果该请求带有HTTP Body，该方法将打开一个输入流用于读取Body；</li>
+<li>getReader()：和getInputStream()类似，但打开的是Reader；</li>
+<li>getRemoteAddr()：返回客户端的IP地址；</li>
+<li>getScheme()：返回协议类型，例如，<code>&quot;http&quot;</code>，<code>&quot;https&quot;</code>；</li>
+</ul>
+<p><strong>此外，<code>HttpServletRequest</code>还有两个方法：<code>setAttribute()</code>和<code>getAttribute()</code>，可以给当前<code>HttpServletRequest</code>对象附加多个Key-Value，相当于把<code>HttpServletRequest</code>当作一个<code>Map&lt;String, Object&gt;</code>使用。</strong></p>
+<p>调用<code>HttpServletRequest</code>的方法时，注意务必阅读接口方法的文档说明，因为有的方法会返回<code>null</code>，例如<code>getQueryString()</code>的文档就写了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">... This method returns null if the URL does not have a query string...</span><br></pre></td></tr></table></figure>
+
+<h2 id="HttpServletResponse"><a href="#HttpServletResponse" class="headerlink" title="HttpServletResponse"></a>HttpServletResponse</h2><p><code>HttpServletResponse</code>封装了一个HTTP响应。由于HTTP响应必须先发送Header，再发送Body，所以，操作<code>HttpServletResponse</code>对象时，必须先调用设置Header的方法，最后调用发送Body的方法。</p>
+<p>常用的设置Header的方法有：</p>
+<ul>
+<li>setStatus(sc)：设置响应代码，默认是<code>200</code>；</li>
+<li>setContentType(type)：设置Body的类型，例如，<code>&quot;text/html&quot;</code>；</li>
+<li>setCharacterEncoding(charset)：设置字符编码，例如，<code>&quot;UTF-8&quot;</code>；</li>
+<li>setHeader(name, value)：设置一个Header的值；</li>
+<li>addCookie(cookie)：给响应添加一个Cookie；</li>
+<li>addHeader(name, value)：给响应添加一个Header，因为HTTP协议允许有多个相同的Header；</li>
+</ul>
+<p>写入响应时，需要通过<code>getOutputStream()</code>获取写入流，或者通过<code>getWriter()</code>获取字符流，二者只能获取其中一个。</p>
+<p>写入响应前，无需设置<code>setContentLength()</code>，因为底层服务器会根据写入的字节数自动设置，如果写入的数据量很小，实际上会先写入缓冲区，如果写入的数据量很大，服务器会自动采用Chunked编码让浏览器能识别数据结束符而不需要设置Content-Length头。</p>
+<p>但是，写入完毕后调用<code>flush()</code>却是必须的，因为大部分Web服务器都基于HTTP/1.1协议，会复用TCP连接。如果没有调用<code>flush()</code>，将导致缓冲区的内容无法及时发送到客户端。此外，写入完毕后千万不要调用<code>close()</code>，原因同样是因为会复用TCP连接，如果关闭写入流，将关闭TCP连接，使得Web服务器无法复用此TCP连接。</p>
+<h2 id="重定向与转发"><a href="#重定向与转发" class="headerlink" title="重定向与转发"></a>重定向与转发</h2><p>使用<strong>重定向</strong>时，浏览器知道重定向规则，并且会自动发起新的HTTP请求；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">┌───────┐   GET &#x2F;hi     ┌───────────────┐</span><br><span class="line">│Browser│ ────────────&gt; │RedirectServlet│</span><br><span class="line">│       │ &lt;──────────── │               │</span><br><span class="line">└───────┘   302         └───────────────┘</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">┌───────┐  GET &#x2F;hello   ┌───────────────┐</span><br><span class="line">│Browser│ ────────────&gt; │ HelloServlet  │</span><br><span class="line">│       │ &lt;──────────── │               │</span><br><span class="line">└───────┘   200 &lt;html&gt;  └───────────────┘</span><br></pre></td></tr></table></figure>
+
+<p>重定向代码格式：<code>resp.sendRedirect(redirectToUrl);</code></p>
+<p>重定向有两种：一种是302响应，称为临时重定向，一种是301响应，称为永久重定向。两者的区别是，如果服务器发送301永久重定向响应，浏览器会缓存<code>/hi</code>到<code>/hello</code>这个重定向的关联，下次请求<code>/hi</code>的时候，浏览器就直接发送<code>/hello</code>请求了。</p>
+<p><code>HttpServletResponse</code>提供了快捷的<code>redirect()</code>方法实现302重定向。如果要实现301永久重定向，可以这么写：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">resp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY); <span class="comment">// 301</span></span><br><span class="line">resp.setHeader(<span class="string">&quot;Location&quot;</span>, <span class="string">&quot;/hello&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>使用<strong>转发</strong>时，浏览器并不知道服务器内部的转发逻辑。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">                          ┌────────────────────────┐</span><br><span class="line">                          │      ┌───────────────┐ │</span><br><span class="line">                          │ ────&gt;│ForwardServlet │ │</span><br><span class="line">┌───────┐  GET &#x2F;morning   │      └───────────────┘ │</span><br><span class="line">│Browser│ ──────────────&gt; │              │         │</span><br><span class="line">│       │ &lt;────────────── │              ▼         │</span><br><span class="line">└───────┘    200 &lt;html&gt;   │      ┌───────────────┐ │</span><br><span class="line">                          │ &lt;────│ HelloServlet  │ │</span><br><span class="line">                          │      └───────────────┘ │</span><br><span class="line">                          │       Web Server       │</span><br><span class="line">                          └────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<p>转发代码格式：<code>req.getRequestDispatcher(&quot;/hello&quot;).forward(req, resp);</code></p>
+<h2 id="使用Session和Cookie"><a href="#使用Session和Cookie" class="headerlink" title="使用Session和Cookie"></a>使用Session和Cookie</h2><p>Servlet容器提供了Session机制以跟踪用户；</p>
+<p>默认的Session机制是以Cookie形式实现的，Cookie名称为<code>JSESSIONID</code>；</p>
+<p>通过读写Cookie可以在客户端设置用户偏好等。</p>
+<ul>
+<li>设置Session</li>
+</ul>
+<p>在判断用户登录成功后，可以将用户名放入当前<code>HttpSession</code>中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HttpSession session = req.getSession();</span><br><span class="line">session.setAttribute(<span class="string">&quot;user&quot;</span>, name);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>读取Session</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String user = (String) req.getSession().getAttribute(<span class="string">&quot;user&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>移除Session</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">req.getSession().removeAttribute(<span class="string">&quot;user&quot;</span>);</span><br><span class="line">resp.sendRedirect(<span class="string">&quot;/&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>在使用多台服务器构成集群时，使用Session会遇到一些额外的问题。通常，多台服务器集群使用反向代理作为网站入口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">                                     ┌────────────┐</span><br><span class="line">                                ┌───&gt;│Web Server 1│</span><br><span class="line">                                │    └────────────┘</span><br><span class="line">┌───────┐     ┌─────────────┐   │    ┌────────────┐</span><br><span class="line">│Browser│────&gt;│Reverse Proxy│───┼───&gt;│Web Server 2│</span><br><span class="line">└───────┘     └─────────────┘   │    └────────────┘</span><br><span class="line">                                │    ┌────────────┐</span><br><span class="line">                                └───&gt;│Web Server 3│</span><br><span class="line">                                     └────────────┘</span><br></pre></td></tr></table></figure>
+
+<p>如果多台Web Server采用无状态集群，那么反向代理总是以轮询方式将请求依次转发给每台Web Server，这会造成一个用户在Web Server 1存储的Session信息，在Web Server 2和3上并不存在，即从Web Server 1登录后，如果后续请求被转发到Web Server 2或3，那么用户看到的仍然是未登录状态。</p>
+<p>要解决这个问题，方案一是在所有Web Server之间进行Session复制，但这样会严重消耗网络带宽，并且，每个Web Server的内存均存储所有用户的Session，内存使用率很低。</p>
+<p>另一个方案是采用粘滞会话（Sticky Session）机制，即反向代理在转发请求的时候，总是根据JSESSIONID的值判断，相同的JSESSIONID总是转发到固定的Web Server，但这需要反向代理的支持。</p>
+<p>无论采用何种方案，使用Session机制，会使得Web Server的集群很难扩展，因此，Session适用于中小型Web应用程序。对于大型Web应用程序来说，通常需要避免使用Session机制。</p>
+<ul>
+<li>创建Cookie</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Cookie cookie = <span class="keyword">new</span> Cookie(<span class="string">&quot;lang&quot;</span>, lang);</span><br><span class="line">            <span class="comment">// 该Cookie生效的路径范围:</span></span><br><span class="line">            cookie.setPath(<span class="string">&quot;/&quot;</span>);</span><br><span class="line">            <span class="comment">// 该Cookie有效期:</span></span><br><span class="line">            cookie.setMaxAge(<span class="number">8640000</span>); <span class="comment">// 8640000秒=100天</span></span><br><span class="line">            <span class="comment">// 将该Cookie添加到响应:</span></span><br><span class="line">            resp.addCookie(cookie);</span><br></pre></td></tr></table></figure>
+
+<p>创建一个新Cookie时，除了指定名称和值以外，通常需要设置<code>setPath(&quot;/&quot;)</code>，浏览器根据此前缀决定是否发送Cookie。如果一个Cookie调用了<code>setPath(&quot;/user/&quot;)</code>，那么浏览器只有在请求以<code>/user/</code>开头的路径时才会附加此Cookie。通过<code>setMaxAge()</code>设置Cookie的有效期，单位为秒，最后通过<code>resp.addCookie()</code>把它添加到响应。</p>
+<p>如果访问的是https网页，还需要调用<code>setSecure(true)</code>，否则浏览器不会发送该Cookie。</p>
+<p>因此，务必注意：浏览器在请求某个URL时，是否携带指定的Cookie，取决于Cookie是否满足以下所有要求：</p>
+<ol>
+<li>URL前缀是设置Cookie时的Path；</li>
+<li>Cookie在有效期内；</li>
+<li>Cookie设置了secure时必须以https访问。</li>
+</ol>
+<ul>
+<li>读取Cookie</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> String <span class="title">parseLanguageFromCookie</span><span class="params">(HttpServletRequest req)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 获取请求附带的所有Cookie:</span></span><br><span class="line">    Cookie[] cookies = req.getCookies();</span><br><span class="line">    <span class="comment">// 如果获取到Cookie:</span></span><br><span class="line">    <span class="keyword">if</span> (cookies != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 循环每个Cookie:</span></span><br><span class="line">        <span class="keyword">for</span> (Cookie cookie : cookies) &#123;</span><br><span class="line">            <span class="comment">// 如果Cookie名称为lang:</span></span><br><span class="line">            <span class="keyword">if</span> (cookie.getName().equals(<span class="string">&quot;lang&quot;</span>)) &#123;</span><br><span class="line">                <span class="comment">// 返回Cookie的值:</span></span><br><span class="line">                <span class="keyword">return</span> cookie.getValue();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 返回默认值:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;en&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="MVC开发"><a href="#MVC开发" class="headerlink" title="MVC开发"></a>MVC开发</h1><p>MVC：Model-View-Controller</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">                   ┌───────────────────────┐</span><br><span class="line">             ┌────&gt;│       Controller      │</span><br><span class="line">             │     └───────────────────────┘</span><br><span class="line">             │                 │</span><br><span class="line">┌───────┐    │           ┌─────┴─────┐</span><br><span class="line">│Browser│────┘           │   Model   │</span><br><span class="line">│       │&lt;───┐           └─────┬─────┘</span><br><span class="line">└───────┘    │                 │</span><br><span class="line">             │                 ▼</span><br><span class="line">             │     ┌───────────────────────┐</span><br><span class="line">             └─────│          View         │</span><br><span class="line">                   └───────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<p>使用MVC模式的好处是，Controller专注于业务处理，它的处理结果就是Model。Model可以是一个JavaBean，也可以是一个包含多个对象的Map，Controller只负责把Model传递给View，View只负责把Model给“渲染”出来，这样，三者职责明确，且开发更简单，因为开发Controller时无需关注页面，开发View时无需关心如何创建Model。</p>
+<h1 id="使用Filter"><a href="#使用Filter" class="headerlink" title="使用Filter"></a>使用Filter</h1><p>过滤器的作用是，在HTTP请求到达Servlet之前，可以被一个或多个Filter预处理，类似打印日志、登录检查等逻辑，完全可以放到Filter中。</p>
+<p>例如，我们编写一个最简单的EncodingFilter，它强制把输入和输出的编码设置为UTF-8：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebFilter(urlPatterns = &quot;/*&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EncodingFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;EncodingFilter:doFilter&quot;</span>);</span><br><span class="line">        request.setCharacterEncoding(<span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line">        response.setCharacterEncoding(<span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line">        chain.doFilter(request, response);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编写Filter时，必须实现<code>Filter</code>接口，在<code>doFilter()</code>方法内部，要继续处理请求，必须调用<code>chain.doFilter()</code>。最后，用<code>@WebFilter</code>注解标注该Filter需要过滤的URL。这里的<code>/*</code>表示所有路径。</p>
+<p>多个Filter会组成一个链，每个请求都被链上的Filter依次处理。</p>
+<p>Filter的顺序确实对处理的结果有影响。但遗憾的是，Servlet规范并没有对<code>@WebFilter</code>注解标注的Filter规定顺序。如果一定要给每个Filter指定顺序，就必须在<code>web.xml</code>文件中对这些Filter再配置一遍。</p>
+<p>Filter可以有针对性地拦截或者放行HTTP请求。</p>
+<p>如果一个Filter在当前请求中生效，但什么都没有做：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebFilter(&quot;/*&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line">        <span class="comment">// TODO</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那么，用户将看到一个空白页，因为请求没有继续处理，默认响应是200+空白输出。</p>
+<p> <strong>如果Filter要使请求继续被处理，就一定要调用chain.doFilter()！</strong></p>
+<h1 id="使用Listener"><a href="#使用Listener" class="headerlink" title="使用Listener"></a>使用Listener</h1><p>除了Servlet和Filter外，JavaEE的Servlet规范还提供了第三种组件：Listener。</p>
+<p>Listener顾名思义就是监听器，有好几种Listener，其中最常用的是<code>ServletContextListener</code>，我们编写一个实现了<code>ServletContextListener</code>接口的类如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebListener</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppListener</span> <span class="keyword">implements</span> <span class="title">ServletContextListener</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 在此初始化WebApp,例如打开数据库连接池等:</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextInitialized</span><span class="params">(ServletContextEvent sce)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;WebApp initialized.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在此清理WebApp,例如关闭数据库连接池等:</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextDestroyed</span><span class="params">(ServletContextEvent sce)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;WebApp destroyed.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>任何标注为<code>@WebListener</code>，且实现了特定接口的类会被Web服务器自动初始化。上述<code>AppListener</code>实现了<code>ServletContextListener</code>接口，它会在整个Web应用程序初始化完成后，以及Web应用程序关闭后获得回调通知。我们可以把初始化数据库连接池等工作放到<code>contextInitialized()</code>回调方法中，把清理资源的工作放到<code>contextDestroyed()</code>回调方法中，因为Web服务器保证在<code>contextInitialized()</code>执行后，才会接受用户的HTTP请求。</p>
+<p>很多第三方Web框架都会通过一个<code>ServletContextListener</code>接口初始化自己。</p>
+<p>除了<code>ServletContextListener</code>外，还有几种Listener：</p>
+<ul>
+<li>HttpSessionListener：监听HttpSession的创建和销毁事件；</li>
+<li>ServletRequestListener：监听ServletRequest请求的创建和销毁事件；</li>
+<li>ServletRequestAttributeListener：监听ServletRequest请求的属性变化事件（即调用<code>ServletRequest.setAttribute()</code>方法）；</li>
+<li>ServletContextAttributeListener：监听ServletContext的属性变化事件（即调用<code>ServletContext.setAttribute()</code>方法）；</li>
+</ul>
+<p><strong>ServletContext</strong></p>
+<p>一个Web服务器可以运行一个或多个WebApp，对于每个WebApp，Web服务器都会为其创建一个全局唯一的<code>ServletContext</code>实例，我们在<code>AppListener</code>里面编写的两个回调方法实际上对应的就是<code>ServletContext</code>实例的创建和销毁：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextInitialized</span><span class="params">(ServletContextEvent sce)</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;WebApp initialized: ServletContext = &quot;</span> + sce.getServletContext());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>ServletRequest</code>、<code>HttpSession</code>等很多对象也提供<code>getServletContext()</code>方法获取到同一个<code>ServletContext</code>实例。<code>ServletContext</code>实例最大的作用就是设置和共享全局信息。</p>
+<p>此外，<code>ServletContext</code>还提供了动态添加Servlet、Filter、Listener等功能，它允许应用程序在运行期间动态添加一个组件，虽然这个功能不是很常用。</p>
+<p><strong>小结</strong></p>
+<p>通过Listener我们可以监听Web应用程序的生命周期，获取<code>HttpSession</code>等创建和销毁的事件；</p>
+<p><code>ServletContext</code>是一个WebApp运行期的全局唯一实例，可用于设置和共享配置信息。</p>
+<h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><p>对一个Web应用程序来说，除了Servlet、Filter这些逻辑组件，还需要JSP这样的视图文件，外加一堆静态资源文件，如CSS、JS等。</p>
+<p>合理组织文件结构非常重要。我们以一个具体的Web应用程序为例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">webapp</span><br><span class="line">├── pom.xml</span><br><span class="line">└── src</span><br><span class="line">    └── main</span><br><span class="line">        ├── java</span><br><span class="line">        │   └── com</span><br><span class="line">        │       └── itranswarp</span><br><span class="line">        │           └── learnjava</span><br><span class="line">        │               ├── Main.java</span><br><span class="line">        │               ├── filter</span><br><span class="line">        │               │   └── EncodingFilter.java</span><br><span class="line">        │               └── servlet</span><br><span class="line">        │                   ├── FileServlet.java</span><br><span class="line">        │                   └── HelloServlet.java</span><br><span class="line">        ├── resources</span><br><span class="line">        └── webapp</span><br><span class="line">            ├── WEB-INF</span><br><span class="line">            │   └── web.xml</span><br><span class="line">            ├── favicon.ico</span><br><span class="line">            └── static</span><br><span class="line">                └── bootstrap.css</span><br></pre></td></tr></table></figure>
+
+<p>我们把所有的静态资源文件放入<code>/static/</code>目录，在开发阶段，有些Web服务器会自动为我们加一个专门负责处理静态文件的Servlet，但如果<code>IndexServlet</code>映射路径为<code>/</code>，会屏蔽掉处理静态文件的Servlet映射。因此，我们需要自己编写一个处理静态文件的<code>FileServlet</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet(urlPatterns = &quot;/static/*&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        ServletContext ctx = req.getServletContext();</span><br><span class="line">        <span class="comment">// RequestURI包含ContextPath,需要去掉:</span></span><br><span class="line">        String urlPath = req.getRequestURI().substring(ctx.getContextPath().length());</span><br><span class="line">        <span class="comment">// 获取真实文件路径:</span></span><br><span class="line">        String filepath = ctx.getRealPath(urlPath);</span><br><span class="line">        <span class="keyword">if</span> (filepath == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// 无法获取到路径:</span></span><br><span class="line">            resp.sendError(HttpServletResponse.SC_NOT_FOUND);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        Path path = Paths.get(filepath);</span><br><span class="line">        <span class="keyword">if</span> (!path.toFile().isFile()) &#123;</span><br><span class="line">            <span class="comment">// 文件不存在:</span></span><br><span class="line">            resp.sendError(HttpServletResponse.SC_NOT_FOUND);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 根据文件名猜测Content-Type:</span></span><br><span class="line">        String mime = Files.probeContentType(path);</span><br><span class="line">        <span class="keyword">if</span> (mime == <span class="keyword">null</span>) &#123;</span><br><span class="line">            mime = <span class="string">&quot;application/octet-stream&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        resp.setContentType(mime);</span><br><span class="line">        <span class="comment">// 读取文件并写入Response:</span></span><br><span class="line">        OutputStream output = resp.getOutputStream();</span><br><span class="line">        <span class="keyword">try</span> (InputStream input = <span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> FileInputStream(filepath))) &#123;</span><br><span class="line">            input.transferTo(output);</span><br><span class="line">        &#125;</span><br><span class="line">        output.flush();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样一来，在开发阶段，我们就可以方便地高效开发。</p>
+<p>类似Tomcat这样的Web服务器，运行的Web应用程序通常都是业务系统，因此，这类服务器也被称为应用服务器。应用服务器并不擅长处理静态文件，也不适合直接暴露给用户。通常，我们在生产环境部署时，总是使用类似Nginx这样的服务器充当反向代理和静态服务器，只有动态请求才会放行给应用服务器，所以，部署架构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">             ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐</span><br><span class="line"></span><br><span class="line">             │  &#x2F;static&#x2F;*            │</span><br><span class="line">┌───────┐      ┌──────────&gt; file</span><br><span class="line">│Browser├────┼─┤                     │    ┌ ─ ─ ─ ─ ─ ─ ┐</span><br><span class="line">└───────┘      │&#x2F;          proxy_pass</span><br><span class="line">             │ └─────────────────────┼───&gt;│  Web Server │</span><br><span class="line">                       Nginx</span><br><span class="line">             └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘    └ ─ ─ ─ ─ ─ ─ ┘</span><br></pre></td></tr></table></figure>
+
+<p>实现上述功能的Nginx配置文件如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line"></span><br><span class="line">    server_name www.foryatto.com;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 静态文件根目录:</span></span><br><span class="line">    root /path/to/src/main/webapp;</span><br><span class="line"></span><br><span class="line">    access_log /var/<span class="built_in">log</span>/nginx/webapp_access_log;</span><br><span class="line">    error_log  /var/<span class="built_in">log</span>/nginx/webapp_error_log;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 处理静态文件请求:</span></span><br><span class="line">    location /static &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 处理静态文件请求:</span></span><br><span class="line">    location /favicon.ico &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 不允许请求/WEB-INF:</span></span><br><span class="line">    location /WEB-INF &#123;</span><br><span class="line">        <span class="built_in">return</span> 404;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 其他请求转发给Tomcat:</span></span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass       http://127.0.0.1:8080;</span><br><span class="line">        proxy_set_header Host <span class="variable">$host</span>;</span><br><span class="line">        proxy_set_header X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-Proto <span class="variable">$scheme</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用Nginx配合Tomcat服务器，可以充分发挥Nginx作为网关的优势，既可以高效处理静态文件，也可以把https、防火墙、限速、反爬虫等功能放到Nginx中，使得我们自己的WebApp能专注于业务逻辑。</p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java-Web/">Java Web</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" data-sites="wechat,qq,twitter"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/03/20/others_web_server/"><img class="prev-cover" data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">关于tomcat、 nginx、apache的理解</div></div></a></div><div class="next-post pull-right"><a href="/2021/03/12/java_springboot/"><img class="next-cover" data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">【Spring Boot】学习笔记</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/03/12/java_springboot/" title="【Spring Boot】学习笔记"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-12</div><div class="title">【Spring Boot】学习笔记</div></div></a></div><div><a href="/2021/03/08/java_spring/" title="【Java Spring】学习笔记"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-08</div><div class="title">【Java Spring】学习笔记</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Foryatto</div><div class="author-info__description">博客</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/foryatto"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/foryatto" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">你好哇，欢迎访问本网站</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Web%E5%9F%BA%E7%A1%80"><span class="toc-number">1.</span> <span class="toc-text">Web基础</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Servlet"><span class="toc-number">2.</span> <span class="toc-text">Servlet</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#HttpServletRequest"><span class="toc-number">2.1.</span> <span class="toc-text">HttpServletRequest</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HttpServletResponse"><span class="toc-number">2.2.</span> <span class="toc-text">HttpServletResponse</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E5%AE%9A%E5%90%91%E4%B8%8E%E8%BD%AC%E5%8F%91"><span class="toc-number">2.3.</span> <span class="toc-text">重定向与转发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Session%E5%92%8CCookie"><span class="toc-number">2.4.</span> <span class="toc-text">使用Session和Cookie</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MVC%E5%BC%80%E5%8F%91"><span class="toc-number">3.</span> <span class="toc-text">MVC开发</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Filter"><span class="toc-number">4.</span> <span class="toc-text">使用Filter</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Listener"><span class="toc-number">5.</span> <span class="toc-text">使用Listener</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2"><span class="toc-number">6.</span> <span class="toc-text">部署</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/py_spider/" title="【Python 爬虫】学习笔记"><img data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Python 爬虫】学习笔记"/></a><div class="content"><a class="title" href="/2021/04/01/py_spider/" title="【Python 爬虫】学习笔记">【Python 爬虫】学习笔记</a><time datetime="2021-04-01T00:00:00.000Z" title="发表于 2021-04-01 08:00:00">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/26/py_base/" title="【Python 基础】学习笔记"><img data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Python 基础】学习笔记"/></a><div class="content"><a class="title" href="/2021/03/26/py_base/" title="【Python 基础】学习笔记">【Python 基础】学习笔记</a><time datetime="2021-03-26T00:00:00.000Z" title="发表于 2021-03-26 08:00:00">2021-03-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/20/others_web_server/" title="关于tomcat、 nginx、apache的理解"><img data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="关于tomcat、 nginx、apache的理解"/></a><div class="content"><a class="title" href="/2021/03/20/others_web_server/" title="关于tomcat、 nginx、apache的理解">关于tomcat、 nginx、apache的理解</a><time datetime="2021-03-20T00:00:00.000Z" title="发表于 2021-03-20 08:00:00">2021-03-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/16/java_web/" title="【Java Web】学习笔记"><img data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Java Web】学习笔记"/></a><div class="content"><a class="title" href="/2021/03/16/java_web/" title="【Java Web】学习笔记">【Java Web】学习笔记</a><time datetime="2021-03-16T00:00:00.000Z" title="发表于 2021-03-16 08:00:00">2021-03-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/12/java_springboot/" title="【Spring Boot】学习笔记"><img data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Spring Boot】学习笔记"/></a><div class="content"><a class="title" href="/2021/03/12/java_springboot/" title="【Spring Boot】学习笔记">【Spring Boot】学习笔记</a><time datetime="2021-03-12T00:00:00.000Z" title="发表于 2021-03-12 08:00:00">2021-03-12</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Foryatto</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
