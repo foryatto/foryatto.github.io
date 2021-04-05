@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>算法基础</title>
+    <title>【算法基础】</title>
     <url>/2021/03/01/cs_algorithm/</url>
     <content><![CDATA[<h1 id="基本算法"><a href="#基本算法" class="headerlink" title="基本算法"></a>基本算法</h1><h2 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h2><p>枚举也称作穷举，指的是从问题所有可能的解的集合中一一枚举各元素。枚举算法简单粗暴，他暴力的枚举所有可能，尽可能地尝试所有的方法。 </p>
 <p>练习题单：<a href="https://www.luogu.com.cn/training/108#problems">暴力枚举</a></p>
