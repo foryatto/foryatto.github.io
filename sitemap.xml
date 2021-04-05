@@ -9,42 +9,42 @@
   </url>
   
   <url>
+    <loc>https://www.foryatto.com/2021/04/01/py_spider/</loc>
+    
+    <lastmod>2021-04-05</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.foryatto.com/2021/03/20/others_web_server/</loc>
+    
+    <lastmod>2021-04-05</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://www.foryatto.com/2021/03/16/java_web/</loc>
     
-    <lastmod>2021-04-04</lastmod>
+    <lastmod>2021-04-05</lastmod>
     
   </url>
   
   <url>
     <loc>https://www.foryatto.com/2021/03/12/java_springboot/</loc>
     
-    <lastmod>2021-04-04</lastmod>
+    <lastmod>2021-04-05</lastmod>
     
   </url>
   
   <url>
     <loc>https://www.foryatto.com/2021/03/08/java_spring/</loc>
     
-    <lastmod>2021-04-04</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.foryatto.com/2021/04/01/py_spider/</loc>
-    
-    <lastmod>2021-04-04</lastmod>
+    <lastmod>2021-04-05</lastmod>
     
   </url>
   
   <url>
     <loc>https://www.foryatto.com/2021/03/26/py_base/</loc>
-    
-    <lastmod>2021-04-04</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.foryatto.com/2021/03/20/others_web_server/</loc>
     
     <lastmod>2021-04-04</lastmod>
     
@@ -116,14 +116,14 @@
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/tags/Web/</loc>
+    <loc>https://www.foryatto.com/tags/WebServer/</loc>
     <lastmod>2021-04-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/tags/Python-%E7%88%AC%E8%99%AB/</loc>
+    <loc>https://www.foryatto.com/tags/Python%E7%88%AC%E8%99%AB/</loc>
     <lastmod>2021-04-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -137,7 +137,7 @@
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/tags/Java-Web/</loc>
+    <loc>https://www.foryatto.com/tags/JavaWeb/</loc>
     <lastmod>2021-04-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -189,6 +189,13 @@
   
   <url>
     <loc>https://www.foryatto.com/categories/Python/</loc>
+    <lastmod>2021-04-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.foryatto.com/categories/Spring/</loc>
     <lastmod>2021-04-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
