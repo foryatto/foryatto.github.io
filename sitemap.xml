@@ -2,6 +2,62 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://www.foryatto.com/2021/02/06/java_base/</loc>
+    
+    <lastmod>2021-04-05</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.foryatto.com/2020/11/18/java_spring/</loc>
+    
+    <lastmod>2021-04-05</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.foryatto.com/2020/12/18/java_springboot/</loc>
+    
+    <lastmod>2021-04-05</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.foryatto.com/2020/10/16/java_web/</loc>
+    
+    <lastmod>2021-04-05</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.foryatto.com/2021/01/20/others_web_server/</loc>
+    
+    <lastmod>2021-04-05</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.foryatto.com/2020/11/26/py_base/</loc>
+    
+    <lastmod>2021-04-05</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.foryatto.com/2020/12/10/py_spider/</loc>
+    
+    <lastmod>2021-04-05</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.foryatto.com/2020/12/02/cs_network/</loc>
+    
+    <lastmod>2021-04-05</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://www.foryatto.com/2021/03/01/cs_algorithm/</loc>
     
     <lastmod>2021-04-05</lastmod>
@@ -12,62 +68,6 @@
     <loc>https://www.foryatto.com/books/index.html</loc>
     
     <lastmod>2021-04-05</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.foryatto.com/2021/04/01/py_spider/</loc>
-    
-    <lastmod>2021-04-05</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.foryatto.com/2021/03/20/others_web_server/</loc>
-    
-    <lastmod>2021-04-05</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.foryatto.com/2021/03/16/java_web/</loc>
-    
-    <lastmod>2021-04-05</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.foryatto.com/2021/03/12/java_springboot/</loc>
-    
-    <lastmod>2021-04-05</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.foryatto.com/2021/03/08/java_spring/</loc>
-    
-    <lastmod>2021-04-05</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.foryatto.com/2021/03/26/py_base/</loc>
-    
-    <lastmod>2021-04-04</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.foryatto.com/2021/03/02/cs_network/</loc>
-    
-    <lastmod>2021-04-04</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.foryatto.com/2021/03/06/java_base/</loc>
-    
-    <lastmod>2021-04-04</lastmod>
     
   </url>
   
@@ -195,14 +195,14 @@
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/categories/Spring/</loc>
+    <loc>https://www.foryatto.com/categories/Java/</loc>
     <lastmod>2021-04-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/categories/Java/</loc>
+    <loc>https://www.foryatto.com/categories/Spring/</loc>
     <lastmod>2021-04-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
