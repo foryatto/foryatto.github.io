@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://www.foryatto.com/books/index.html</loc>
+    
+    <lastmod>2021-04-05</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://www.foryatto.com/2021/02/06/java_base/</loc>
     
     <lastmod>2021-04-05</lastmod>
@@ -59,13 +66,6 @@
   
   <url>
     <loc>https://www.foryatto.com/2021/03/01/cs_algorithm/</loc>
-    
-    <lastmod>2021-04-05</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.foryatto.com/books/index.html</loc>
     
     <lastmod>2021-04-05</lastmod>
     
