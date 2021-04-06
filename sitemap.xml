@@ -2,13 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://www.foryatto.com/books/index.html</loc>
-    
-    <lastmod>2021-04-05</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://www.foryatto.com/2021/02/06/java_base/</loc>
     
     <lastmod>2021-04-05</lastmod>
@@ -95,7 +88,7 @@
 
   <url>
     <loc>https://www.foryatto.com/</loc>
-    <lastmod>2021-04-05</lastmod>
+    <lastmod>2021-04-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -103,63 +96,63 @@
   
   <url>
     <loc>https://www.foryatto.com/tags/%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2021-04-05</lastmod>
+    <lastmod>2021-04-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://www.foryatto.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</loc>
-    <lastmod>2021-04-05</lastmod>
+    <lastmod>2021-04-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://www.foryatto.com/tags/WebServer/</loc>
-    <lastmod>2021-04-05</lastmod>
+    <lastmod>2021-04-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://www.foryatto.com/tags/Python%E7%88%AC%E8%99%AB/</loc>
-    <lastmod>2021-04-05</lastmod>
+    <lastmod>2021-04-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://www.foryatto.com/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/</loc>
-    <lastmod>2021-04-05</lastmod>
+    <lastmod>2021-04-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://www.foryatto.com/tags/JavaWeb/</loc>
-    <lastmod>2021-04-05</lastmod>
+    <lastmod>2021-04-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://www.foryatto.com/tags/Spring/</loc>
-    <lastmod>2021-04-05</lastmod>
+    <lastmod>2021-04-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://www.foryatto.com/tags/Java/</loc>
-    <lastmod>2021-04-05</lastmod>
+    <lastmod>2021-04-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://www.foryatto.com/tags/Python/</loc>
-    <lastmod>2021-04-05</lastmod>
+    <lastmod>2021-04-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -168,42 +161,42 @@
   
   <url>
     <loc>https://www.foryatto.com/categories/%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2021-04-05</lastmod>
+    <lastmod>2021-04-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://www.foryatto.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</loc>
-    <lastmod>2021-04-05</lastmod>
+    <lastmod>2021-04-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://www.foryatto.com/categories/%E6%9C%AA%E5%BD%92%E7%B1%BB/</loc>
-    <lastmod>2021-04-05</lastmod>
+    <lastmod>2021-04-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://www.foryatto.com/categories/Python/</loc>
-    <lastmod>2021-04-05</lastmod>
+    <lastmod>2021-04-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://www.foryatto.com/categories/Java/</loc>
-    <lastmod>2021-04-05</lastmod>
+    <lastmod>2021-04-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://www.foryatto.com/categories/Spring/</loc>
-    <lastmod>2021-04-05</lastmod>
+    <lastmod>2021-04-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
