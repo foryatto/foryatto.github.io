@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://www.foryatto.com/2021/03/01/algorithm/</loc>
+    
+    <lastmod>2021-04-13</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://www.foryatto.com/2019/11/29/al_difference_array/</loc>
     
     <lastmod>2021-04-13</lastmod>
@@ -24,13 +31,6 @@
   
   <url>
     <loc>https://www.foryatto.com/2020/12/02/cs_network/</loc>
-    
-    <lastmod>2021-04-13</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.foryatto.com/2021/03/01/cs_algorithm/</loc>
     
     <lastmod>2021-04-13</lastmod>
     
@@ -74,14 +74,14 @@
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/tags/%E9%9B%B6%E7%A2%8E%E7%9F%A5%E8%AF%86/</loc>
+    <loc>https://www.foryatto.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</loc>
     <lastmod>2021-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</loc>
+    <loc>https://www.foryatto.com/tags/%E9%9B%B6%E7%A2%8E%E7%9F%A5%E8%AF%86/</loc>
     <lastmod>2021-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -104,14 +104,14 @@
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/categories/Web/</loc>
+    <loc>https://www.foryatto.com/categories/Computer-Networking/</loc>
     <lastmod>2021-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/categories/Computer-Networking/</loc>
+    <loc>https://www.foryatto.com/categories/Web/</loc>
     <lastmod>2021-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
