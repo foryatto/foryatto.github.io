@@ -48,66 +48,42 @@
       </tags>
   </entry>
   <entry>
-    <title>【计算机网络】学习笔记</title>
-    <url>/2020/12/02/cs_network/</url>
-    <content><![CDATA[<h1 id="一、应用层"><a href="#一、应用层" class="headerlink" title="一、应用层"></a>一、应用层</h1><h2 id="Socket"><a href="#Socket" class="headerlink" title="Socket"></a>Socket</h2><p>同一台主机内应用层与运输层之间的接口。</p>
-<h2 id="TCP-UDP协议"><a href="#TCP-UDP协议" class="headerlink" title="TCP/UDP协议"></a>TCP/UDP协议</h2><p>运输层协议</p>
-<h3 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h3><p>特点：面向连接、可靠数据传输服务。</p>
-<ul>
-<li>面向连接：三次握手，建立TCP连接。该连接是全双工的，双方可同时进行报文收发，结束报文发送之后必须关闭该连接。</li>
-<li>可靠数据传输：无差错，按适当顺序交付所有发送的数据。</li>
-</ul>
-<p>TCP还具有拥塞控制机制。</p>
-<h3 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h3><p>无连接，不可靠数据传输服务，不保证报文能够到达目的主机，且报文顺序不保证有序。</p>
-<h2 id="应用层协议"><a href="#应用层协议" class="headerlink" title="应用层协议"></a>应用层协议</h2><p>公共协议(HTTP, SMTP)等，遵守协议规范开发的程序具有通用性。专用协议（不为公共域使用）。</p>
-<h3 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h3><p>HTTP是无状态协议，每次请求不记录客户端状态，相当于每一次都作为新访客对待。使用的运输层协议是<code>TCP</code>。</p>
-<h4 id="HTTP协议报文格式"><a href="#HTTP协议报文格式" class="headerlink" title="HTTP协议报文格式"></a>HTTP协议报文格式</h4><ul>
-<li><p>HTTP请求报文</p>
-<p>每行由一个回车和换行符结束 <code>\r\n</code></p>
-</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">方法 URL 版本\r\n</span><br><span class="line">首部字段名：值\r\n</span><br><span class="line">...</span><br><span class="line">首部字段名：值\r\n</span><br><span class="line">\r\n</span><br><span class="line">entity body    // GET或POST方法时，提交的值</span><br></pre></td></tr></table></figure>
-
-<p>举例：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">GET /index.html HTTP/1.1</span><br><span class="line">Host: www.github.com</span><br><span class="line">Connection: close</span><br><span class="line">User-agent: Mozilla/5.0</span><br><span class="line">Accept-language: en</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>HTTP 响应报文</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">版本 状态码 短语\r\n         // HTTP/1.1 200 OK</span><br><span class="line">首部字段名: 值\r\n  				// Server: Apache/2.2.3 (Centos)</span><br><span class="line">...</span><br><span class="line">首部字段名: 值\r\n</span><br><span class="line">\r\n</span><br><span class="line">entity body         // data data data...</span><br></pre></td></tr></table></figure>
-
-<h4 id="常见状态码"><a href="#常见状态码" class="headerlink" title="常见状态码"></a>常见状态码</h4><ul>
-<li>200 OK</li>
-<li>301 Moved Permanently</li>
-<li>400 Bad Request</li>
-<li>404 Not Found</li>
-<li>505 HTTP Version Not Supported</li>
-</ul>
-<h1 id="编程作业-Python实现"><a href="#编程作业-Python实现" class="headerlink" title="编程作业-Python实现"></a>编程作业-Python实现</h1><h2 id="使用TCP编写Web服务器"><a href="#使用TCP编写Web服务器" class="headerlink" title="使用TCP编写Web服务器"></a>使用TCP编写Web服务器</h2><p>实现功能：<br>请求的HTML文件在当前目录存在则返回对应文件，否则返回 404 Not Found</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line">serverPort = <span class="number">12000</span></span><br><span class="line">serverSocket = socket(AF_INET, SOCK_STREAM)</span><br><span class="line">serverSocket.bind((<span class="string">&#x27;&#x27;</span>, serverPort))</span><br><span class="line">serverSocket.listen(<span class="number">10</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;running on http://localhost:12000&quot;</span>)</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    connectionSocket, addr = serverSocket.accept()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        message = connectionSocket.recv(<span class="number">2048</span>).decode()</span><br><span class="line">        filename = message.split()[<span class="number">1</span>]</span><br><span class="line">        <span class="keyword">if</span>(filename == <span class="string">&#x27;/&#x27;</span>):</span><br><span class="line">            filename = <span class="string">&#x27;/index.html&#x27;</span></span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(filename[<span class="number">1</span>:], <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            outputData = f.readlines()</span><br><span class="line">        connectionSocket.send(<span class="string">&#x27;HTTP/1.1 200 OK\r\n\r\n&#x27;</span>.encode())</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(outputData)):</span><br><span class="line">            connectionSocket.send(outputData[i].encode())</span><br><span class="line">                </span><br><span class="line">    <span class="keyword">except</span> IOError:</span><br><span class="line">        connectionSocket.send(<span class="string">&#x27;HTTP/1.1 404 Not Found\r\n\r\n&#x27;</span>.encode())</span><br><span class="line">        connectionSocket.send(<span class="string">&#x27;Not Found The File&#x27;</span>.encode())</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        connectionSocket.close()</span><br></pre></td></tr></table></figure>
-
-<h2 id="使用UDP编写Ping"><a href="#使用UDP编写Ping" class="headerlink" title="使用UDP编写Ping"></a>使用UDP编写Ping</h2><ul>
-<li>UDPPingerServer（服务器端程序）</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建UDP</span></span><br><span class="line">serverSocket = socket(AF_INET, SOCK_DGRAM)</span><br><span class="line"><span class="comment"># 绑定IP以及端口号</span></span><br><span class="line">serverSocket.bind((<span class="string">&#x27;&#x27;</span>, <span class="number">12000</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="comment"># 利用随机数模拟丢包情况</span></span><br><span class="line">    rand = random.randint(<span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">    <span class="comment"># 接收客户端数据</span></span><br><span class="line">    message, addr = serverSocket.recvfrom(<span class="number">1024</span>)</span><br><span class="line">    <span class="comment"># 生成的随机数小于4则不响应</span></span><br><span class="line">    <span class="keyword">if</span> rand &lt; <span class="number">4</span>:</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    <span class="comment"># 模拟传输时间</span></span><br><span class="line">    time.sleep(random.randint(<span class="number">1</span>,<span class="number">10</span>)*<span class="number">0.01</span>)</span><br><span class="line">    <span class="comment"># 正常响应客户端</span></span><br><span class="line">    serverSocket.sendto(<span class="string">&quot;来自127.0.0.1的回复&quot;</span>.encode(<span class="string">&#x27;utf-8&#x27;</span>), addr)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>UDPPingerClient （客户端程序）</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> time, math</span><br><span class="line"></span><br><span class="line"><span class="comment"># UDP</span></span><br><span class="line">clientSocket = socket(AF_INET, SOCK_DGRAM)</span><br><span class="line"><span class="comment"># 服务器IP地址以及端口号</span></span><br><span class="line">serverAddr = (<span class="string">&#x27;127.0.0.1&#x27;</span>, <span class="number">12000</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;正在Ping 127.0.0.1 &quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 统计从服务器接收到的包数量</span></span><br><span class="line">receivedPackages = <span class="number">0</span></span><br><span class="line"><span class="comment"># 统计 RTT 往返时间</span></span><br><span class="line">pingTimeList = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># 计时, 1s = 1000ms</span></span><br><span class="line">        startTime = time.time()*<span class="number">1000</span></span><br><span class="line">        <span class="comment"># 向服务器发送Ping测试</span></span><br><span class="line">        clientSocket.sendto(<span class="string">&quot;ping&quot;</span>.encode(), serverAddr)</span><br><span class="line">        <span class="comment"># 设置超时为1s</span></span><br><span class="line">        clientSocket.settimeout(<span class="number">1</span>)</span><br><span class="line">        <span class="comment"># 接收服务器端响应，1s未收到回应则timeout异常</span></span><br><span class="line">        respMessage = clientSocket.recv(<span class="number">1024</span>)</span><br><span class="line">        endTime = time.time()*<span class="number">1000</span></span><br><span class="line">        <span class="comment"># 接收到的包数量+1</span></span><br><span class="line">        receivedPackages += <span class="number">1</span></span><br><span class="line">        <span class="comment"># 统计往返时间</span></span><br><span class="line">        pingTimeList.append(endTime - startTime)</span><br><span class="line">        <span class="built_in">print</span>(respMessage.decode(<span class="string">&#x27;utf-8&#x27;</span>)+<span class="string">&quot;: 时间=%dms&quot;</span> % pingTimeList[-<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">except</span> timeout:</span><br><span class="line">       <span class="keyword">pass</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n127.0.0.1的 Ping 统计信息：&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;数据包: 已发送 = 10, 已接收 = %d, 丢失 = %d\n&quot;</span> % (receivedPackages, <span class="number">10</span> - receivedPackages))    </span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;往返行程的估计时间(以毫秒为单位):&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;最短 = %dms，最长 = %dms，平均 = %dms\n&quot;</span> % (<span class="built_in">min</span>(pingTimeList), <span class="built_in">max</span>(pingTimeList), <span class="built_in">sum</span>(pingTimeList)//<span class="number">10</span>))</span><br></pre></td></tr></table></figure>
-
-<p>测试流程：</p>
-<ol>
-<li>运行UDPPingerServer.py</li>
-<li>运行UDPPingerClient .py</li>
-</ol>
-]]></content>
+    <title>KMP - 字符串匹配算法</title>
+    <url>/2021/04/21/al_kmp/</url>
+    <content><![CDATA[<h1 id="一、KMP思想"><a href="#一、KMP思想" class="headerlink" title="一、KMP思想"></a>一、KMP思想</h1><p>对于暴力算法，如果出现不匹配字符，需要同时回退 <strong>文本串</strong> 和 <strong>模式串</strong> 的指针。KMP的主要思想是<strong>「永不回退文本串的指针，而是利用前缀表将模式串移动到正确位置继续匹配。</strong></p>
+<h1 id="二、什么是前缀表"><a href="#二、什么是前缀表" class="headerlink" title="二、什么是前缀表"></a>二、什么是前缀表</h1>]]></content>
       <categories>
-        <category>Computer Networking</category>
+        <category>Algorithm</category>
       </categories>
       <tags>
-        <tag>计算机网络</tag>
+        <tag>字符串匹配</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>【算法笔记】快速幂</title>
+    <url>/2021/04/28/al_fast_power/</url>
+    <content><![CDATA[<h1 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h1><p>引入问题：如何快速求出3^10^ ？</p>
+<p>暴力法：简单直接，for循环累乘，时间复杂度<code>O(n)</code></p>
+<p>二分思想：3^10^ = 3^5^ * 3^5^</p>
+<p>3^5^=3*3^4^</p>
+<p>3^4^=3^2^ *3^2^</p>
+<p>3^2^=3*3</p>
+<p>总共只需要计算4次。</p>
+<p>基于这样一个过程，我们能够在O(log n)的时间复杂度内计算出幂，该算法也就是快速幂的基本思想。</p>
+<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><h2 id="递归版本-C语言实现"><a href="#递归版本-C语言实现" class="headerlink" title="递归版本 - C语言实现"></a>递归版本 - C语言实现</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">binaryPow</span><span class="params">(ll a, ll b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(b == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(b%<span class="number">2</span> != <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> a*binaryPow(a, b<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        ll temp = binaryPow(a, b/<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">return</span> temp*temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll a, b;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%lld %lld&quot;</span>, &amp;a, &amp;b);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, binaryPow(a,b));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="迭代版本-C语言实现"><a href="#迭代版本-C语言实现" class="headerlink" title="迭代版本 - C语言实现"></a>迭代版本 - C语言实现</h2><p>还是以3^10^为例 ，将10写成二进制形式，则有3^(1010)2^ 。</p>
+<p>3^(1010)2^ = 3^(1000)^ * 3^(10)^ ，也就是3^8+4^ = 3^8^*3^4^</p>
+<p>而这些二进制形式的数，恰好就是3^1^，3^2^，3^4^，3^8^。后一个数是前一个数的平方。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">binaryPow</span><span class="params">(ll a, ll b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll ans = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(b != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 如果b的二进制最后一位为1，也可以写成 b % 2 == 1;</span></span><br><span class="line">        <span class="keyword">if</span>(b &amp; <span class="number">1</span>)&#123;</span><br><span class="line">            ans *= a;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// a的平方</span></span><br><span class="line">        a = a*a;</span><br><span class="line">        <span class="comment">// b右移1位，也可以写成 b /= 2;</span></span><br><span class="line">        b = b &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll a, b;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%lld %lld&quot;</span>, &amp;a, &amp;b);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, binaryPow(a,b));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="练习题"><a href="#练习题" class="headerlink" title="练习题"></a>练习题</h2><ul>
+<li> <a href="https://www.luogu.com.cn/problem/P1226">P1226 【模板】快速幂||取余运算</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
   </entry>
   <entry>
     <title>【算法笔记】ACM技能树</title>
@@ -257,6 +233,68 @@
       </categories>
       <tags>
         <tag>零碎知识</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【计算机网络】学习笔记</title>
+    <url>/2020/12/02/cs_network/</url>
+    <content><![CDATA[<h1 id="一、应用层"><a href="#一、应用层" class="headerlink" title="一、应用层"></a>一、应用层</h1><h2 id="Socket"><a href="#Socket" class="headerlink" title="Socket"></a>Socket</h2><p>同一台主机内应用层与运输层之间的接口。</p>
+<h2 id="TCP-UDP协议"><a href="#TCP-UDP协议" class="headerlink" title="TCP/UDP协议"></a>TCP/UDP协议</h2><p>运输层协议</p>
+<h3 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h3><p>特点：面向连接、可靠数据传输服务。</p>
+<ul>
+<li>面向连接：三次握手，建立TCP连接。该连接是全双工的，双方可同时进行报文收发，结束报文发送之后必须关闭该连接。</li>
+<li>可靠数据传输：无差错，按适当顺序交付所有发送的数据。</li>
+</ul>
+<p>TCP还具有拥塞控制机制。</p>
+<h3 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h3><p>无连接，不可靠数据传输服务，不保证报文能够到达目的主机，且报文顺序不保证有序。</p>
+<h2 id="应用层协议"><a href="#应用层协议" class="headerlink" title="应用层协议"></a>应用层协议</h2><p>公共协议(HTTP, SMTP)等，遵守协议规范开发的程序具有通用性。专用协议（不为公共域使用）。</p>
+<h3 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h3><p>HTTP是无状态协议，每次请求不记录客户端状态，相当于每一次都作为新访客对待。使用的运输层协议是<code>TCP</code>。</p>
+<h4 id="HTTP协议报文格式"><a href="#HTTP协议报文格式" class="headerlink" title="HTTP协议报文格式"></a>HTTP协议报文格式</h4><ul>
+<li><p>HTTP请求报文</p>
+<p>每行由一个回车和换行符结束 <code>\r\n</code></p>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">方法 URL 版本\r\n</span><br><span class="line">首部字段名：值\r\n</span><br><span class="line">...</span><br><span class="line">首部字段名：值\r\n</span><br><span class="line">\r\n</span><br><span class="line">entity body    // GET或POST方法时，提交的值</span><br></pre></td></tr></table></figure>
+
+<p>举例：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">GET /index.html HTTP/1.1</span><br><span class="line">Host: www.github.com</span><br><span class="line">Connection: close</span><br><span class="line">User-agent: Mozilla/5.0</span><br><span class="line">Accept-language: en</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>HTTP 响应报文</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">版本 状态码 短语\r\n         // HTTP/1.1 200 OK</span><br><span class="line">首部字段名: 值\r\n  				// Server: Apache/2.2.3 (Centos)</span><br><span class="line">...</span><br><span class="line">首部字段名: 值\r\n</span><br><span class="line">\r\n</span><br><span class="line">entity body         // data data data...</span><br></pre></td></tr></table></figure>
+
+<h4 id="常见状态码"><a href="#常见状态码" class="headerlink" title="常见状态码"></a>常见状态码</h4><ul>
+<li>200 OK</li>
+<li>301 Moved Permanently</li>
+<li>400 Bad Request</li>
+<li>404 Not Found</li>
+<li>505 HTTP Version Not Supported</li>
+</ul>
+<h1 id="编程作业-Python实现"><a href="#编程作业-Python实现" class="headerlink" title="编程作业-Python实现"></a>编程作业-Python实现</h1><h2 id="使用TCP编写Web服务器"><a href="#使用TCP编写Web服务器" class="headerlink" title="使用TCP编写Web服务器"></a>使用TCP编写Web服务器</h2><p>实现功能：<br>请求的HTML文件在当前目录存在则返回对应文件，否则返回 404 Not Found</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line">serverPort = <span class="number">12000</span></span><br><span class="line">serverSocket = socket(AF_INET, SOCK_STREAM)</span><br><span class="line">serverSocket.bind((<span class="string">&#x27;&#x27;</span>, serverPort))</span><br><span class="line">serverSocket.listen(<span class="number">10</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;running on http://localhost:12000&quot;</span>)</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    connectionSocket, addr = serverSocket.accept()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        message = connectionSocket.recv(<span class="number">2048</span>).decode()</span><br><span class="line">        filename = message.split()[<span class="number">1</span>]</span><br><span class="line">        <span class="keyword">if</span>(filename == <span class="string">&#x27;/&#x27;</span>):</span><br><span class="line">            filename = <span class="string">&#x27;/index.html&#x27;</span></span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(filename[<span class="number">1</span>:], <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            outputData = f.readlines()</span><br><span class="line">        connectionSocket.send(<span class="string">&#x27;HTTP/1.1 200 OK\r\n\r\n&#x27;</span>.encode())</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(outputData)):</span><br><span class="line">            connectionSocket.send(outputData[i].encode())</span><br><span class="line">                </span><br><span class="line">    <span class="keyword">except</span> IOError:</span><br><span class="line">        connectionSocket.send(<span class="string">&#x27;HTTP/1.1 404 Not Found\r\n\r\n&#x27;</span>.encode())</span><br><span class="line">        connectionSocket.send(<span class="string">&#x27;Not Found The File&#x27;</span>.encode())</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        connectionSocket.close()</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用UDP编写Ping"><a href="#使用UDP编写Ping" class="headerlink" title="使用UDP编写Ping"></a>使用UDP编写Ping</h2><ul>
+<li>UDPPingerServer（服务器端程序）</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建UDP</span></span><br><span class="line">serverSocket = socket(AF_INET, SOCK_DGRAM)</span><br><span class="line"><span class="comment"># 绑定IP以及端口号</span></span><br><span class="line">serverSocket.bind((<span class="string">&#x27;&#x27;</span>, <span class="number">12000</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="comment"># 利用随机数模拟丢包情况</span></span><br><span class="line">    rand = random.randint(<span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">    <span class="comment"># 接收客户端数据</span></span><br><span class="line">    message, addr = serverSocket.recvfrom(<span class="number">1024</span>)</span><br><span class="line">    <span class="comment"># 生成的随机数小于4则不响应</span></span><br><span class="line">    <span class="keyword">if</span> rand &lt; <span class="number">4</span>:</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    <span class="comment"># 模拟传输时间</span></span><br><span class="line">    time.sleep(random.randint(<span class="number">1</span>,<span class="number">10</span>)*<span class="number">0.01</span>)</span><br><span class="line">    <span class="comment"># 正常响应客户端</span></span><br><span class="line">    serverSocket.sendto(<span class="string">&quot;来自127.0.0.1的回复&quot;</span>.encode(<span class="string">&#x27;utf-8&#x27;</span>), addr)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>UDPPingerClient （客户端程序）</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> time, math</span><br><span class="line"></span><br><span class="line"><span class="comment"># UDP</span></span><br><span class="line">clientSocket = socket(AF_INET, SOCK_DGRAM)</span><br><span class="line"><span class="comment"># 服务器IP地址以及端口号</span></span><br><span class="line">serverAddr = (<span class="string">&#x27;127.0.0.1&#x27;</span>, <span class="number">12000</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;正在Ping 127.0.0.1 &quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 统计从服务器接收到的包数量</span></span><br><span class="line">receivedPackages = <span class="number">0</span></span><br><span class="line"><span class="comment"># 统计 RTT 往返时间</span></span><br><span class="line">pingTimeList = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># 计时, 1s = 1000ms</span></span><br><span class="line">        startTime = time.time()*<span class="number">1000</span></span><br><span class="line">        <span class="comment"># 向服务器发送Ping测试</span></span><br><span class="line">        clientSocket.sendto(<span class="string">&quot;ping&quot;</span>.encode(), serverAddr)</span><br><span class="line">        <span class="comment"># 设置超时为1s</span></span><br><span class="line">        clientSocket.settimeout(<span class="number">1</span>)</span><br><span class="line">        <span class="comment"># 接收服务器端响应，1s未收到回应则timeout异常</span></span><br><span class="line">        respMessage = clientSocket.recv(<span class="number">1024</span>)</span><br><span class="line">        endTime = time.time()*<span class="number">1000</span></span><br><span class="line">        <span class="comment"># 接收到的包数量+1</span></span><br><span class="line">        receivedPackages += <span class="number">1</span></span><br><span class="line">        <span class="comment"># 统计往返时间</span></span><br><span class="line">        pingTimeList.append(endTime - startTime)</span><br><span class="line">        <span class="built_in">print</span>(respMessage.decode(<span class="string">&#x27;utf-8&#x27;</span>)+<span class="string">&quot;: 时间=%dms&quot;</span> % pingTimeList[-<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">except</span> timeout:</span><br><span class="line">       <span class="keyword">pass</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n127.0.0.1的 Ping 统计信息：&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;数据包: 已发送 = 10, 已接收 = %d, 丢失 = %d\n&quot;</span> % (receivedPackages, <span class="number">10</span> - receivedPackages))    </span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;往返行程的估计时间(以毫秒为单位):&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;最短 = %dms，最长 = %dms，平均 = %dms\n&quot;</span> % (<span class="built_in">min</span>(pingTimeList), <span class="built_in">max</span>(pingTimeList), <span class="built_in">sum</span>(pingTimeList)//<span class="number">10</span>))</span><br></pre></td></tr></table></figure>
+
+<p>测试流程：</p>
+<ol>
+<li>运行UDPPingerServer.py</li>
+<li>运行UDPPingerClient .py</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Computer Networking</category>
+      </categories>
+      <tags>
+        <tag>计算机网络</tag>
       </tags>
   </entry>
   <entry>
