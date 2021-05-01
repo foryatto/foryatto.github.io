@@ -46,6 +46,35 @@
       </tags>
   </entry>
   <entry>
+    <title>【算法笔记】快速幂</title>
+    <url>/2021/04/28/al_fast_power/</url>
+    <content><![CDATA[<h1>基本思想</h1>
+<p>引入问题：如何快速求出3^10^ ？</p>
+<p>暴力法：简单直接，for循环累乘，时间复杂度<code>O(n)</code></p>
+<p>二分思想：3^10^ = 3^5^ * 3^5^</p>
+<p>3^5^=3*3^4^</p>
+<p>3^4^=3^2^ *3^2^</p>
+<p>3^2^=3*3</p>
+<p>总共只需要计算4次。</p>
+<p>基于这样一个过程，我们能够在O(log n)的时间复杂度内计算出幂，该算法也就是快速幂的基本思想。</p>
+<h1>代码实现</h1>
+<h2 id="递归版本-C语言实现">递归版本 - C语言实现</h2>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">binaryPow</span><span class="params">(ll a, ll b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(b == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(b%<span class="number">2</span> != <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> a*binaryPow(a, b<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        ll temp = binaryPow(a, b/<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">return</span> temp*temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll a, b;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%lld %lld&quot;</span>, &amp;a, &amp;b);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, binaryPow(a,b));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="迭代版本-C语言实现">迭代版本 - C语言实现</h2>
+<p>还是以3^10^为例 ，将10写成二进制形式，则有3^(1010)2^ 。</p>
+<p>3^(1010)2^ = 3^(1000)^ * 3^(10)^ ，也就是3^8+4^ = 3^8^*3^4^</p>
+<p>而这些二进制形式的数，恰好就是3^1^，3^2^，3^4^，3^8^。后一个数是前一个数的平方。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">binaryPow</span><span class="params">(ll a, ll b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll ans = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(b != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 如果b的二进制最后一位为1，也可以写成 b % 2 == 1;</span></span><br><span class="line">        <span class="keyword">if</span>(b &amp; <span class="number">1</span>)&#123;</span><br><span class="line">            ans *= a;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// a的平方</span></span><br><span class="line">        a = a*a;</span><br><span class="line">        <span class="comment">// b右移1位，也可以写成 b /= 2;</span></span><br><span class="line">        b = b &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll a, b;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%lld %lld&quot;</span>, &amp;a, &amp;b);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, binaryPow(a,b));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="练习题">练习题</h2>
+<ul>
+<li><a href="https://www.luogu.com.cn/problem/P1226">P1226 【模板】快速幂||取余运算</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+  </entry>
+  <entry>
     <title>【算法笔记】ACM技能树</title>
     <url>/2021/03/01/algorithm/</url>
     <content><![CDATA[<h1>基本算法</h1>
@@ -279,114 +308,6 @@
       </tags>
   </entry>
   <entry>
-    <title>【算法笔记】快速幂</title>
-    <url>/2021/04/28/al_fast_power/</url>
-    <content><![CDATA[<h1>基本思想</h1>
-<p>引入问题：如何快速求出3^10^ ？</p>
-<p>暴力法：简单直接，for循环累乘，时间复杂度<code>O(n)</code></p>
-<p>二分思想：3^10^ = 3^5^ * 3^5^</p>
-<p>3^5^=3*3^4^</p>
-<p>3^4^=3^2^ *3^2^</p>
-<p>3^2^=3*3</p>
-<p>总共只需要计算4次。</p>
-<p>基于这样一个过程，我们能够在O(log n)的时间复杂度内计算出幂，该算法也就是快速幂的基本思想。</p>
-<h1>代码实现</h1>
-<h2 id="递归版本-C语言实现">递归版本 - C语言实现</h2>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">binaryPow</span><span class="params">(ll a, ll b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(b == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(b%<span class="number">2</span> != <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> a*binaryPow(a, b<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        ll temp = binaryPow(a, b/<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">return</span> temp*temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll a, b;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%lld %lld&quot;</span>, &amp;a, &amp;b);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, binaryPow(a,b));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="迭代版本-C语言实现">迭代版本 - C语言实现</h2>
-<p>还是以3^10^为例 ，将10写成二进制形式，则有3^(1010)2^ 。</p>
-<p>3^(1010)2^ = 3^(1000)^ * 3^(10)^ ，也就是3^8+4^ = 3^8^*3^4^</p>
-<p>而这些二进制形式的数，恰好就是3^1^，3^2^，3^4^，3^8^。后一个数是前一个数的平方。</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">binaryPow</span><span class="params">(ll a, ll b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll ans = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(b != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 如果b的二进制最后一位为1，也可以写成 b % 2 == 1;</span></span><br><span class="line">        <span class="keyword">if</span>(b &amp; <span class="number">1</span>)&#123;</span><br><span class="line">            ans *= a;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// a的平方</span></span><br><span class="line">        a = a*a;</span><br><span class="line">        <span class="comment">// b右移1位，也可以写成 b /= 2;</span></span><br><span class="line">        b = b &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll a, b;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%lld %lld&quot;</span>, &amp;a, &amp;b);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, binaryPow(a,b));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="练习题">练习题</h2>
-<ul>
-<li><a href="https://www.luogu.com.cn/problem/P1226">P1226 【模板】快速幂||取余运算</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Algorithm</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>关于tomcat、 nginx、apache的理解</title>
-    <url>/2021/01/20/others_web_server/</url>
-    <content><![CDATA[<h1>关于tomcat 与 nginx、apache的理解</h1>
-<blockquote>
-<p>转载自  - 知乎用户的回答 - 知乎 <a href="https://www.zhihu.com/question/32212996/answer/87524617">https://www.zhihu.com/question/32212996/answer/87524617</a></p>
-</blockquote>
-<p>HTTP 服务器本质上也是一种应用程序——它通常运行在服务器之上，绑定服务器的 IP 地址并监听某一个 tcp 端口来接收并处理 HTTP 请求，这样客户端（一般来说是 IE, Firefox，Chrome 这样的浏览器）就能够通过 HTTP 协议来获取服务器上的网页（HTML 格式）、文档（PDF 格式）、音频（MP4 格式）、视频（MOV 格式）等等资源。下图描述的就是这一过程：</p>
-<p><img src= "/img/loading.gif" data-lazy-src="https://pic3.zhimg.com/904696074e077934e601f175913f42fd_r.jpg?source=1940ef5c" alt="img"></p>
-<p>不仅仅是 Apache HTTP Server 和 Nginx，绝大多数编程语言所包含的类库中也都实现了简单的 HTTP 服务器方便开发者使用：</p>
-<ul>
-<li>HttpServer (Java HTTP Server)</li>
-<li>Python SimpleHTTPServer</li>
-</ul>
-<p>使用这些类库能够非常容易的运行一个 HTTP 服务器，它们都能够通过绑定 IP 地址并监听 tcp 端口来提供 HTTP 服务。</p>
-<p>Apache Tomcat 则是 Apache 基金会下的另外一个项目，与 Apache HTTP Server 相比，Tomcat 能够<strong>动态</strong>的生成资源并返回到客户端。Apache HTTP Server 和 Nginx 都能够将某一个文本文件的内容通过 HTTP 协议返回到客户端，但是这个文本文件的内容是固定的——也就是说无论何时、任何人访问它得到的内容都是完全相同的，这样的资源我们称之为<strong>静态</strong>资源。动态资源则与之相反，在不同的时间、不同的客户端访问得到的内容是不同的，例如：</p>
-<ul>
-<li>包含显示当前时间的页面</li>
-<li>显示当前 IP 地址的页面</li>
-</ul>
-<p>Apache HTTP Server 和 Nginx 本身不支持生成动态页面，但它们可以通过其他模块来支持（例如通过 Shell、PHP、Python 脚本程序来动态生成内容）。<br>
-如果想要使用 Java 程序来动态生成资源内容，使用这一类 HTTP 服务器很难做到。Java Servlet 技术以及衍生的 Java Server Pages技术可以让 Java 程序也具有处理 HTTP 请求并且返回内容（由程序动态控制）的能力，Tomcat 正是支持运行 Servlet/JSP 应用程序的容器（Container）:</p>
-<p><img src= "/img/loading.gif" data-lazy-src="https://pic2.zhimg.com/2651b72ce2170336d10ad17fd020ae7a_r.jpg?source=1940ef5c" alt="img"></p>
-<p>Tomcat 运行在 JVM 之上，它和 HTTP 服务器一样，绑定 IP 地址并监听 TCP 端口，同时还包含以下指责：</p>
-<ul>
-<li>管理 Servlet 程序的生命周期</li>
-<li>将 URL 映射到指定的 Servlet 进行处理</li>
-<li>与 Servlet 程序合作处理 HTTP 请求——根据 HTTP 请求生成 HttpServletResponse 对象并传递给 Servlet 进行处理，将 Servlet 中的 HttpServletResponse 对象生成的内容返回给浏览器</li>
-</ul>
-<p>虽然 Tomcat 也可以认为是 HTTP 服务器，但通常它仍然会和 Nginx 配合在一起使用：</p>
-<ul>
-<li>动静态资源分离——运用 Nginx 的反向代理功能分发请求：所有动态资源的请求交给 Tomcat，而静态资源的请求（例如图片、视频、CSS、JavaScript 文件等）则直接由 Nginx 返回到浏览器，这样能大大减轻 Tomcat 的压力。</li>
-<li>负载均衡，当业务压力增大时，可能一个 Tomcat 的实例不足以处理，那么这时可以启动多个 Tomcat 实例进行水平扩展，而 Nginx 的负载均衡功能可以把请求通过算法分发到各个不同的实例进行处理。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Web</category>
-      </categories>
-      <tags>
-        <tag>零碎知识</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【Python Crawler】学习笔记</title>
-    <url>/2020/12/10/py_spider/</url>
-    <content><![CDATA[<h1>Python 爬虫</h1>
-<h2 id="验证码识别">验证码识别</h2>
-<h3 id="OCR技术">OCR技术</h3>
-<blockquote>
-<p>OCR（Optical Character Recognition，光学字符识别）是指电子设备（例如扫描仪或数码相机）检查纸上打印的字符，通过检测暗、亮的模式确定其形状，然后用字符识别方法将形状翻译成计算机文字的过程，即针对印刷体字符，采用光学的方式将纸质文档中的文字转换成为黑白点阵的图像文件，并通过识别软件将图像中的文字转换成文本格式，供文字处理软件进一步编辑加工的技术。</p>
-</blockquote>
-<p>开发环境</p>
-<ol>
-<li>Python 3.9</li>
-<li>pytesseract、pillow模块</li>
-<li>Tesseract-OCR引擎</li>
-</ol>
-<ul>
-<li>安装第三方模块</li>
-</ul>
-<p>pytesseract是Python第三方模块，其原理主要是调用OCR引擎识别图片，OCR引擎再将识别的结果返回到程序中。</p>
-<p>PIL模块是专门用于处理图片的模块。安装方式如下：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pip install pytesseract</span><br><span class="line">pip install pillow</span><br></pre></td></tr></table></figure>
-<ul>
-<li>安装OCR引擎</li>
-</ul>
-<p><a href="https://github.com/tesseract-ocr/tesseract">Tesseract-OCR</a>是一个免费、开源的OCR引擎，以Windows平台为例，<a href="https://digi.bib.uni-mannheim.de/tesseract/">点击下载exe安装包</a>。</p>
-<p>OCR测试代码：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> pytesseract</span><br><span class="line"></span><br><span class="line">im = Image.<span class="built_in">open</span>(<span class="string">&quot;test.png&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将tesseract安装路径添加到系统变量中</span></span><br><span class="line"><span class="comment"># 或者使用以下注释代码，路径改成自己的OCR引擎安装路径</span></span><br><span class="line"><span class="comment"># pytesseract.pytesseract.tesseract_cmd = r&quot;F:\Python\tesseract-ocr\tesseract.exe&quot;</span></span><br><span class="line"></span><br><span class="line">code = pytesseract.image_to_string(im)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(code)</span><br></pre></td></tr></table></figure>
-<p>在实际使用时，验证码图片往往会掺入很多干扰因素。为了提高准确率，可以使用PIL模块对图片进行简单的处理，不同的图片有不同的处理方法，其目的都为提高OCR识别的准确率。除此之外，还可以对OCR引擎进行训练和学习。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> pytesseract</span><br><span class="line"></span><br><span class="line">im = Image.<span class="built_in">open</span>(<span class="string">&quot;old.png&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将图片转为灰度模式</span></span><br><span class="line">im = im.convert(<span class="string">&quot;L&quot;</span>)   </span><br><span class="line"></span><br><span class="line">im.save(<span class="string">&quot;new.png&quot;</span>)</span><br><span class="line"></span><br><span class="line">code = pytesseract.image_to_string(im)                                                   </span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(code)</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-      <tags>
-        <tag>Python爬虫</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>KMP - 字符串匹配算法</title>
     <url>/2021/04/21/al_kmp/</url>
     <content><![CDATA[<h1>一、KMP思想</h1>
@@ -468,6 +389,92 @@
       </categories>
       <tags>
         <tag>计算机网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于tomcat、 nginx、apache的理解</title>
+    <url>/2021/01/20/others_web_server/</url>
+    <content><![CDATA[<h1>关于tomcat 与 nginx、apache的理解</h1>
+<blockquote>
+<p>转载自  - 知乎用户的回答 - 知乎 <a href="https://www.zhihu.com/question/32212996/answer/87524617">https://www.zhihu.com/question/32212996/answer/87524617</a></p>
+</blockquote>
+<p>HTTP 服务器本质上也是一种应用程序——它通常运行在服务器之上，绑定服务器的 IP 地址并监听某一个 tcp 端口来接收并处理 HTTP 请求，这样客户端（一般来说是 IE, Firefox，Chrome 这样的浏览器）就能够通过 HTTP 协议来获取服务器上的网页（HTML 格式）、文档（PDF 格式）、音频（MP4 格式）、视频（MOV 格式）等等资源。下图描述的就是这一过程：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://pic3.zhimg.com/904696074e077934e601f175913f42fd_r.jpg?source=1940ef5c" alt="img"></p>
+<p>不仅仅是 Apache HTTP Server 和 Nginx，绝大多数编程语言所包含的类库中也都实现了简单的 HTTP 服务器方便开发者使用：</p>
+<ul>
+<li>HttpServer (Java HTTP Server)</li>
+<li>Python SimpleHTTPServer</li>
+</ul>
+<p>使用这些类库能够非常容易的运行一个 HTTP 服务器，它们都能够通过绑定 IP 地址并监听 tcp 端口来提供 HTTP 服务。</p>
+<p>Apache Tomcat 则是 Apache 基金会下的另外一个项目，与 Apache HTTP Server 相比，Tomcat 能够<strong>动态</strong>的生成资源并返回到客户端。Apache HTTP Server 和 Nginx 都能够将某一个文本文件的内容通过 HTTP 协议返回到客户端，但是这个文本文件的内容是固定的——也就是说无论何时、任何人访问它得到的内容都是完全相同的，这样的资源我们称之为<strong>静态</strong>资源。动态资源则与之相反，在不同的时间、不同的客户端访问得到的内容是不同的，例如：</p>
+<ul>
+<li>包含显示当前时间的页面</li>
+<li>显示当前 IP 地址的页面</li>
+</ul>
+<p>Apache HTTP Server 和 Nginx 本身不支持生成动态页面，但它们可以通过其他模块来支持（例如通过 Shell、PHP、Python 脚本程序来动态生成内容）。<br>
+如果想要使用 Java 程序来动态生成资源内容，使用这一类 HTTP 服务器很难做到。Java Servlet 技术以及衍生的 Java Server Pages技术可以让 Java 程序也具有处理 HTTP 请求并且返回内容（由程序动态控制）的能力，Tomcat 正是支持运行 Servlet/JSP 应用程序的容器（Container）:</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://pic2.zhimg.com/2651b72ce2170336d10ad17fd020ae7a_r.jpg?source=1940ef5c" alt="img"></p>
+<p>Tomcat 运行在 JVM 之上，它和 HTTP 服务器一样，绑定 IP 地址并监听 TCP 端口，同时还包含以下指责：</p>
+<ul>
+<li>管理 Servlet 程序的生命周期</li>
+<li>将 URL 映射到指定的 Servlet 进行处理</li>
+<li>与 Servlet 程序合作处理 HTTP 请求——根据 HTTP 请求生成 HttpServletResponse 对象并传递给 Servlet 进行处理，将 Servlet 中的 HttpServletResponse 对象生成的内容返回给浏览器</li>
+</ul>
+<p>虽然 Tomcat 也可以认为是 HTTP 服务器，但通常它仍然会和 Nginx 配合在一起使用：</p>
+<ul>
+<li>动静态资源分离——运用 Nginx 的反向代理功能分发请求：所有动态资源的请求交给 Tomcat，而静态资源的请求（例如图片、视频、CSS、JavaScript 文件等）则直接由 Nginx 返回到浏览器，这样能大大减轻 Tomcat 的压力。</li>
+<li>负载均衡，当业务压力增大时，可能一个 Tomcat 的实例不足以处理，那么这时可以启动多个 Tomcat 实例进行水平扩展，而 Nginx 的负载均衡功能可以把请求通过算法分发到各个不同的实例进行处理。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Web</category>
+      </categories>
+      <tags>
+        <tag>零碎知识</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>test</title>
+    <url>/2020/12/10/test/</url>
+    <content><![CDATA[<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mo>∫</mo><mn>0</mn><mi mathvariant="normal">∞</mi></msubsup><msup><mi>x</mi><mn>2</mn></msup><mo>×</mo><mi>t</mi><mi>a</mi><mi>n</mi><mi>x</mi><mi mathvariant="normal">d</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">\int_0^\infty x^2\times tanx {\rm d}x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.215112em;vertical-align:-0.35582em;"></span><span class="mop"><span class="mop op-symbol small-op" style="margin-right:0.19445em;position:relative;top:-0.0005599999999999772em;">∫</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8592920000000001em;"><span style="top:-2.34418em;margin-left:-0.19445em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span><span style="top:-3.2579000000000002em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">∞</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.35582em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">a</span><span class="mord mathnormal">n</span><span class="mord mathnormal">x</span><span class="mord"><span class="mord"><span class="mord mathrm">d</span></span></span><span class="mord mathnormal">x</span></span></span></span></p>
+<p>2^34^</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>【Python Crawler】学习笔记</title>
+    <url>/2020/12/10/py_spider/</url>
+    <content><![CDATA[<h1>Python 爬虫</h1>
+<h2 id="验证码识别">验证码识别</h2>
+<h3 id="OCR技术">OCR技术</h3>
+<blockquote>
+<p>OCR（Optical Character Recognition，光学字符识别）是指电子设备（例如扫描仪或数码相机）检查纸上打印的字符，通过检测暗、亮的模式确定其形状，然后用字符识别方法将形状翻译成计算机文字的过程，即针对印刷体字符，采用光学的方式将纸质文档中的文字转换成为黑白点阵的图像文件，并通过识别软件将图像中的文字转换成文本格式，供文字处理软件进一步编辑加工的技术。</p>
+</blockquote>
+<p>开发环境</p>
+<ol>
+<li>Python 3.9</li>
+<li>pytesseract、pillow模块</li>
+<li>Tesseract-OCR引擎</li>
+</ol>
+<ul>
+<li>安装第三方模块</li>
+</ul>
+<p>pytesseract是Python第三方模块，其原理主要是调用OCR引擎识别图片，OCR引擎再将识别的结果返回到程序中。</p>
+<p>PIL模块是专门用于处理图片的模块。安装方式如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pip install pytesseract</span><br><span class="line">pip install pillow</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装OCR引擎</li>
+</ul>
+<p><a href="https://github.com/tesseract-ocr/tesseract">Tesseract-OCR</a>是一个免费、开源的OCR引擎，以Windows平台为例，<a href="https://digi.bib.uni-mannheim.de/tesseract/">点击下载exe安装包</a>。</p>
+<p>OCR测试代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> pytesseract</span><br><span class="line"></span><br><span class="line">im = Image.<span class="built_in">open</span>(<span class="string">&quot;test.png&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将tesseract安装路径添加到系统变量中</span></span><br><span class="line"><span class="comment"># 或者使用以下注释代码，路径改成自己的OCR引擎安装路径</span></span><br><span class="line"><span class="comment"># pytesseract.pytesseract.tesseract_cmd = r&quot;F:\Python\tesseract-ocr\tesseract.exe&quot;</span></span><br><span class="line"></span><br><span class="line">code = pytesseract.image_to_string(im)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(code)</span><br></pre></td></tr></table></figure>
+<p>在实际使用时，验证码图片往往会掺入很多干扰因素。为了提高准确率，可以使用PIL模块对图片进行简单的处理，不同的图片有不同的处理方法，其目的都为提高OCR识别的准确率。除此之外，还可以对OCR引擎进行训练和学习。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> pytesseract</span><br><span class="line"></span><br><span class="line">im = Image.<span class="built_in">open</span>(<span class="string">&quot;old.png&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将图片转为灰度模式</span></span><br><span class="line">im = im.convert(<span class="string">&quot;L&quot;</span>)   </span><br><span class="line"></span><br><span class="line">im.save(<span class="string">&quot;new.png&quot;</span>)</span><br><span class="line"></span><br><span class="line">code = pytesseract.image_to_string(im)                                                   </span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(code)</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>Python爬虫</tag>
       </tags>
   </entry>
 </search>
