@@ -46,6 +46,20 @@
       </tags>
   </entry>
   <entry>
+    <title>KMP - 字符串匹配算法</title>
+    <url>/2021/04/21/al_kmp/</url>
+    <content><![CDATA[<h1>一、KMP思想</h1>
+<p>对于暴力算法，如果出现不匹配字符，需要同时回退 <strong>文本串</strong> 和 <strong>模式串</strong> 的指针。KMP的主要思想是**「永不回退文本串的指针，而是利用前缀表将模式串移动到正确位置继续匹配。**</p>
+<h1>二、什么是前缀表</h1>
+]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+      <tags>
+        <tag>字符串匹配</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【算法笔记】快速幂</title>
     <url>/2021/04/28/al_fast_power/</url>
     <content><![CDATA[<h1>基本思想</h1>
@@ -305,20 +319,6 @@
       </categories>
       <tags>
         <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>KMP - 字符串匹配算法</title>
-    <url>/2021/04/21/al_kmp/</url>
-    <content><![CDATA[<h1>一、KMP思想</h1>
-<p>对于暴力算法，如果出现不匹配字符，需要同时回退 <strong>文本串</strong> 和 <strong>模式串</strong> 的指针。KMP的主要思想是**「永不回退文本串的指针，而是利用前缀表将模式串移动到正确位置继续匹配。**</p>
-<h1>二、什么是前缀表</h1>
-]]></content>
-      <categories>
-        <category>Algorithm</category>
-      </categories>
-      <tags>
-        <tag>字符串匹配</tag>
       </tags>
   </entry>
   <entry>
