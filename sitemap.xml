@@ -2,49 +2,49 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://www.foryatto.com/al_fast_power/</loc>
+    <loc>https://www.foryatto.com/posts/al_fast_power/</loc>
     
     <lastmod>2021-05-01</lastmod>
     
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/al_kmp/</loc>
+    <loc>https://www.foryatto.com/posts/al_kmp/</loc>
     
     <lastmod>2021-04-21</lastmod>
     
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/algorithm/</loc>
+    <loc>https://www.foryatto.com/posts/al_acm/</loc>
     
     <lastmod>2021-04-13</lastmod>
     
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/al_difference_array/</loc>
+    <loc>https://www.foryatto.com/posts/al_difference_array/</loc>
     
     <lastmod>2021-04-13</lastmod>
     
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/py_spider/</loc>
+    <loc>https://www.foryatto.com/posts/py_spider/</loc>
     
     <lastmod>2021-04-13</lastmod>
     
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/others_web_server/</loc>
+    <loc>https://www.foryatto.com/posts/others_web_server/</loc>
     
     <lastmod>2021-04-13</lastmod>
     
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/cs_network/</loc>
+    <loc>https://www.foryatto.com/posts/cs_network/</loc>
     
     <lastmod>2021-04-13</lastmod>
     
@@ -81,14 +81,14 @@
 
   
   <url>
-    <loc>https://www.foryatto.com/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/</loc>
+    <loc>https://www.foryatto.com/tags/%E7%AE%97%E6%B3%95/</loc>
     <lastmod>2021-05-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/tags/%E7%AE%97%E6%B3%95/</loc>
+    <loc>https://www.foryatto.com/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/</loc>
     <lastmod>2021-05-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
