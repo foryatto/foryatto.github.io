@@ -2,49 +2,49 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://www.foryatto.com/2021/04/28/al_fast_power/</loc>
+    <loc>https://www.foryatto.com/al_fast_power/</loc>
     
     <lastmod>2021-05-01</lastmod>
     
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/2021/04/21/al_kmp/</loc>
+    <loc>https://www.foryatto.com/al_kmp/</loc>
     
     <lastmod>2021-04-21</lastmod>
     
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/2021/03/01/algorithm/</loc>
+    <loc>https://www.foryatto.com/algorithm/</loc>
     
     <lastmod>2021-04-13</lastmod>
     
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/2019/11/29/al_difference_array/</loc>
+    <loc>https://www.foryatto.com/al_difference_array/</loc>
     
     <lastmod>2021-04-13</lastmod>
     
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/2020/12/10/py_spider/</loc>
+    <loc>https://www.foryatto.com/py_spider/</loc>
     
     <lastmod>2021-04-13</lastmod>
     
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/2021/01/20/others_web_server/</loc>
+    <loc>https://www.foryatto.com/others_web_server/</loc>
     
     <lastmod>2021-04-13</lastmod>
     
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/2020/12/02/cs_network/</loc>
+    <loc>https://www.foryatto.com/cs_network/</loc>
     
     <lastmod>2021-04-13</lastmod>
     
@@ -74,43 +74,43 @@
 
   <url>
     <loc>https://www.foryatto.com/</loc>
-    <lastmod>2021-05-01</lastmod>
+    <lastmod>2021-05-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
-    <loc>https://www.foryatto.com/tags/%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2021-05-01</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.foryatto.com/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/</loc>
-    <lastmod>2021-05-01</lastmod>
+    <lastmod>2021-05-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/tags/%E9%9B%B6%E7%A2%8E%E7%9F%A5%E8%AF%86/</loc>
-    <lastmod>2021-05-01</lastmod>
+    <loc>https://www.foryatto.com/tags/%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2021-05-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://www.foryatto.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</loc>
-    <lastmod>2021-05-01</lastmod>
+    <lastmod>2021-05-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.foryatto.com/tags/%E9%9B%B6%E7%A2%8E%E7%9F%A5%E8%AF%86/</loc>
+    <lastmod>2021-05-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://www.foryatto.com/tags/Python%E7%88%AC%E8%99%AB/</loc>
-    <lastmod>2021-05-01</lastmod>
+    <lastmod>2021-05-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -119,28 +119,28 @@
   
   <url>
     <loc>https://www.foryatto.com/categories/Algorithm/</loc>
-    <lastmod>2021-05-01</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.foryatto.com/categories/Web/</loc>
-    <lastmod>2021-05-01</lastmod>
+    <lastmod>2021-05-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://www.foryatto.com/categories/Computer-Networking/</loc>
-    <lastmod>2021-05-01</lastmod>
+    <lastmod>2021-05-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.foryatto.com/categories/Web/</loc>
+    <lastmod>2021-05-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://www.foryatto.com/categories/Python/</loc>
-    <lastmod>2021-05-01</lastmod>
+    <lastmod>2021-05-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
