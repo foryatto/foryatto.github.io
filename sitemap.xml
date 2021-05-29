@@ -81,21 +81,21 @@
 
   
   <url>
-    <loc>https://www.foryatto.com/tags/%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2021-05-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.foryatto.com/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/</loc>
-    <lastmod>2021-05-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.foryatto.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</loc>
+    <lastmod>2021-05-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.foryatto.com/tags/Python%E7%88%AC%E8%99%AB/</loc>
+    <lastmod>2021-05-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.foryatto.com/tags/%E7%AE%97%E6%B3%95/</loc>
     <lastmod>2021-05-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -109,20 +109,13 @@
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/tags/Python%E7%88%AC%E8%99%AB/</loc>
+    <loc>https://www.foryatto.com/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/</loc>
     <lastmod>2021-05-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
 
-  
-  <url>
-    <loc>https://www.foryatto.com/categories/Algorithm/</loc>
-    <lastmod>2021-05-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
   
   <url>
     <loc>https://www.foryatto.com/categories/Computer-Networking/</loc>
@@ -132,14 +125,21 @@
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/categories/Web/</loc>
+    <loc>https://www.foryatto.com/categories/Python/</loc>
     <lastmod>2021-05-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://www.foryatto.com/categories/Python/</loc>
+    <loc>https://www.foryatto.com/categories/Algorithm/</loc>
+    <lastmod>2021-05-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.foryatto.com/categories/Web/</loc>
     <lastmod>2021-05-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

@@ -1,6 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>【计算机网络】学习笔记</title>
+    <url>/posts/cs_network/</url>
+    <content><![CDATA[<h1>一、应用层</h1>
+<h2 id="Socket">Socket</h2>
+<p>同一台主机内应用层与运输层之间的接口。</p>
+<h2 id="TCP-UDP协议">TCP/UDP协议</h2>
+<p>运输层协议</p>
+<h3 id="TCP">TCP</h3>
+<p>特点：面向连接、可靠数据传输服务。</p>
+<ul>
+<li>面向连接：三次握手，建立TCP连接。该连接是全双工的，双方可同时进行报文收发，结束报文发送之后必须关闭该连接。</li>
+<li>可靠数据传输：无差错，按适当顺序交付所有发送的数据。</li>
+</ul>
+<p>TCP还具有拥塞控制机制。</p>
+<h3 id="UDP">UDP</h3>
+<p>无连接，不可靠数据传输服务，不保证报文能够到达目的主机，且报文顺序不保证有序。</p>
+<h2 id="应用层协议">应用层协议</h2>
+<p>公共协议(HTTP, SMTP)等，遵守协议规范开发的程序具有通用性。专用协议（不为公共域使用）。</p>
+<h3 id="HTTP">HTTP</h3>
+<p>HTTP是无状态协议，每次请求不记录客户端状态，相当于每一次都作为新访客对待。使用的运输层协议是<code>TCP</code>。</p>
+<h4 id="HTTP协议报文格式">HTTP协议报文格式</h4>
+<ul>
+<li>
+<p>HTTP请求报文</p>
+<p>每行由一个回车和换行符结束 <code>\r\n</code></p>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">方法 URL 版本\r\n</span><br><span class="line">首部字段名：值\r\n</span><br><span class="line">...</span><br><span class="line">首部字段名：值\r\n</span><br><span class="line">\r\n</span><br><span class="line">entity body    // GET或POST方法时，提交的值</span><br></pre></td></tr></table></figure>
+<p>举例：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">GET /index.html HTTP/1.1</span><br><span class="line">Host: www.github.com</span><br><span class="line">Connection: close</span><br><span class="line">User-agent: Mozilla/5.0</span><br><span class="line">Accept-language: en</span><br></pre></td></tr></table></figure>
+<ul>
+<li>HTTP 响应报文</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">版本 状态码 短语\r\n         // HTTP/1.1 200 OK</span><br><span class="line">首部字段名: 值\r\n  				// Server: Apache/2.2.3 (Centos)</span><br><span class="line">...</span><br><span class="line">首部字段名: 值\r\n</span><br><span class="line">\r\n</span><br><span class="line">entity body         // data data data...</span><br></pre></td></tr></table></figure>
+<h4 id="常见状态码">常见状态码</h4>
+<ul>
+<li>200 OK</li>
+<li>301 Moved Permanently</li>
+<li>400 Bad Request</li>
+<li>404 Not Found</li>
+<li>505 HTTP Version Not Supported</li>
+</ul>
+<h1>编程作业-Python实现</h1>
+<h2 id="使用TCP编写Web服务器">使用TCP编写Web服务器</h2>
+<p>实现功能：<br>
+请求的HTML文件在当前目录存在则返回对应文件，否则返回 404 Not Found</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line">serverPort = <span class="number">12000</span></span><br><span class="line">serverSocket = socket(AF_INET, SOCK_STREAM)</span><br><span class="line">serverSocket.bind((<span class="string">&#x27;&#x27;</span>, serverPort))</span><br><span class="line">serverSocket.listen(<span class="number">10</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;running on http://localhost:12000&quot;</span>)</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    connectionSocket, addr = serverSocket.accept()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        message = connectionSocket.recv(<span class="number">2048</span>).decode()</span><br><span class="line">        filename = message.split()[<span class="number">1</span>]</span><br><span class="line">        <span class="keyword">if</span>(filename == <span class="string">&#x27;/&#x27;</span>):</span><br><span class="line">            filename = <span class="string">&#x27;/index.html&#x27;</span></span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(filename[<span class="number">1</span>:], <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            outputData = f.readlines()</span><br><span class="line">        connectionSocket.send(<span class="string">&#x27;HTTP/1.1 200 OK\r\n\r\n&#x27;</span>.encode())</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(outputData)):</span><br><span class="line">            connectionSocket.send(outputData[i].encode())</span><br><span class="line">                </span><br><span class="line">    <span class="keyword">except</span> IOError:</span><br><span class="line">        connectionSocket.send(<span class="string">&#x27;HTTP/1.1 404 Not Found\r\n\r\n&#x27;</span>.encode())</span><br><span class="line">        connectionSocket.send(<span class="string">&#x27;Not Found The File&#x27;</span>.encode())</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        connectionSocket.close()</span><br></pre></td></tr></table></figure>
+<h2 id="使用UDP编写Ping">使用UDP编写Ping</h2>
+<ul>
+<li>UDPPingerServer（服务器端程序）</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建UDP</span></span><br><span class="line">serverSocket = socket(AF_INET, SOCK_DGRAM)</span><br><span class="line"><span class="comment"># 绑定IP以及端口号</span></span><br><span class="line">serverSocket.bind((<span class="string">&#x27;&#x27;</span>, <span class="number">12000</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="comment"># 利用随机数模拟丢包情况</span></span><br><span class="line">    rand = random.randint(<span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">    <span class="comment"># 接收客户端数据</span></span><br><span class="line">    message, addr = serverSocket.recvfrom(<span class="number">1024</span>)</span><br><span class="line">    <span class="comment"># 生成的随机数小于4则不响应</span></span><br><span class="line">    <span class="keyword">if</span> rand &lt; <span class="number">4</span>:</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    <span class="comment"># 模拟传输时间</span></span><br><span class="line">    time.sleep(random.randint(<span class="number">1</span>,<span class="number">10</span>)*<span class="number">0.01</span>)</span><br><span class="line">    <span class="comment"># 正常响应客户端</span></span><br><span class="line">    serverSocket.sendto(<span class="string">&quot;来自127.0.0.1的回复&quot;</span>.encode(<span class="string">&#x27;utf-8&#x27;</span>), addr)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>UDPPingerClient （客户端程序）</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> time, math</span><br><span class="line"></span><br><span class="line"><span class="comment"># UDP</span></span><br><span class="line">clientSocket = socket(AF_INET, SOCK_DGRAM)</span><br><span class="line"><span class="comment"># 服务器IP地址以及端口号</span></span><br><span class="line">serverAddr = (<span class="string">&#x27;127.0.0.1&#x27;</span>, <span class="number">12000</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;正在Ping 127.0.0.1 &quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 统计从服务器接收到的包数量</span></span><br><span class="line">receivedPackages = <span class="number">0</span></span><br><span class="line"><span class="comment"># 统计 RTT 往返时间</span></span><br><span class="line">pingTimeList = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># 计时, 1s = 1000ms</span></span><br><span class="line">        startTime = time.time()*<span class="number">1000</span></span><br><span class="line">        <span class="comment"># 向服务器发送Ping测试</span></span><br><span class="line">        clientSocket.sendto(<span class="string">&quot;ping&quot;</span>.encode(), serverAddr)</span><br><span class="line">        <span class="comment"># 设置超时为1s</span></span><br><span class="line">        clientSocket.settimeout(<span class="number">1</span>)</span><br><span class="line">        <span class="comment"># 接收服务器端响应，1s未收到回应则timeout异常</span></span><br><span class="line">        respMessage = clientSocket.recv(<span class="number">1024</span>)</span><br><span class="line">        endTime = time.time()*<span class="number">1000</span></span><br><span class="line">        <span class="comment"># 接收到的包数量+1</span></span><br><span class="line">        receivedPackages += <span class="number">1</span></span><br><span class="line">        <span class="comment"># 统计往返时间</span></span><br><span class="line">        pingTimeList.append(endTime - startTime)</span><br><span class="line">        <span class="built_in">print</span>(respMessage.decode(<span class="string">&#x27;utf-8&#x27;</span>)+<span class="string">&quot;: 时间=%dms&quot;</span> % pingTimeList[-<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">except</span> timeout:</span><br><span class="line">       <span class="keyword">pass</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n127.0.0.1的 Ping 统计信息：&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;数据包: 已发送 = 10, 已接收 = %d, 丢失 = %d\n&quot;</span> % (receivedPackages, <span class="number">10</span> - receivedPackages))    </span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;往返行程的估计时间(以毫秒为单位):&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;最短 = %dms，最长 = %dms，平均 = %dms\n&quot;</span> % (<span class="built_in">min</span>(pingTimeList), <span class="built_in">max</span>(pingTimeList), <span class="built_in">sum</span>(pingTimeList)//<span class="number">10</span>))</span><br></pre></td></tr></table></figure>
+<p>测试流程：</p>
+<ol>
+<li>运行<code>UDPPingerServer.py</code></li>
+<li>运行<code>UDPPingerClient.py</code></li>
+</ol>
+]]></content>
+      <categories>
+        <category>Computer Networking</category>
+      </categories>
+      <tags>
+        <tag>计算机网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【Python Crawler】学习笔记</title>
+    <url>/posts/py_spider/</url>
+    <content><![CDATA[<h1>Python 爬虫</h1>
+<h2 id="验证码识别">验证码识别</h2>
+<h3 id="OCR技术">OCR技术</h3>
+<blockquote>
+<p>OCR（Optical Character Recognition，光学字符识别）是指电子设备（例如扫描仪或数码相机）检查纸上打印的字符，通过检测暗、亮的模式确定其形状，然后用字符识别方法将形状翻译成计算机文字的过程，即针对印刷体字符，采用光学的方式将纸质文档中的文字转换成为黑白点阵的图像文件，并通过识别软件将图像中的文字转换成文本格式，供文字处理软件进一步编辑加工的技术。</p>
+</blockquote>
+<p>开发环境</p>
+<ol>
+<li>Python 3.9</li>
+<li>pytesseract、pillow模块</li>
+<li>Tesseract-OCR引擎</li>
+</ol>
+<ul>
+<li>安装第三方模块</li>
+</ul>
+<p>pytesseract是Python第三方模块，其原理主要是调用OCR引擎识别图片，OCR引擎再将识别的结果返回到程序中。</p>
+<p>PIL模块是专门用于处理图片的模块。安装方式如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pip install pytesseract</span><br><span class="line">pip install pillow</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装OCR引擎</li>
+</ul>
+<p><a href="https://github.com/tesseract-ocr/tesseract">Tesseract-OCR</a>是一个免费、开源的OCR引擎，以Windows平台为例，<a href="https://digi.bib.uni-mannheim.de/tesseract/">点击下载exe安装包</a>。</p>
+<p>OCR测试代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> pytesseract</span><br><span class="line"></span><br><span class="line">im = Image.<span class="built_in">open</span>(<span class="string">&quot;test.png&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将tesseract安装路径添加到系统变量中</span></span><br><span class="line"><span class="comment"># 或者使用以下注释代码，路径改成自己的OCR引擎安装路径</span></span><br><span class="line"><span class="comment"># pytesseract.pytesseract.tesseract_cmd = r&quot;F:\Python\tesseract-ocr\tesseract.exe&quot;</span></span><br><span class="line"></span><br><span class="line">code = pytesseract.image_to_string(im)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(code)</span><br></pre></td></tr></table></figure>
+<p>在实际使用时，验证码图片往往会掺入很多干扰因素。为了提高准确率，可以使用PIL模块对图片进行简单的处理，不同的图片有不同的处理方法，其目的都为提高OCR识别的准确率。除此之外，还可以对OCR引擎进行训练和学习。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> pytesseract</span><br><span class="line"></span><br><span class="line">im = Image.<span class="built_in">open</span>(<span class="string">&quot;old.png&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将图片转为灰度模式</span></span><br><span class="line">im = im.convert(<span class="string">&quot;L&quot;</span>)   </span><br><span class="line"></span><br><span class="line">im.save(<span class="string">&quot;new.png&quot;</span>)</span><br><span class="line"></span><br><span class="line">code = pytesseract.image_to_string(im)                                                   </span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(code)</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>Python爬虫</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【算法笔记】差分数组</title>
+    <url>/posts/al_difference_array/</url>
+    <content><![CDATA[<p>引入问题：</p>
+<p>已知一个数组 a[10] ，初始值全部为1。 如果要将范围 [1, 5]之间的每一个数字都加1，应当如何操作。</p>
+<p>最简单直接的操作就是for循环了：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">5</span>;i++) a[i]++;</span><br></pre></td></tr></table></figure>
+<p>但是如果数据范围较大，以及操作次数比较多，用for循环时间复杂度较高。</p>
+<p>先看看什么是差分数组:</p>
+<p><strong>简单来说，前一个元素减去后一个元素形成的数组就是差分数组。</strong></p>
+<p><strong>d[0] = a[0]  （ i = 0 ）</strong></p>
+<p><strong>d[i ] = a[i] - a[i - 1]  （ i  &gt; 0）</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">举个例子：</span><br><span class="line"></span><br><span class="line">数组  a：</span><br><span class="line"><span class="number">1</span>，<span class="number">2</span>，<span class="number">3</span>，<span class="number">4</span>，<span class="number">5</span></span><br><span class="line"></span><br><span class="line">差分数组 d 应当是：</span><br><span class="line"><span class="number">1</span>，<span class="number">1</span>，<span class="number">1</span>，<span class="number">1</span>，<span class="number">1</span>     <span class="comment">//第一个元素没有可以减的元素，所以就等于它本身</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//即规定d[0] = a[0]</span></span><br></pre></td></tr></table></figure>
+<p>我们注意到:</p>
+<p>d[1] = a[1] - a[0]</p>
+<p>d[2] = a[2] - a[1]</p>
+<p>d[3] = a[3] - a[2]</p>
+<p>d[4] = a[4] - a[3]</p>
+<p>即：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">a[<span class="number">0</span>] = d[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">a[<span class="number">1</span>] = d[<span class="number">1</span>] + d[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">a[<span class="number">2</span>] = d[<span class="number">2</span>] + d[<span class="number">1</span>] + a[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">**......**</span><br><span class="line"></span><br><span class="line">可推导出 a[i] = d[i] + d[i<span class="number">-1</span>] + d[i<span class="number">-2</span>] + ...+d[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<p>所以差分数组到底有什么用呢？</p>
+<p><strong>回到引入问题</strong>：</p>
+<p>要使[ 1, 5 ] 之间的每个元素都+1，用差分数组只需要这样写：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">d[<span class="number">1</span>]++;</span><br><span class="line">d[<span class="number">5</span>+<span class="number">1</span>]--;</span><br></pre></td></tr></table></figure>
+<p>因为d[1] = a[1] - a[0]，a[1]增大了，a[0]不变，所以d[1]应当加上相应的变化量。<br>
+同理，中间的元素是同步增大的，所以无需处理。<br>
+对于d [6] = a[6] - a[5]，a[5]增大了，a[6]不变，所以d[6]应当减去相应的变化量。</p>
+<p>原本复杂的for循环，现在只需两行代码。</p>
+<p>差分数组不仅仅是一个优秀的数据结构，还是一种很好的思想。<br>
+修改区间的时间复杂度是O（1），查询点的时间复杂度为O（n）</p>
+<p><strong>对应练习题：</strong></p>
+<p>基础题： <a href="https://www.luogu.com.cn/problem/CF44C">CF44C Holidays</a>（差分数组）</p>
+<p>进阶题：<a href="https://www.luogu.com.cn/problem/P4939">P4939 Agent2</a>（树状数组+差分数组）。</p>
+<p>基础题代码 (Python版)：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">n, m = <span class="built_in">input</span>().split()</span><br><span class="line">n, m=<span class="built_in">int</span>(n), <span class="built_in">int</span>(m)</span><br><span class="line">out=<span class="literal">False</span></span><br><span class="line">d=[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,n+<span class="number">2</span>)]   <span class="comment">#d为差分数组</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,m):</span><br><span class="line">    a, b=<span class="built_in">input</span>().split()</span><br><span class="line">    a, b=<span class="built_in">int</span>(a), <span class="built_in">int</span>(b)</span><br><span class="line">    d[a]+=<span class="number">1</span>                <span class="comment">#差分数组的更新</span></span><br><span class="line">    d[b+<span class="number">1</span>]-=<span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,n+<span class="number">1</span>):</span><br><span class="line">    count=<span class="built_in">sum</span>(d[<span class="number">0</span>:i+<span class="number">1</span>])   <span class="comment">#求第i天浇水的次数</span></span><br><span class="line">    <span class="keyword">if</span> count!=<span class="number">1</span>:         <span class="comment">#浇水次数不等于1就输出，结束</span></span><br><span class="line">        <span class="built_in">print</span>(i,count)</span><br><span class="line">        out=<span class="literal">True</span></span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> out:        <span class="comment">#没有问题就输出OK</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;OK&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>进阶题代码(C++版)：<br>
+(这题要用树状数组来维护更新)</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">int</span> d[<span class="number">10000002</span>];</span><br><span class="line"><span class="keyword">int</span> n, m;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">lowbit</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> x &amp; -x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getSum</span><span class="params">(<span class="keyword">int</span> a)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = a; i &gt;= <span class="number">1</span>; i -= <span class="built_in">lowbit</span>(i)) &#123;</span><br><span class="line">		sum += d[i];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">update</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = a; i &lt;= n; i += <span class="built_in">lowbit</span>(i)) &#123;</span><br><span class="line">		d[i]++;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = b+<span class="number">1</span> ; i &lt;= n; i += <span class="built_in">lowbit</span>(i)) &#123;</span><br><span class="line">		d[i]--;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">	<span class="keyword">int</span> a, b, c;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; i++) &#123;</span><br><span class="line">		cin &gt;&gt; c;</span><br><span class="line">		<span class="keyword">if</span> (c) &#123;</span><br><span class="line">			cin &gt;&gt; a;</span><br><span class="line">			cout &lt;&lt; <span class="built_in">getSum</span>(a) &lt;&lt; endl;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span>&#123;</span><br><span class="line">			cin &gt;&gt; a &gt;&gt; b;</span><br><span class="line">			<span class="built_in">update</span>(a, b);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【算法笔记】ACM技能树</title>
     <url>/posts/al_acm/</url>
     <content><![CDATA[<h1>基本算法</h1>
@@ -234,48 +386,45 @@
       </tags>
   </entry>
   <entry>
-    <title>【算法笔记】差分数组</title>
-    <url>/posts/al_difference_array/</url>
-    <content><![CDATA[<p>引入问题：</p>
-<p>已知一个数组 a[10] ，初始值全部为1。 如果要将范围 [1, 5]之间的每一个数字都加1，应当如何操作。</p>
-<p>最简单直接的操作就是for循环了：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">5</span>;i++) a[i]++;</span><br></pre></td></tr></table></figure>
-<p>但是如果数据范围较大，以及操作次数比较多，用for循环时间复杂度较高。</p>
-<p>先看看什么是差分数组:</p>
-<p><strong>简单来说，前一个元素减去后一个元素形成的数组就是差分数组。</strong></p>
-<p><strong>d[0] = a[0]  （ i = 0 ）</strong></p>
-<p><strong>d[i ] = a[i] - a[i - 1]  （ i  &gt; 0）</strong></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">举个例子：</span><br><span class="line"></span><br><span class="line">数组  a：</span><br><span class="line"><span class="number">1</span>，<span class="number">2</span>，<span class="number">3</span>，<span class="number">4</span>，<span class="number">5</span></span><br><span class="line"></span><br><span class="line">差分数组 d 应当是：</span><br><span class="line"><span class="number">1</span>，<span class="number">1</span>，<span class="number">1</span>，<span class="number">1</span>，<span class="number">1</span>     <span class="comment">//第一个元素没有可以减的元素，所以就等于它本身</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//即规定d[0] = a[0]</span></span><br></pre></td></tr></table></figure>
-<p>我们注意到:</p>
-<p>d[1] = a[1] - a[0]</p>
-<p>d[2] = a[2] - a[1]</p>
-<p>d[3] = a[3] - a[2]</p>
-<p>d[4] = a[4] - a[3]</p>
-<p>即：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">a[<span class="number">0</span>] = d[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">a[<span class="number">1</span>] = d[<span class="number">1</span>] + d[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">a[<span class="number">2</span>] = d[<span class="number">2</span>] + d[<span class="number">1</span>] + a[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">**......**</span><br><span class="line"></span><br><span class="line">可推导出 a[i] = d[i] + d[i<span class="number">-1</span>] + d[i<span class="number">-2</span>] + ...+d[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
-<p>所以差分数组到底有什么用呢？</p>
-<p><strong>回到引入问题</strong>：</p>
-<p>要使[ 1, 5 ] 之间的每个元素都+1，用差分数组只需要这样写：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">d[<span class="number">1</span>]++;</span><br><span class="line">d[<span class="number">5</span>+<span class="number">1</span>]--;</span><br></pre></td></tr></table></figure>
-<p>因为d[1] = a[1] - a[0]，a[1]增大了，a[0]不变，所以d[1]应当加上相应的变化量。<br>
-同理，中间的元素是同步增大的，所以无需处理。<br>
-对于d [6] = a[6] - a[5]，a[5]增大了，a[6]不变，所以d[6]应当减去相应的变化量。</p>
-<p>原本复杂的for循环，现在只需两行代码。</p>
-<p>差分数组不仅仅是一个优秀的数据结构，还是一种很好的思想。<br>
-修改区间的时间复杂度是O（1），查询点的时间复杂度为O（n）</p>
-<p><strong>对应练习题：</strong></p>
-<p>基础题： <a href="https://www.luogu.com.cn/problem/CF44C">CF44C Holidays</a>（差分数组）</p>
-<p>进阶题：<a href="https://www.luogu.com.cn/problem/P4939">P4939 Agent2</a>（树状数组+差分数组）。</p>
-<p>基础题代码 (Python版)：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">n, m = <span class="built_in">input</span>().split()</span><br><span class="line">n, m=<span class="built_in">int</span>(n), <span class="built_in">int</span>(m)</span><br><span class="line">out=<span class="literal">False</span></span><br><span class="line">d=[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,n+<span class="number">2</span>)]   <span class="comment">#d为差分数组</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,m):</span><br><span class="line">    a, b=<span class="built_in">input</span>().split()</span><br><span class="line">    a, b=<span class="built_in">int</span>(a), <span class="built_in">int</span>(b)</span><br><span class="line">    d[a]+=<span class="number">1</span>                <span class="comment">#差分数组的更新</span></span><br><span class="line">    d[b+<span class="number">1</span>]-=<span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,n+<span class="number">1</span>):</span><br><span class="line">    count=<span class="built_in">sum</span>(d[<span class="number">0</span>:i+<span class="number">1</span>])   <span class="comment">#求第i天浇水的次数</span></span><br><span class="line">    <span class="keyword">if</span> count!=<span class="number">1</span>:         <span class="comment">#浇水次数不等于1就输出，结束</span></span><br><span class="line">        <span class="built_in">print</span>(i,count)</span><br><span class="line">        out=<span class="literal">True</span></span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> out:        <span class="comment">#没有问题就输出OK</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;OK&quot;</span>)</span><br></pre></td></tr></table></figure>
-<p>进阶题代码(C++版)：<br>
-(这题要用树状数组来维护更新)</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">int</span> d[<span class="number">10000002</span>];</span><br><span class="line"><span class="keyword">int</span> n, m;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">lowbit</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> x &amp; -x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getSum</span><span class="params">(<span class="keyword">int</span> a)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = a; i &gt;= <span class="number">1</span>; i -= <span class="built_in">lowbit</span>(i)) &#123;</span><br><span class="line">		sum += d[i];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">update</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = a; i &lt;= n; i += <span class="built_in">lowbit</span>(i)) &#123;</span><br><span class="line">		d[i]++;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = b+<span class="number">1</span> ; i &lt;= n; i += <span class="built_in">lowbit</span>(i)) &#123;</span><br><span class="line">		d[i]--;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">	<span class="keyword">int</span> a, b, c;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; i++) &#123;</span><br><span class="line">		cin &gt;&gt; c;</span><br><span class="line">		<span class="keyword">if</span> (c) &#123;</span><br><span class="line">			cin &gt;&gt; a;</span><br><span class="line">			cout &lt;&lt; <span class="built_in">getSum</span>(a) &lt;&lt; endl;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span>&#123;</span><br><span class="line">			cin &gt;&gt; a &gt;&gt; b;</span><br><span class="line">			<span class="built_in">update</span>(a, b);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    <title>关于tomcat、 nginx、apache的理解</title>
+    <url>/posts/others_web_server/</url>
+    <content><![CDATA[<h1>关于tomcat 与 nginx、apache的理解</h1>
+<blockquote>
+<p>转载自  - 知乎用户的回答 - 知乎 <a href="https://www.zhihu.com/question/32212996/answer/87524617">https://www.zhihu.com/question/32212996/answer/87524617</a></p>
+</blockquote>
+<p>HTTP 服务器本质上也是一种应用程序——它通常运行在服务器之上，绑定服务器的 IP 地址并监听某一个 tcp 端口来接收并处理 HTTP 请求，这样客户端（一般来说是 IE, Firefox，Chrome 这样的浏览器）就能够通过 HTTP 协议来获取服务器上的网页（HTML 格式）、文档（PDF 格式）、音频（MP4 格式）、视频（MOV 格式）等等资源。下图描述的就是这一过程：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://pic3.zhimg.com/904696074e077934e601f175913f42fd_r.jpg?source=1940ef5c" alt="img"></p>
+<p>不仅仅是 Apache HTTP Server 和 Nginx，绝大多数编程语言所包含的类库中也都实现了简单的 HTTP 服务器方便开发者使用：</p>
+<ul>
+<li>HttpServer (Java HTTP Server)</li>
+<li>Python SimpleHTTPServer</li>
+</ul>
+<p>使用这些类库能够非常容易的运行一个 HTTP 服务器，它们都能够通过绑定 IP 地址并监听 tcp 端口来提供 HTTP 服务。</p>
+<p>Apache Tomcat 则是 Apache 基金会下的另外一个项目，与 Apache HTTP Server 相比，Tomcat 能够<strong>动态</strong>的生成资源并返回到客户端。Apache HTTP Server 和 Nginx 都能够将某一个文本文件的内容通过 HTTP 协议返回到客户端，但是这个文本文件的内容是固定的——也就是说无论何时、任何人访问它得到的内容都是完全相同的，这样的资源我们称之为<strong>静态</strong>资源。动态资源则与之相反，在不同的时间、不同的客户端访问得到的内容是不同的，例如：</p>
+<ul>
+<li>包含显示当前时间的页面</li>
+<li>显示当前 IP 地址的页面</li>
+</ul>
+<p>Apache HTTP Server 和 Nginx 本身不支持生成动态页面，但它们可以通过其他模块来支持（例如通过 Shell、PHP、Python 脚本程序来动态生成内容）。<br>
+如果想要使用 Java 程序来动态生成资源内容，使用这一类 HTTP 服务器很难做到。Java Servlet 技术以及衍生的 Java Server Pages技术可以让 Java 程序也具有处理 HTTP 请求并且返回内容（由程序动态控制）的能力，Tomcat 正是支持运行 Servlet/JSP 应用程序的容器（Container）:</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://pic2.zhimg.com/2651b72ce2170336d10ad17fd020ae7a_r.jpg?source=1940ef5c" alt="img"></p>
+<p>Tomcat 运行在 JVM 之上，它和 HTTP 服务器一样，绑定 IP 地址并监听 TCP 端口，同时还包含以下指责：</p>
+<ul>
+<li>管理 Servlet 程序的生命周期</li>
+<li>将 URL 映射到指定的 Servlet 进行处理</li>
+<li>与 Servlet 程序合作处理 HTTP 请求——根据 HTTP 请求生成 HttpServletResponse 对象并传递给 Servlet 进行处理，将 Servlet 中的 HttpServletResponse 对象生成的内容返回给浏览器</li>
+</ul>
+<p>虽然 Tomcat 也可以认为是 HTTP 服务器，但通常它仍然会和 Nginx 配合在一起使用：</p>
+<ul>
+<li>动静态资源分离——运用 Nginx 的反向代理功能分发请求：所有动态资源的请求交给 Tomcat，而静态资源的请求（例如图片、视频、CSS、JavaScript 文件等）则直接由 Nginx 返回到浏览器，这样能大大减轻 Tomcat 的压力。</li>
+<li>负载均衡，当业务压力增大时，可能一个 Tomcat 的实例不足以处理，那么这时可以启动多个 Tomcat 实例进行水平扩展，而 Nginx 的负载均衡功能可以把请求通过算法分发到各个不同的实例进行处理。</li>
+</ul>
+]]></content>
       <categories>
-        <category>Algorithm</category>
+        <category>Web</category>
       </categories>
       <tags>
-        <tag>算法</tag>
+        <tag>零碎知识</tag>
       </tags>
   </entry>
   <entry>
@@ -336,155 +485,6 @@
       </categories>
       <tags>
         <tag>字符串匹配</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【计算机网络】学习笔记</title>
-    <url>/posts/cs_network/</url>
-    <content><![CDATA[<h1>一、应用层</h1>
-<h2 id="Socket">Socket</h2>
-<p>同一台主机内应用层与运输层之间的接口。</p>
-<h2 id="TCP-UDP协议">TCP/UDP协议</h2>
-<p>运输层协议</p>
-<h3 id="TCP">TCP</h3>
-<p>特点：面向连接、可靠数据传输服务。</p>
-<ul>
-<li>面向连接：三次握手，建立TCP连接。该连接是全双工的，双方可同时进行报文收发，结束报文发送之后必须关闭该连接。</li>
-<li>可靠数据传输：无差错，按适当顺序交付所有发送的数据。</li>
-</ul>
-<p>TCP还具有拥塞控制机制。</p>
-<h3 id="UDP">UDP</h3>
-<p>无连接，不可靠数据传输服务，不保证报文能够到达目的主机，且报文顺序不保证有序。</p>
-<h2 id="应用层协议">应用层协议</h2>
-<p>公共协议(HTTP, SMTP)等，遵守协议规范开发的程序具有通用性。专用协议（不为公共域使用）。</p>
-<h3 id="HTTP">HTTP</h3>
-<p>HTTP是无状态协议，每次请求不记录客户端状态，相当于每一次都作为新访客对待。使用的运输层协议是<code>TCP</code>。</p>
-<h4 id="HTTP协议报文格式">HTTP协议报文格式</h4>
-<ul>
-<li>
-<p>HTTP请求报文</p>
-<p>每行由一个回车和换行符结束 <code>\r\n</code></p>
-</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">方法 URL 版本\r\n</span><br><span class="line">首部字段名：值\r\n</span><br><span class="line">...</span><br><span class="line">首部字段名：值\r\n</span><br><span class="line">\r\n</span><br><span class="line">entity body    // GET或POST方法时，提交的值</span><br></pre></td></tr></table></figure>
-<p>举例：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">GET /index.html HTTP/1.1</span><br><span class="line">Host: www.github.com</span><br><span class="line">Connection: close</span><br><span class="line">User-agent: Mozilla/5.0</span><br><span class="line">Accept-language: en</span><br></pre></td></tr></table></figure>
-<ul>
-<li>HTTP 响应报文</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">版本 状态码 短语\r\n         // HTTP/1.1 200 OK</span><br><span class="line">首部字段名: 值\r\n  				// Server: Apache/2.2.3 (Centos)</span><br><span class="line">...</span><br><span class="line">首部字段名: 值\r\n</span><br><span class="line">\r\n</span><br><span class="line">entity body         // data data data...</span><br></pre></td></tr></table></figure>
-<h4 id="常见状态码">常见状态码</h4>
-<ul>
-<li>200 OK</li>
-<li>301 Moved Permanently</li>
-<li>400 Bad Request</li>
-<li>404 Not Found</li>
-<li>505 HTTP Version Not Supported</li>
-</ul>
-<h1>编程作业-Python实现</h1>
-<h2 id="使用TCP编写Web服务器">使用TCP编写Web服务器</h2>
-<p>实现功能：<br>
-请求的HTML文件在当前目录存在则返回对应文件，否则返回 404 Not Found</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line">serverPort = <span class="number">12000</span></span><br><span class="line">serverSocket = socket(AF_INET, SOCK_STREAM)</span><br><span class="line">serverSocket.bind((<span class="string">&#x27;&#x27;</span>, serverPort))</span><br><span class="line">serverSocket.listen(<span class="number">10</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;running on http://localhost:12000&quot;</span>)</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    connectionSocket, addr = serverSocket.accept()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        message = connectionSocket.recv(<span class="number">2048</span>).decode()</span><br><span class="line">        filename = message.split()[<span class="number">1</span>]</span><br><span class="line">        <span class="keyword">if</span>(filename == <span class="string">&#x27;/&#x27;</span>):</span><br><span class="line">            filename = <span class="string">&#x27;/index.html&#x27;</span></span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(filename[<span class="number">1</span>:], <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            outputData = f.readlines()</span><br><span class="line">        connectionSocket.send(<span class="string">&#x27;HTTP/1.1 200 OK\r\n\r\n&#x27;</span>.encode())</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(outputData)):</span><br><span class="line">            connectionSocket.send(outputData[i].encode())</span><br><span class="line">                </span><br><span class="line">    <span class="keyword">except</span> IOError:</span><br><span class="line">        connectionSocket.send(<span class="string">&#x27;HTTP/1.1 404 Not Found\r\n\r\n&#x27;</span>.encode())</span><br><span class="line">        connectionSocket.send(<span class="string">&#x27;Not Found The File&#x27;</span>.encode())</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        connectionSocket.close()</span><br></pre></td></tr></table></figure>
-<h2 id="使用UDP编写Ping">使用UDP编写Ping</h2>
-<ul>
-<li>UDPPingerServer（服务器端程序）</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建UDP</span></span><br><span class="line">serverSocket = socket(AF_INET, SOCK_DGRAM)</span><br><span class="line"><span class="comment"># 绑定IP以及端口号</span></span><br><span class="line">serverSocket.bind((<span class="string">&#x27;&#x27;</span>, <span class="number">12000</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="comment"># 利用随机数模拟丢包情况</span></span><br><span class="line">    rand = random.randint(<span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">    <span class="comment"># 接收客户端数据</span></span><br><span class="line">    message, addr = serverSocket.recvfrom(<span class="number">1024</span>)</span><br><span class="line">    <span class="comment"># 生成的随机数小于4则不响应</span></span><br><span class="line">    <span class="keyword">if</span> rand &lt; <span class="number">4</span>:</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    <span class="comment"># 模拟传输时间</span></span><br><span class="line">    time.sleep(random.randint(<span class="number">1</span>,<span class="number">10</span>)*<span class="number">0.01</span>)</span><br><span class="line">    <span class="comment"># 正常响应客户端</span></span><br><span class="line">    serverSocket.sendto(<span class="string">&quot;来自127.0.0.1的回复&quot;</span>.encode(<span class="string">&#x27;utf-8&#x27;</span>), addr)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>UDPPingerClient （客户端程序）</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> time, math</span><br><span class="line"></span><br><span class="line"><span class="comment"># UDP</span></span><br><span class="line">clientSocket = socket(AF_INET, SOCK_DGRAM)</span><br><span class="line"><span class="comment"># 服务器IP地址以及端口号</span></span><br><span class="line">serverAddr = (<span class="string">&#x27;127.0.0.1&#x27;</span>, <span class="number">12000</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;正在Ping 127.0.0.1 &quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 统计从服务器接收到的包数量</span></span><br><span class="line">receivedPackages = <span class="number">0</span></span><br><span class="line"><span class="comment"># 统计 RTT 往返时间</span></span><br><span class="line">pingTimeList = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># 计时, 1s = 1000ms</span></span><br><span class="line">        startTime = time.time()*<span class="number">1000</span></span><br><span class="line">        <span class="comment"># 向服务器发送Ping测试</span></span><br><span class="line">        clientSocket.sendto(<span class="string">&quot;ping&quot;</span>.encode(), serverAddr)</span><br><span class="line">        <span class="comment"># 设置超时为1s</span></span><br><span class="line">        clientSocket.settimeout(<span class="number">1</span>)</span><br><span class="line">        <span class="comment"># 接收服务器端响应，1s未收到回应则timeout异常</span></span><br><span class="line">        respMessage = clientSocket.recv(<span class="number">1024</span>)</span><br><span class="line">        endTime = time.time()*<span class="number">1000</span></span><br><span class="line">        <span class="comment"># 接收到的包数量+1</span></span><br><span class="line">        receivedPackages += <span class="number">1</span></span><br><span class="line">        <span class="comment"># 统计往返时间</span></span><br><span class="line">        pingTimeList.append(endTime - startTime)</span><br><span class="line">        <span class="built_in">print</span>(respMessage.decode(<span class="string">&#x27;utf-8&#x27;</span>)+<span class="string">&quot;: 时间=%dms&quot;</span> % pingTimeList[-<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">except</span> timeout:</span><br><span class="line">       <span class="keyword">pass</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n127.0.0.1的 Ping 统计信息：&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;数据包: 已发送 = 10, 已接收 = %d, 丢失 = %d\n&quot;</span> % (receivedPackages, <span class="number">10</span> - receivedPackages))    </span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;往返行程的估计时间(以毫秒为单位):&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;最短 = %dms，最长 = %dms，平均 = %dms\n&quot;</span> % (<span class="built_in">min</span>(pingTimeList), <span class="built_in">max</span>(pingTimeList), <span class="built_in">sum</span>(pingTimeList)//<span class="number">10</span>))</span><br></pre></td></tr></table></figure>
-<p>测试流程：</p>
-<ol>
-<li>运行<code>UDPPingerServer.py</code></li>
-<li>运行<code>UDPPingerClient.py</code></li>
-</ol>
-]]></content>
-      <categories>
-        <category>Computer Networking</category>
-      </categories>
-      <tags>
-        <tag>计算机网络</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>关于tomcat、 nginx、apache的理解</title>
-    <url>/posts/others_web_server/</url>
-    <content><![CDATA[<h1>关于tomcat 与 nginx、apache的理解</h1>
-<blockquote>
-<p>转载自  - 知乎用户的回答 - 知乎 <a href="https://www.zhihu.com/question/32212996/answer/87524617">https://www.zhihu.com/question/32212996/answer/87524617</a></p>
-</blockquote>
-<p>HTTP 服务器本质上也是一种应用程序——它通常运行在服务器之上，绑定服务器的 IP 地址并监听某一个 tcp 端口来接收并处理 HTTP 请求，这样客户端（一般来说是 IE, Firefox，Chrome 这样的浏览器）就能够通过 HTTP 协议来获取服务器上的网页（HTML 格式）、文档（PDF 格式）、音频（MP4 格式）、视频（MOV 格式）等等资源。下图描述的就是这一过程：</p>
-<p><img src= "/img/loading.gif" data-lazy-src="https://pic3.zhimg.com/904696074e077934e601f175913f42fd_r.jpg?source=1940ef5c" alt="img"></p>
-<p>不仅仅是 Apache HTTP Server 和 Nginx，绝大多数编程语言所包含的类库中也都实现了简单的 HTTP 服务器方便开发者使用：</p>
-<ul>
-<li>HttpServer (Java HTTP Server)</li>
-<li>Python SimpleHTTPServer</li>
-</ul>
-<p>使用这些类库能够非常容易的运行一个 HTTP 服务器，它们都能够通过绑定 IP 地址并监听 tcp 端口来提供 HTTP 服务。</p>
-<p>Apache Tomcat 则是 Apache 基金会下的另外一个项目，与 Apache HTTP Server 相比，Tomcat 能够<strong>动态</strong>的生成资源并返回到客户端。Apache HTTP Server 和 Nginx 都能够将某一个文本文件的内容通过 HTTP 协议返回到客户端，但是这个文本文件的内容是固定的——也就是说无论何时、任何人访问它得到的内容都是完全相同的，这样的资源我们称之为<strong>静态</strong>资源。动态资源则与之相反，在不同的时间、不同的客户端访问得到的内容是不同的，例如：</p>
-<ul>
-<li>包含显示当前时间的页面</li>
-<li>显示当前 IP 地址的页面</li>
-</ul>
-<p>Apache HTTP Server 和 Nginx 本身不支持生成动态页面，但它们可以通过其他模块来支持（例如通过 Shell、PHP、Python 脚本程序来动态生成内容）。<br>
-如果想要使用 Java 程序来动态生成资源内容，使用这一类 HTTP 服务器很难做到。Java Servlet 技术以及衍生的 Java Server Pages技术可以让 Java 程序也具有处理 HTTP 请求并且返回内容（由程序动态控制）的能力，Tomcat 正是支持运行 Servlet/JSP 应用程序的容器（Container）:</p>
-<p><img src= "/img/loading.gif" data-lazy-src="https://pic2.zhimg.com/2651b72ce2170336d10ad17fd020ae7a_r.jpg?source=1940ef5c" alt="img"></p>
-<p>Tomcat 运行在 JVM 之上，它和 HTTP 服务器一样，绑定 IP 地址并监听 TCP 端口，同时还包含以下指责：</p>
-<ul>
-<li>管理 Servlet 程序的生命周期</li>
-<li>将 URL 映射到指定的 Servlet 进行处理</li>
-<li>与 Servlet 程序合作处理 HTTP 请求——根据 HTTP 请求生成 HttpServletResponse 对象并传递给 Servlet 进行处理，将 Servlet 中的 HttpServletResponse 对象生成的内容返回给浏览器</li>
-</ul>
-<p>虽然 Tomcat 也可以认为是 HTTP 服务器，但通常它仍然会和 Nginx 配合在一起使用：</p>
-<ul>
-<li>动静态资源分离——运用 Nginx 的反向代理功能分发请求：所有动态资源的请求交给 Tomcat，而静态资源的请求（例如图片、视频、CSS、JavaScript 文件等）则直接由 Nginx 返回到浏览器，这样能大大减轻 Tomcat 的压力。</li>
-<li>负载均衡，当业务压力增大时，可能一个 Tomcat 的实例不足以处理，那么这时可以启动多个 Tomcat 实例进行水平扩展，而 Nginx 的负载均衡功能可以把请求通过算法分发到各个不同的实例进行处理。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Web</category>
-      </categories>
-      <tags>
-        <tag>零碎知识</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【Python Crawler】学习笔记</title>
-    <url>/posts/py_spider/</url>
-    <content><![CDATA[<h1>Python 爬虫</h1>
-<h2 id="验证码识别">验证码识别</h2>
-<h3 id="OCR技术">OCR技术</h3>
-<blockquote>
-<p>OCR（Optical Character Recognition，光学字符识别）是指电子设备（例如扫描仪或数码相机）检查纸上打印的字符，通过检测暗、亮的模式确定其形状，然后用字符识别方法将形状翻译成计算机文字的过程，即针对印刷体字符，采用光学的方式将纸质文档中的文字转换成为黑白点阵的图像文件，并通过识别软件将图像中的文字转换成文本格式，供文字处理软件进一步编辑加工的技术。</p>
-</blockquote>
-<p>开发环境</p>
-<ol>
-<li>Python 3.9</li>
-<li>pytesseract、pillow模块</li>
-<li>Tesseract-OCR引擎</li>
-</ol>
-<ul>
-<li>安装第三方模块</li>
-</ul>
-<p>pytesseract是Python第三方模块，其原理主要是调用OCR引擎识别图片，OCR引擎再将识别的结果返回到程序中。</p>
-<p>PIL模块是专门用于处理图片的模块。安装方式如下：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pip install pytesseract</span><br><span class="line">pip install pillow</span><br></pre></td></tr></table></figure>
-<ul>
-<li>安装OCR引擎</li>
-</ul>
-<p><a href="https://github.com/tesseract-ocr/tesseract">Tesseract-OCR</a>是一个免费、开源的OCR引擎，以Windows平台为例，<a href="https://digi.bib.uni-mannheim.de/tesseract/">点击下载exe安装包</a>。</p>
-<p>OCR测试代码：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> pytesseract</span><br><span class="line"></span><br><span class="line">im = Image.<span class="built_in">open</span>(<span class="string">&quot;test.png&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将tesseract安装路径添加到系统变量中</span></span><br><span class="line"><span class="comment"># 或者使用以下注释代码，路径改成自己的OCR引擎安装路径</span></span><br><span class="line"><span class="comment"># pytesseract.pytesseract.tesseract_cmd = r&quot;F:\Python\tesseract-ocr\tesseract.exe&quot;</span></span><br><span class="line"></span><br><span class="line">code = pytesseract.image_to_string(im)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(code)</span><br></pre></td></tr></table></figure>
-<p>在实际使用时，验证码图片往往会掺入很多干扰因素。为了提高准确率，可以使用PIL模块对图片进行简单的处理，不同的图片有不同的处理方法，其目的都为提高OCR识别的准确率。除此之外，还可以对OCR引擎进行训练和学习。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> pytesseract</span><br><span class="line"></span><br><span class="line">im = Image.<span class="built_in">open</span>(<span class="string">&quot;old.png&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将图片转为灰度模式</span></span><br><span class="line">im = im.convert(<span class="string">&quot;L&quot;</span>)   </span><br><span class="line"></span><br><span class="line">im.save(<span class="string">&quot;new.png&quot;</span>)</span><br><span class="line"></span><br><span class="line">code = pytesseract.image_to_string(im)                                                   </span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(code)</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-      <tags>
-        <tag>Python爬虫</tag>
       </tags>
   </entry>
 </search>
