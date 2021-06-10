@@ -3,11 +3,11 @@
   <title>Foryatto</title>
   
   
-  <link href="https://www.foryatto.com/atom.xml" rel="self"/>
+  <link href="https://blog.foryatto.com/atom.xml" rel="self"/>
   
-  <link href="https://www.foryatto.com/"/>
+  <link href="https://blog.foryatto.com/"/>
   <updated>2021-05-01T00:47:39.399Z</updated>
-  <id>https://www.foryatto.com/</id>
+  <id>https://blog.foryatto.com/</id>
   
   <author>
     <name>Foryatto</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>【算法笔记】快速幂</title>
-    <link href="https://www.foryatto.com/posts/al_fast_power/"/>
-    <id>https://www.foryatto.com/posts/al_fast_power/</id>
+    <link href="https://blog.foryatto.com/posts/al_fast_power/"/>
+    <id>https://blog.foryatto.com/posts/al_fast_power/</id>
     <published>2021-04-28T01:31:18.000Z</published>
     <updated>2021-05-01T00:47:39.399Z</updated>
     
@@ -34,15 +34,15 @@
     
     
     
-    <category term="Algorithm" scheme="https://www.foryatto.com/categories/Algorithm/"/>
+    <category term="Algorithm" scheme="https://blog.foryatto.com/categories/Algorithm/"/>
     
     
   </entry>
   
   <entry>
     <title>KMP - 字符串匹配算法</title>
-    <link href="https://www.foryatto.com/posts/al_kmp/"/>
-    <id>https://www.foryatto.com/posts/al_kmp/</id>
+    <link href="https://blog.foryatto.com/posts/al_kmp/"/>
+    <id>https://blog.foryatto.com/posts/al_kmp/</id>
     <published>2021-04-21T01:31:18.000Z</published>
     <updated>2021-05-05T15:10:53.507Z</updated>
     
@@ -57,17 +57,17 @@
     
     
     
-    <category term="Algorithm" scheme="https://www.foryatto.com/categories/Algorithm/"/>
+    <category term="Algorithm" scheme="https://blog.foryatto.com/categories/Algorithm/"/>
     
     
-    <category term="字符串匹配" scheme="https://www.foryatto.com/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/"/>
+    <category term="字符串匹配" scheme="https://blog.foryatto.com/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/"/>
     
   </entry>
   
   <entry>
     <title>【算法笔记】ACM技能树</title>
-    <link href="https://www.foryatto.com/posts/al_acm/"/>
-    <id>https://www.foryatto.com/posts/al_acm/</id>
+    <link href="https://blog.foryatto.com/posts/al_acm/"/>
+    <id>https://blog.foryatto.com/posts/al_acm/</id>
     <published>2021-03-01T00:00:00.000Z</published>
     <updated>2021-04-13T15:32:13.715Z</updated>
     
@@ -84,17 +84,17 @@
     
     
     
-    <category term="Algorithm" scheme="https://www.foryatto.com/categories/Algorithm/"/>
+    <category term="Algorithm" scheme="https://blog.foryatto.com/categories/Algorithm/"/>
     
     
-    <category term="算法" scheme="https://www.foryatto.com/tags/%E7%AE%97%E6%B3%95/"/>
+    <category term="算法" scheme="https://blog.foryatto.com/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
   <entry>
     <title>关于tomcat、 nginx、apache的理解</title>
-    <link href="https://www.foryatto.com/posts/others_web_server/"/>
-    <id>https://www.foryatto.com/posts/others_web_server/</id>
+    <link href="https://blog.foryatto.com/posts/others_web_server/"/>
+    <id>https://blog.foryatto.com/posts/others_web_server/</id>
     <published>2021-01-20T00:00:00.000Z</published>
     <updated>2021-04-13T13:15:26.986Z</updated>
     
@@ -110,17 +110,17 @@
     
     
     
-    <category term="Web" scheme="https://www.foryatto.com/categories/Web/"/>
+    <category term="Web" scheme="https://blog.foryatto.com/categories/Web/"/>
     
     
-    <category term="零碎知识" scheme="https://www.foryatto.com/tags/%E9%9B%B6%E7%A2%8E%E7%9F%A5%E8%AF%86/"/>
+    <category term="零碎知识" scheme="https://blog.foryatto.com/tags/%E9%9B%B6%E7%A2%8E%E7%9F%A5%E8%AF%86/"/>
     
   </entry>
   
   <entry>
     <title>【Python Crawler】学习笔记</title>
-    <link href="https://www.foryatto.com/posts/py_spider/"/>
-    <id>https://www.foryatto.com/posts/py_spider/</id>
+    <link href="https://blog.foryatto.com/posts/py_spider/"/>
+    <id>https://blog.foryatto.com/posts/py_spider/</id>
     <published>2020-12-10T00:00:00.000Z</published>
     <updated>2021-04-13T13:15:41.725Z</updated>
     
@@ -138,17 +138,17 @@
     
     
     
-    <category term="Python" scheme="https://www.foryatto.com/categories/Python/"/>
+    <category term="Python" scheme="https://blog.foryatto.com/categories/Python/"/>
     
     
-    <category term="Python爬虫" scheme="https://www.foryatto.com/tags/Python%E7%88%AC%E8%99%AB/"/>
+    <category term="Python爬虫" scheme="https://blog.foryatto.com/tags/Python%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
   <entry>
     <title>【计算机网络】学习笔记</title>
-    <link href="https://www.foryatto.com/posts/cs_network/"/>
-    <id>https://www.foryatto.com/posts/cs_network/</id>
+    <link href="https://blog.foryatto.com/posts/cs_network/"/>
+    <id>https://blog.foryatto.com/posts/cs_network/</id>
     <published>2020-12-02T00:00:00.000Z</published>
     <updated>2021-05-29T03:18:23.803Z</updated>
     
@@ -168,17 +168,17 @@
     
     
     
-    <category term="Computer Networking" scheme="https://www.foryatto.com/categories/Computer-Networking/"/>
+    <category term="Computer Networking" scheme="https://blog.foryatto.com/categories/Computer-Networking/"/>
     
     
-    <category term="计算机网络" scheme="https://www.foryatto.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    <category term="计算机网络" scheme="https://blog.foryatto.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   
   <entry>
     <title>【算法笔记】差分数组</title>
-    <link href="https://www.foryatto.com/posts/al_difference_array/"/>
-    <id>https://www.foryatto.com/posts/al_difference_array/</id>
+    <link href="https://blog.foryatto.com/posts/al_difference_array/"/>
+    <id>https://blog.foryatto.com/posts/al_difference_array/</id>
     <published>2019-11-29T00:00:00.000Z</published>
     <updated>2021-04-13T15:31:38.457Z</updated>
     
@@ -195,10 +195,10 @@
     
     
     
-    <category term="Algorithm" scheme="https://www.foryatto.com/categories/Algorithm/"/>
+    <category term="Algorithm" scheme="https://blog.foryatto.com/categories/Algorithm/"/>
     
     
-    <category term="算法" scheme="https://www.foryatto.com/tags/%E7%AE%97%E6%B3%95/"/>
+    <category term="算法" scheme="https://blog.foryatto.com/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
