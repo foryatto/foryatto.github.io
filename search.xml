@@ -1,80 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>【算法笔记】差分数组</title>
-    <url>/posts/al_difference_array/</url>
-    <content><![CDATA[<p>引入问题：</p>
-<p>已知一个数组 a[10] ，初始值全部为1。 如果要将范围 [1, 5]之间的每一个数字都加1，应当如何操作。</p>
-<p>最简单直接的操作就是for循环了：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">5</span>;i++) a[i]++;</span><br></pre></td></tr></table></figure>
-<p>但是如果数据范围较大，以及操作次数比较多，用for循环时间复杂度较高。</p>
-<p>先看看什么是差分数组:</p>
-<p><strong>简单来说，前一个元素减去后一个元素形成的数组就是差分数组。</strong></p>
-<p><strong>d[0] = a[0]  （ i = 0 ）</strong></p>
-<p><strong>d[i ] = a[i] - a[i - 1]  （ i  &gt; 0）</strong></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">举个例子：</span><br><span class="line"></span><br><span class="line">数组  a：</span><br><span class="line"><span class="number">1</span>，<span class="number">2</span>，<span class="number">3</span>，<span class="number">4</span>，<span class="number">5</span></span><br><span class="line"></span><br><span class="line">差分数组 d 应当是：</span><br><span class="line"><span class="number">1</span>，<span class="number">1</span>，<span class="number">1</span>，<span class="number">1</span>，<span class="number">1</span>     <span class="comment">//第一个元素没有可以减的元素，所以就等于它本身</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//即规定d[0] = a[0]</span></span><br></pre></td></tr></table></figure>
-<p>我们注意到:</p>
-<p>d[1] = a[1] - a[0]</p>
-<p>d[2] = a[2] - a[1]</p>
-<p>d[3] = a[3] - a[2]</p>
-<p>d[4] = a[4] - a[3]</p>
-<p>即：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">a[<span class="number">0</span>] = d[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">a[<span class="number">1</span>] = d[<span class="number">1</span>] + d[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">a[<span class="number">2</span>] = d[<span class="number">2</span>] + d[<span class="number">1</span>] + a[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">**......**</span><br><span class="line"></span><br><span class="line">可推导出 a[i] = d[i] + d[i<span class="number">-1</span>] + d[i<span class="number">-2</span>] + ...+d[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
-<p>所以差分数组到底有什么用呢？</p>
-<p><strong>回到引入问题</strong>：</p>
-<p>要使[ 1, 5 ] 之间的每个元素都+1，用差分数组只需要这样写：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">d[<span class="number">1</span>]++;</span><br><span class="line">d[<span class="number">5</span>+<span class="number">1</span>]--;</span><br></pre></td></tr></table></figure>
-<p>因为d[1] = a[1] - a[0]，a[1]增大了，a[0]不变，所以d[1]应当加上相应的变化量。<br>
-同理，中间的元素是同步增大的，所以无需处理。<br>
-对于d [6] = a[6] - a[5]，a[5]增大了，a[6]不变，所以d[6]应当减去相应的变化量。</p>
-<p>原本复杂的for循环，现在只需两行代码。</p>
-<p>差分数组不仅仅是一个优秀的数据结构，还是一种很好的思想。<br>
-修改区间的时间复杂度是O（1），查询点的时间复杂度为O（n）</p>
-<p><strong>对应练习题：</strong></p>
-<p>基础题： <a href="https://www.luogu.com.cn/problem/CF44C">CF44C Holidays</a>（差分数组）</p>
-<p>进阶题：<a href="https://www.luogu.com.cn/problem/P4939">P4939 Agent2</a>（树状数组+差分数组）。</p>
-<p>基础题代码 (Python版)：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">n, m = <span class="built_in">input</span>().split()</span><br><span class="line">n, m=<span class="built_in">int</span>(n), <span class="built_in">int</span>(m)</span><br><span class="line">out=<span class="literal">False</span></span><br><span class="line">d=[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,n+<span class="number">2</span>)]   <span class="comment">#d为差分数组</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,m):</span><br><span class="line">    a, b=<span class="built_in">input</span>().split()</span><br><span class="line">    a, b=<span class="built_in">int</span>(a), <span class="built_in">int</span>(b)</span><br><span class="line">    d[a]+=<span class="number">1</span>                <span class="comment">#差分数组的更新</span></span><br><span class="line">    d[b+<span class="number">1</span>]-=<span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,n+<span class="number">1</span>):</span><br><span class="line">    count=<span class="built_in">sum</span>(d[<span class="number">0</span>:i+<span class="number">1</span>])   <span class="comment">#求第i天浇水的次数</span></span><br><span class="line">    <span class="keyword">if</span> count!=<span class="number">1</span>:         <span class="comment">#浇水次数不等于1就输出，结束</span></span><br><span class="line">        <span class="built_in">print</span>(i,count)</span><br><span class="line">        out=<span class="literal">True</span></span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> out:        <span class="comment">#没有问题就输出OK</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;OK&quot;</span>)</span><br></pre></td></tr></table></figure>
-<p>进阶题代码(C++版)：<br>
-(这题要用树状数组来维护更新)</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">int</span> d[<span class="number">10000002</span>];</span><br><span class="line"><span class="keyword">int</span> n, m;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">lowbit</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> x &amp; -x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getSum</span><span class="params">(<span class="keyword">int</span> a)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = a; i &gt;= <span class="number">1</span>; i -= <span class="built_in">lowbit</span>(i)) &#123;</span><br><span class="line">		sum += d[i];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">update</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = a; i &lt;= n; i += <span class="built_in">lowbit</span>(i)) &#123;</span><br><span class="line">		d[i]++;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = b+<span class="number">1</span> ; i &lt;= n; i += <span class="built_in">lowbit</span>(i)) &#123;</span><br><span class="line">		d[i]--;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">	<span class="keyword">int</span> a, b, c;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; i++) &#123;</span><br><span class="line">		cin &gt;&gt; c;</span><br><span class="line">		<span class="keyword">if</span> (c) &#123;</span><br><span class="line">			cin &gt;&gt; a;</span><br><span class="line">			cout &lt;&lt; <span class="built_in">getSum</span>(a) &lt;&lt; endl;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span>&#123;</span><br><span class="line">			cin &gt;&gt; a &gt;&gt; b;</span><br><span class="line">			<span class="built_in">update</span>(a, b);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Algorithm</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【算法笔记】快速幂</title>
-    <url>/posts/al_fast_power/</url>
-    <content><![CDATA[<h1>基本思想</h1>
-<p>引入问题：如何快速求出<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>10</mn></msup></mrow><annotation encoding="application/x-tex">3^{10}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">0</span></span></span></span></span></span></span></span></span></span></span></span> ？</p>
-<p>暴力法：简单直接，for循环累乘，时间复杂度<code>O(n)</code></p>
-<p>二分思想：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>10</mn></msup><mo>=</mo><msup><mn>3</mn><mn>5</mn></msup><mo>∗</mo><msup><mn>3</mn><mn>5</mn></msup></mrow><annotation encoding="application/x-tex">3^{10} = 3^{5} * 3^{5}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">0</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span></span></span></span></span></p>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>5</mn></msup><mo>=</mo><mn>3</mn><mo>∗</mo><msup><mn>3</mn><mn>4</mn></msup></mrow><annotation encoding="application/x-tex">3^5=3*3^{4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span></p>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>4</mn></msup><mo>=</mo><msup><mn>3</mn><mn>2</mn></msup><mo>∗</mo><msup><mn>3</mn><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">3^4=3^2 *3^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></p>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>2</mn></msup><mo>=</mo><mn>3</mn><mo>∗</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">3^2=3*3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span></span></span></span></p>
-<p>总共只需要计算4次。</p>
-<p>基于这样一个过程，我们能够在O(log n)的时间复杂度内计算出幂，该算法也就是快速幂的基本思想。</p>
-<h1>代码实现</h1>
-<h2 id="递归版本-C语言实现">递归版本 - C语言实现</h2>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">binaryPow</span><span class="params">(ll a, ll b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(b == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(b%<span class="number">2</span> != <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> a*binaryPow(a, b<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        ll temp = binaryPow(a, b/<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">return</span> temp*temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll a, b;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%lld %lld&quot;</span>, &amp;a, &amp;b);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, binaryPow(a,b));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="迭代版本-C语言实现">迭代版本 - C语言实现</h2>
-<p>还是以<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>10</mn></msup></mrow><annotation encoding="application/x-tex">3^{10}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">0</span></span></span></span></span></span></span></span></span></span></span></span>为例 ，将10写成二进制形式，则有<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mrow><mo stretchy="false">(</mo><mn>1010</mn><msub><mo stretchy="false">)</mo><mn>2</mn></msub></mrow></msup></mrow><annotation encoding="application/x-tex">3^{(1010)_2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8879999999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mord mtight">0</span><span class="mord mtight">1</span><span class="mord mtight">0</span><span class="mclose mtight"><span class="mclose mtight">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31731428571428577em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span> 。</p>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mrow><mo stretchy="false">(</mo><mn>1010</mn><msub><mo stretchy="false">)</mo><mn>2</mn></msub></mrow></msup><mo>=</mo><msup><mn>3</mn><mrow><mo stretchy="false">(</mo><mn>1000</mn><msub><mo stretchy="false">)</mo><mn>2</mn></msub></mrow></msup><mo>∗</mo><msup><mn>3</mn><mrow><mo stretchy="false">(</mo><mn>10</mn><msub><mo stretchy="false">)</mo><mn>2</mn></msub></mrow></msup></mrow><annotation encoding="application/x-tex">3^{(1010)_2} = 3^{(1000)_2} * 3^{(10)_2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8879999999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mord mtight">0</span><span class="mord mtight">1</span><span class="mord mtight">0</span><span class="mclose mtight"><span class="mclose mtight">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31731428571428577em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8879999999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mord mtight">0</span><span class="mord mtight">0</span><span class="mord mtight">0</span><span class="mclose mtight"><span class="mclose mtight">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31731428571428577em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8879999999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mord mtight">0</span><span class="mclose mtight"><span class="mclose mtight">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31731428571428577em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span> ，也就是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mrow><mn>8</mn><mo>+</mo><mn>4</mn></mrow></msup><mo>=</mo><msup><mn>3</mn><mn>8</mn></msup><mo>∗</mo><msup><mn>3</mn><mn>4</mn></msup></mrow><annotation encoding="application/x-tex">3^{8+4} = 3^8*3^4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">8</span><span class="mbin mtight">+</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">8</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></p>
-<p>而这些二进制形式的数，恰好就是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">3^1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span>，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">3^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>4</mn></msup></mrow><annotation encoding="application/x-tex">3^4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span>，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>8</mn></msup></mrow><annotation encoding="application/x-tex">3^8</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">8</span></span></span></span></span></span></span></span></span></span></span>。后一个数是前一个数的平方。</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">binaryPow</span><span class="params">(ll a, ll b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll ans = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(b != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 如果b的二进制最后一位为1，也可以写成 b % 2 == 1;</span></span><br><span class="line">        <span class="keyword">if</span>(b &amp; <span class="number">1</span>)&#123;</span><br><span class="line">            ans *= a;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// a的平方</span></span><br><span class="line">        a = a*a;</span><br><span class="line">        <span class="comment">// b右移1位，也可以写成 b /= 2;</span></span><br><span class="line">        b = b &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll a, b;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%lld %lld&quot;</span>, &amp;a, &amp;b);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, binaryPow(a,b));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h1>练习题</h1>
-<ul>
-<li><a href="https://www.luogu.com.cn/problem/P1226">P1226 【模板】快速幂||取余运算</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Algorithm</category>
-      </categories>
-  </entry>
-  <entry>
     <title>【算法笔记】ACM技能树</title>
     <url>/posts/al_acm/</url>
     <content><![CDATA[<h1>基本算法</h1>
@@ -305,6 +231,111 @@
       </categories>
       <tags>
         <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【算法笔记】差分数组</title>
+    <url>/posts/al_difference_array/</url>
+    <content><![CDATA[<p>引入问题：</p>
+<p>已知一个数组 a[10] ，初始值全部为1。 如果要将范围 [1, 5]之间的每一个数字都加1，应当如何操作。</p>
+<p>最简单直接的操作就是for循环了：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">5</span>;i++) a[i]++;</span><br></pre></td></tr></table></figure>
+<p>但是如果数据范围较大，以及操作次数比较多，用for循环时间复杂度较高。</p>
+<p>先看看什么是差分数组:</p>
+<p><strong>简单来说，前一个元素减去后一个元素形成的数组就是差分数组。</strong></p>
+<p><strong>d[0] = a[0]  （ i = 0 ）</strong></p>
+<p><strong>d[i ] = a[i] - a[i - 1]  （ i  &gt; 0）</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">举个例子：</span><br><span class="line"></span><br><span class="line">数组  a：</span><br><span class="line"><span class="number">1</span>，<span class="number">2</span>，<span class="number">3</span>，<span class="number">4</span>，<span class="number">5</span></span><br><span class="line"></span><br><span class="line">差分数组 d 应当是：</span><br><span class="line"><span class="number">1</span>，<span class="number">1</span>，<span class="number">1</span>，<span class="number">1</span>，<span class="number">1</span>     <span class="comment">//第一个元素没有可以减的元素，所以就等于它本身</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//即规定d[0] = a[0]</span></span><br></pre></td></tr></table></figure>
+<p>我们注意到:</p>
+<p>d[1] = a[1] - a[0]</p>
+<p>d[2] = a[2] - a[1]</p>
+<p>d[3] = a[3] - a[2]</p>
+<p>d[4] = a[4] - a[3]</p>
+<p>即：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">a[<span class="number">0</span>] = d[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">a[<span class="number">1</span>] = d[<span class="number">1</span>] + d[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">a[<span class="number">2</span>] = d[<span class="number">2</span>] + d[<span class="number">1</span>] + a[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">**......**</span><br><span class="line"></span><br><span class="line">可推导出 a[i] = d[i] + d[i<span class="number">-1</span>] + d[i<span class="number">-2</span>] + ...+d[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<p>所以差分数组到底有什么用呢？</p>
+<p><strong>回到引入问题</strong>：</p>
+<p>要使[ 1, 5 ] 之间的每个元素都+1，用差分数组只需要这样写：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">d[<span class="number">1</span>]++;</span><br><span class="line">d[<span class="number">5</span>+<span class="number">1</span>]--;</span><br></pre></td></tr></table></figure>
+<p>因为d[1] = a[1] - a[0]，a[1]增大了，a[0]不变，所以d[1]应当加上相应的变化量。<br>
+同理，中间的元素是同步增大的，所以无需处理。<br>
+对于d [6] = a[6] - a[5]，a[5]增大了，a[6]不变，所以d[6]应当减去相应的变化量。</p>
+<p>原本复杂的for循环，现在只需两行代码。</p>
+<p>差分数组不仅仅是一个优秀的数据结构，还是一种很好的思想。<br>
+修改区间的时间复杂度是O（1），查询点的时间复杂度为O（n）</p>
+<p><strong>对应练习题：</strong></p>
+<p>基础题： <a href="https://www.luogu.com.cn/problem/CF44C">CF44C Holidays</a>（差分数组）</p>
+<p>进阶题：<a href="https://www.luogu.com.cn/problem/P4939">P4939 Agent2</a>（树状数组+差分数组）。</p>
+<p>基础题代码 (Python版)：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">n, m = <span class="built_in">input</span>().split()</span><br><span class="line">n, m=<span class="built_in">int</span>(n), <span class="built_in">int</span>(m)</span><br><span class="line">out=<span class="literal">False</span></span><br><span class="line">d=[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,n+<span class="number">2</span>)]   <span class="comment">#d为差分数组</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,m):</span><br><span class="line">    a, b=<span class="built_in">input</span>().split()</span><br><span class="line">    a, b=<span class="built_in">int</span>(a), <span class="built_in">int</span>(b)</span><br><span class="line">    d[a]+=<span class="number">1</span>                <span class="comment">#差分数组的更新</span></span><br><span class="line">    d[b+<span class="number">1</span>]-=<span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,n+<span class="number">1</span>):</span><br><span class="line">    count=<span class="built_in">sum</span>(d[<span class="number">0</span>:i+<span class="number">1</span>])   <span class="comment">#求第i天浇水的次数</span></span><br><span class="line">    <span class="keyword">if</span> count!=<span class="number">1</span>:         <span class="comment">#浇水次数不等于1就输出，结束</span></span><br><span class="line">        <span class="built_in">print</span>(i,count)</span><br><span class="line">        out=<span class="literal">True</span></span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> out:        <span class="comment">#没有问题就输出OK</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;OK&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>进阶题代码(C++版)：<br>
+(这题要用树状数组来维护更新)</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">int</span> d[<span class="number">10000002</span>];</span><br><span class="line"><span class="keyword">int</span> n, m;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">lowbit</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> x &amp; -x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getSum</span><span class="params">(<span class="keyword">int</span> a)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = a; i &gt;= <span class="number">1</span>; i -= <span class="built_in">lowbit</span>(i)) &#123;</span><br><span class="line">		sum += d[i];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">update</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = a; i &lt;= n; i += <span class="built_in">lowbit</span>(i)) &#123;</span><br><span class="line">		d[i]++;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = b+<span class="number">1</span> ; i &lt;= n; i += <span class="built_in">lowbit</span>(i)) &#123;</span><br><span class="line">		d[i]--;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">	<span class="keyword">int</span> a, b, c;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; i++) &#123;</span><br><span class="line">		cin &gt;&gt; c;</span><br><span class="line">		<span class="keyword">if</span> (c) &#123;</span><br><span class="line">			cin &gt;&gt; a;</span><br><span class="line">			cout &lt;&lt; <span class="built_in">getSum</span>(a) &lt;&lt; endl;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span>&#123;</span><br><span class="line">			cin &gt;&gt; a &gt;&gt; b;</span><br><span class="line">			<span class="built_in">update</span>(a, b);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【算法笔记】快速幂</title>
+    <url>/posts/al_fast_power/</url>
+    <content><![CDATA[<h1>基本思想</h1>
+<p>引入问题：如何快速求出<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>10</mn></msup></mrow><annotation encoding="application/x-tex">3^{10}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">0</span></span></span></span></span></span></span></span></span></span></span></span> ？</p>
+<p>暴力法：简单直接，for循环累乘，时间复杂度<code>O(n)</code></p>
+<p>二分思想：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>10</mn></msup><mo>=</mo><msup><mn>3</mn><mn>5</mn></msup><mo>∗</mo><msup><mn>3</mn><mn>5</mn></msup></mrow><annotation encoding="application/x-tex">3^{10} = 3^{5} * 3^{5}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">0</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>5</mn></msup><mo>=</mo><mn>3</mn><mo>∗</mo><msup><mn>3</mn><mn>4</mn></msup></mrow><annotation encoding="application/x-tex">3^5=3*3^{4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>4</mn></msup><mo>=</mo><msup><mn>3</mn><mn>2</mn></msup><mo>∗</mo><msup><mn>3</mn><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">3^4=3^2 *3^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>2</mn></msup><mo>=</mo><mn>3</mn><mo>∗</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">3^2=3*3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span></span></span></span></p>
+<p>总共只需要计算4次。</p>
+<p>基于这样一个过程，我们能够在O(log n)的时间复杂度内计算出幂，该算法也就是快速幂的基本思想。</p>
+<h1>代码实现</h1>
+<h2 id="递归版本-C语言实现">递归版本 - C语言实现</h2>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">binaryPow</span><span class="params">(ll a, ll b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(b == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(b%<span class="number">2</span> != <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> a*binaryPow(a, b<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        ll temp = binaryPow(a, b/<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">return</span> temp*temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll a, b;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%lld %lld&quot;</span>, &amp;a, &amp;b);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, binaryPow(a,b));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="迭代版本-C语言实现">迭代版本 - C语言实现</h2>
+<p>还是以<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>10</mn></msup></mrow><annotation encoding="application/x-tex">3^{10}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">0</span></span></span></span></span></span></span></span></span></span></span></span>为例 ，将10写成二进制形式，则有<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mrow><mo stretchy="false">(</mo><mn>1010</mn><msub><mo stretchy="false">)</mo><mn>2</mn></msub></mrow></msup></mrow><annotation encoding="application/x-tex">3^{(1010)_2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8879999999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mord mtight">0</span><span class="mord mtight">1</span><span class="mord mtight">0</span><span class="mclose mtight"><span class="mclose mtight">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31731428571428577em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span> 。</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mrow><mo stretchy="false">(</mo><mn>1010</mn><msub><mo stretchy="false">)</mo><mn>2</mn></msub></mrow></msup><mo>=</mo><msup><mn>3</mn><mrow><mo stretchy="false">(</mo><mn>1000</mn><msub><mo stretchy="false">)</mo><mn>2</mn></msub></mrow></msup><mo>∗</mo><msup><mn>3</mn><mrow><mo stretchy="false">(</mo><mn>10</mn><msub><mo stretchy="false">)</mo><mn>2</mn></msub></mrow></msup></mrow><annotation encoding="application/x-tex">3^{(1010)_2} = 3^{(1000)_2} * 3^{(10)_2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8879999999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mord mtight">0</span><span class="mord mtight">1</span><span class="mord mtight">0</span><span class="mclose mtight"><span class="mclose mtight">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31731428571428577em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8879999999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mord mtight">0</span><span class="mord mtight">0</span><span class="mord mtight">0</span><span class="mclose mtight"><span class="mclose mtight">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31731428571428577em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8879999999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mord mtight">0</span><span class="mclose mtight"><span class="mclose mtight">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31731428571428577em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span> ，也就是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mrow><mn>8</mn><mo>+</mo><mn>4</mn></mrow></msup><mo>=</mo><msup><mn>3</mn><mn>8</mn></msup><mo>∗</mo><msup><mn>3</mn><mn>4</mn></msup></mrow><annotation encoding="application/x-tex">3^{8+4} = 3^8*3^4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">8</span><span class="mbin mtight">+</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">8</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></p>
+<p>而这些二进制形式的数，恰好就是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">3^1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span>，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">3^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>4</mn></msup></mrow><annotation encoding="application/x-tex">3^4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span>，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>8</mn></msup></mrow><annotation encoding="application/x-tex">3^8</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">8</span></span></span></span></span></span></span></span></span></span></span>。后一个数是前一个数的平方。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">binaryPow</span><span class="params">(ll a, ll b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll ans = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(b != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 如果b的二进制最后一位为1，也可以写成 b % 2 == 1;</span></span><br><span class="line">        <span class="keyword">if</span>(b &amp; <span class="number">1</span>)&#123;</span><br><span class="line">            ans *= a;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// a的平方</span></span><br><span class="line">        a = a*a;</span><br><span class="line">        <span class="comment">// b右移1位，也可以写成 b /= 2;</span></span><br><span class="line">        b = b &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll a, b;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%lld %lld&quot;</span>, &amp;a, &amp;b);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, binaryPow(a,b));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1>练习题</h1>
+<ul>
+<li><a href="https://www.luogu.com.cn/problem/P1226">P1226 【模板】快速幂||取余运算</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>KMP - 字符串匹配算法</title>
+    <url>/posts/al_kmp/</url>
+    <content><![CDATA[<h1>KMP思想</h1>
+<p>对于暴力算法，如果出现不匹配字符，需要同时回退 <strong>文本串</strong> 和 <strong>模式串</strong> 的指针。KMP的主要思想是<strong>永不回退文本串的指针，而是利用前缀表将模式串移动到正确位置继续匹配。</strong></p>
+<h1>什么是前缀表</h1>
+<p>前缀表（prefix table），KMP算法中也经常被写为next数组。</p>
+<h2 id="前缀表的作用">前缀表的作用</h2>
+<p>利用前缀表，可以得知<strong>当前位置匹配失败时，新的模式串指针应该回退到哪里</strong>。文本串指针不变，从新的模式串指针继续匹配。（<strong>此时新模式串指针前的所有字符与文本串指针前的字符是匹配的，无需回退文本串指针</strong>）</p>
+<h2 id="前缀表的计算">前缀表的计算</h2>
+<p>前缀表要求的是<strong>最长相同前后缀</strong>，<code>前缀是指以第一个字符开头的连续子串（不包含最后一个字符），后缀是指以最后一个字符结尾的连续子串（不包含第一个字符）。</code></p>
+<h1>代码实现</h1>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建前缀表</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">prefix_table</span><span class="params">(string pattern, <span class="keyword">int</span> *prefix, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">	prefix[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> i = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span> (i &lt; n) &#123;</span><br><span class="line">        <span class="comment">// 如abcabc, i=5时，此时len = 2，&#x27;c&#x27;==&#x27;c&#x27;，匹配成功，len+1</span></span><br><span class="line">		<span class="keyword">if</span> (pattern[i] == pattern[len]) &#123;</span><br><span class="line">			len++;</span><br><span class="line">			prefix[i] = len;</span><br><span class="line">			i++;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// abdabc, i=5时，此时len=2, &#x27;d&#x27;!=&#x27;c&#x27;</span></span><br><span class="line">			<span class="keyword">if</span> (len &gt; <span class="number">0</span>) &#123;</span><br><span class="line">				len = prefix[len - <span class="number">1</span>];</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span>&#123;</span><br><span class="line">				prefix[i] = len;</span><br><span class="line">				i++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 前缀表右移，左补-1（方便使用）</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">move_prefix</span><span class="params">(<span class="keyword">int</span> *prefix , <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	<span class="keyword">for</span> (i = n<span class="number">-1</span>; i &gt; <span class="number">0</span>; i--) &#123;</span><br><span class="line">		prefix[i] = prefix[i<span class="number">-1</span>];</span><br><span class="line">	&#125;</span><br><span class="line">	prefix[<span class="number">0</span>] = <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">kmp_search</span><span class="params">(string text, string pattern)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n = pattern.<span class="built_in">length</span>(), m = text.<span class="built_in">length</span>();</span><br><span class="line">	<span class="keyword">int</span> *prefix = (<span class="keyword">int</span> *)<span class="built_in">malloc</span>(<span class="built_in"><span class="keyword">sizeof</span></span>(<span class="keyword">int</span>) * n);</span><br><span class="line">	<span class="built_in">prefix_table</span>(pattern, prefix, n);</span><br><span class="line">	<span class="built_in">move_prefix</span>(prefix, n);</span><br><span class="line">	<span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> (i &lt; m) &#123;</span><br><span class="line">        <span class="comment">// 成功找到了一个匹配串，继续找下一个可能的匹配串</span></span><br><span class="line">		<span class="keyword">if</span> (j == n - <span class="number">1</span> &amp;&amp; text[i] == pattern[j]) &#123;</span><br><span class="line">			cout &lt;&lt; i - j + <span class="number">1</span> &lt;&lt; endl;</span><br><span class="line">			j = prefix[j];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (text[i] == pattern[j]) &#123;</span><br><span class="line">			i++; j++;</span><br><span class="line">		&#125;</span><br><span class="line">        <span class="comment">// 当前字符不匹配时，利用前缀表更新模式串的查找位置</span></span><br><span class="line">		<span class="keyword">else</span>&#123;</span><br><span class="line">			j = prefix[j];</span><br><span class="line">			<span class="keyword">if</span> (j == <span class="number">-1</span>) &#123;</span><br><span class="line">				j++; i++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	string text, pattern;</span><br><span class="line">	cin &gt;&gt; text &gt;&gt; pattern;</span><br><span class="line">	<span class="built_in">kmp_search</span>(text, pattern);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1>时间复杂度</h1>
+<p>生成前缀表的时间复杂度是O(m)，匹配的过程是O(n)，所以整个KMP算法的时间复杂度是<strong>O(n+m)</strong>。</p>
+<h1>参考教程</h1>
+
+<div style="position: relative; width: 100%; height: 0; padding-bottom: 75%;">
+<iframe src="//player.bilibili.com/player.html?aid=11866460&bvid=BV1Px411z7Yo&cid=19594712&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="position: absolute; width: 100%; height: 100%; Left: 0; top: 0;" ></iframe></div>
+
+
+<div style="position: relative; width: 100%; height: 0; padding-bottom: 75%;">
+<iframe src="//player.bilibili.com/player.html?aid=16828557&bvid=BV1hW411a7ys&cid=27494484&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="position: absolute; width: 100%; height: 100%; Left: 0; top: 0;" ></iframe></div>
+]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+      <tags>
+        <tag>字符串匹配</tag>
       </tags>
   </entry>
   <entry>
@@ -679,109 +710,6 @@
       </tags>
   </entry>
   <entry>
-    <title>KMP - 字符串匹配算法</title>
-    <url>/posts/al_kmp/</url>
-    <content><![CDATA[<h1>KMP思想</h1>
-<p>对于暴力算法，如果出现不匹配字符，需要同时回退 <strong>文本串</strong> 和 <strong>模式串</strong> 的指针。KMP的主要思想是<strong>永不回退文本串的指针，而是利用前缀表将模式串移动到正确位置继续匹配。</strong></p>
-<h1>什么是前缀表</h1>
-<p>前缀表（prefix table），KMP算法中也经常被写为next数组。</p>
-<h2 id="前缀表的作用">前缀表的作用</h2>
-<p>利用前缀表，可以得知<strong>当前位置匹配失败时，新的模式串指针应该回退到哪里</strong>。文本串指针不变，从新的模式串指针继续匹配。（<strong>此时新模式串指针前的所有字符与文本串指针前的字符是匹配的，无需回退文本串指针</strong>）</p>
-<h2 id="前缀表的计算">前缀表的计算</h2>
-<p>前缀表要求的是<strong>最长相同前后缀</strong>，<code>前缀是指以第一个字符开头的连续子串（不包含最后一个字符），后缀是指以最后一个字符结尾的连续子串（不包含第一个字符）。</code></p>
-<h1>代码实现</h1>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建前缀表</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">prefix_table</span><span class="params">(string pattern, <span class="keyword">int</span> *prefix, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">	prefix[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> i = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span> (i &lt; n) &#123;</span><br><span class="line">        <span class="comment">// 如abcabc, i=5时，此时len = 2，&#x27;c&#x27;==&#x27;c&#x27;，匹配成功，len+1</span></span><br><span class="line">		<span class="keyword">if</span> (pattern[i] == pattern[len]) &#123;</span><br><span class="line">			len++;</span><br><span class="line">			prefix[i] = len;</span><br><span class="line">			i++;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// abdabc, i=5时，此时len=2, &#x27;d&#x27;!=&#x27;c&#x27;</span></span><br><span class="line">			<span class="keyword">if</span> (len &gt; <span class="number">0</span>) &#123;</span><br><span class="line">				len = prefix[len - <span class="number">1</span>];</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span>&#123;</span><br><span class="line">				prefix[i] = len;</span><br><span class="line">				i++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 前缀表右移，左补-1（方便使用）</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">move_prefix</span><span class="params">(<span class="keyword">int</span> *prefix , <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	<span class="keyword">for</span> (i = n<span class="number">-1</span>; i &gt; <span class="number">0</span>; i--) &#123;</span><br><span class="line">		prefix[i] = prefix[i<span class="number">-1</span>];</span><br><span class="line">	&#125;</span><br><span class="line">	prefix[<span class="number">0</span>] = <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">kmp_search</span><span class="params">(string text, string pattern)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n = pattern.<span class="built_in">length</span>(), m = text.<span class="built_in">length</span>();</span><br><span class="line">	<span class="keyword">int</span> *prefix = (<span class="keyword">int</span> *)<span class="built_in">malloc</span>(<span class="built_in"><span class="keyword">sizeof</span></span>(<span class="keyword">int</span>) * n);</span><br><span class="line">	<span class="built_in">prefix_table</span>(pattern, prefix, n);</span><br><span class="line">	<span class="built_in">move_prefix</span>(prefix, n);</span><br><span class="line">	<span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> (i &lt; m) &#123;</span><br><span class="line">        <span class="comment">// 成功找到了一个匹配串，继续找下一个可能的匹配串</span></span><br><span class="line">		<span class="keyword">if</span> (j == n - <span class="number">1</span> &amp;&amp; text[i] == pattern[j]) &#123;</span><br><span class="line">			cout &lt;&lt; i - j + <span class="number">1</span> &lt;&lt; endl;</span><br><span class="line">			j = prefix[j];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (text[i] == pattern[j]) &#123;</span><br><span class="line">			i++; j++;</span><br><span class="line">		&#125;</span><br><span class="line">        <span class="comment">// 当前字符不匹配时，利用前缀表更新模式串的查找位置</span></span><br><span class="line">		<span class="keyword">else</span>&#123;</span><br><span class="line">			j = prefix[j];</span><br><span class="line">			<span class="keyword">if</span> (j == <span class="number">-1</span>) &#123;</span><br><span class="line">				j++; i++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	string text, pattern;</span><br><span class="line">	cin &gt;&gt; text &gt;&gt; pattern;</span><br><span class="line">	<span class="built_in">kmp_search</span>(text, pattern);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1>时间复杂度</h1>
-<p>生成前缀表的时间复杂度是O(m)，匹配的过程是O(n)，所以整个KMP算法的时间复杂度是<strong>O(n+m)</strong>。</p>
-<h1>参考教程</h1>
-
-<div style="position: relative; width: 100%; height: 0; padding-bottom: 75%;">
-<iframe src="//player.bilibili.com/player.html?aid=11866460&bvid=BV1Px411z7Yo&cid=19594712&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="position: absolute; width: 100%; height: 100%; Left: 0; top: 0;" ></iframe></div>
-
-
-<div style="position: relative; width: 100%; height: 0; padding-bottom: 75%;">
-<iframe src="//player.bilibili.com/player.html?aid=16828557&bvid=BV1hW411a7ys&cid=27494484&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="position: absolute; width: 100%; height: 100%; Left: 0; top: 0;" ></iframe></div>
-]]></content>
-      <categories>
-        <category>Algorithm</category>
-      </categories>
-      <tags>
-        <tag>字符串匹配</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Homebrew使用指南</title>
-    <url>/posts/homebrew%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</url>
-    <content><![CDATA[<h1>Homebrew使用指南</h1>
-<p><code>brew outdated</code> ：查看所有可更新软件。</p>
-<p><code>brew cleanup</code> ：清除旧版本软件。</p>
-<p><code>brew upgrade</code> ：更新所有的软件，或者 <code>brew upgrade [软件名]</code>更新指定软件。</p>
-<p><code>brew update</code> ：更新 Homebrew。</p>
-<h2 id="管理后台软件">管理后台软件</h2>
-<p>诸如 Nginx、MySQL 等软件，都是有一些服务端软件在后台运行，可以使用 <code>brew services</code> 命令来进行管理</p>
-<ul>
-<li><code>brew services list</code>： 查看所有服务</li>
-<li><code>brew services run [服务名]</code>: 单次运行某个服务</li>
-<li><code>brew services start [服务名]</code>: 运行某个服务，并设置开机自动运行。</li>
-<li><code>brew services stop [服务名]</code>：停止某个服务</li>
-<li><code>brew services restart</code>：重启某个服务。</li>
-</ul>
-<h2 id="检查-Homebrew-环境">检查 Homebrew 环境</h2>
-<p>如果你的 Homebrew 没有办法正常的工作，你可以执行 <code>brew doctor</code> 来开启 Homebrew 自带的检查，从而确认有哪些问题，并进行修复。</p>
-<h2 id="换源">换源</h2>
-<p><a href="http://mirrors.ustc.edu.cn/help/homebrew-bottles.html">http://mirrors.ustc.edu.cn/help/homebrew-bottles.html</a></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles/bottles&#x27;</span> &gt;&gt; ~/.zshrc</span><br><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Other</category>
-      </categories>
-      <tags>
-        <tag>MacOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>关于tomcat、 nginx、apache的理解</title>
-    <url>/posts/others_web_server/</url>
-    <content><![CDATA[<h1>关于tomcat 与 nginx、apache的理解</h1>
-<blockquote>
-<p>转载自  - 知乎用户的回答 - 知乎 <a href="https://www.zhihu.com/question/32212996/answer/87524617">https://www.zhihu.com/question/32212996/answer/87524617</a></p>
-</blockquote>
-<p>HTTP 服务器本质上也是一种应用程序——它通常运行在服务器之上，绑定服务器的 IP 地址并监听某一个 tcp 端口来接收并处理 HTTP 请求，这样客户端（一般来说是 IE, Firefox，Chrome 这样的浏览器）就能够通过 HTTP 协议来获取服务器上的网页（HTML 格式）、文档（PDF 格式）、音频（MP4 格式）、视频（MOV 格式）等等资源。下图描述的就是这一过程：</p>
-<p><img src= "/img/loading.gif" data-lazy-src="https://pic3.zhimg.com/904696074e077934e601f175913f42fd_r.jpg?source=1940ef5c" alt="img"></p>
-<p>不仅仅是 Apache HTTP Server 和 Nginx，绝大多数编程语言所包含的类库中也都实现了简单的 HTTP 服务器方便开发者使用：</p>
-<ul>
-<li>HttpServer (Java HTTP Server)</li>
-<li>Python SimpleHTTPServer</li>
-</ul>
-<p>使用这些类库能够非常容易的运行一个 HTTP 服务器，它们都能够通过绑定 IP 地址并监听 tcp 端口来提供 HTTP 服务。</p>
-<p>Apache Tomcat 则是 Apache 基金会下的另外一个项目，与 Apache HTTP Server 相比，Tomcat 能够<strong>动态</strong>的生成资源并返回到客户端。Apache HTTP Server 和 Nginx 都能够将某一个文本文件的内容通过 HTTP 协议返回到客户端，但是这个文本文件的内容是固定的——也就是说无论何时、任何人访问它得到的内容都是完全相同的，这样的资源我们称之为<strong>静态</strong>资源。动态资源则与之相反，在不同的时间、不同的客户端访问得到的内容是不同的，例如：</p>
-<ul>
-<li>包含显示当前时间的页面</li>
-<li>显示当前 IP 地址的页面</li>
-</ul>
-<p>Apache HTTP Server 和 Nginx 本身不支持生成动态页面，但它们可以通过其他模块来支持（例如通过 Shell、PHP、Python 脚本程序来动态生成内容）。<br>
-如果想要使用 Java 程序来动态生成资源内容，使用这一类 HTTP 服务器很难做到。Java Servlet 技术以及衍生的 Java Server Pages技术可以让 Java 程序也具有处理 HTTP 请求并且返回内容（由程序动态控制）的能力，Tomcat 正是支持运行 Servlet/JSP 应用程序的容器（Container）:</p>
-<p><img src= "/img/loading.gif" data-lazy-src="https://pic2.zhimg.com/2651b72ce2170336d10ad17fd020ae7a_r.jpg?source=1940ef5c" alt="img"></p>
-<p>Tomcat 运行在 JVM 之上，它和 HTTP 服务器一样，绑定 IP 地址并监听 TCP 端口，同时还包含以下指责：</p>
-<ul>
-<li>管理 Servlet 程序的生命周期</li>
-<li>将 URL 映射到指定的 Servlet 进行处理</li>
-<li>与 Servlet 程序合作处理 HTTP 请求——根据 HTTP 请求生成 HttpServletResponse 对象并传递给 Servlet 进行处理，将 Servlet 中的 HttpServletResponse 对象生成的内容返回给浏览器</li>
-</ul>
-<p>虽然 Tomcat 也可以认为是 HTTP 服务器，但通常它仍然会和 Nginx 配合在一起使用：</p>
-<ul>
-<li>动静态资源分离——运用 Nginx 的反向代理功能分发请求：所有动态资源的请求交给 Tomcat，而静态资源的请求（例如图片、视频、CSS、JavaScript 文件等）则直接由 Nginx 返回到浏览器，这样能大大减轻 Tomcat 的压力。</li>
-<li>负载均衡，当业务压力增大时，可能一个 Tomcat 的实例不足以处理，那么这时可以启动多个 Tomcat 实例进行水平扩展，而 Nginx 的负载均衡功能可以把请求通过算法分发到各个不同的实例进行处理。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Web</category>
-      </categories>
-      <tags>
-        <tag>零碎知识</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>【计算机网络】学习笔记</title>
     <url>/posts/cs_network/</url>
     <content><![CDATA[<h1>一、应用层</h1>
@@ -852,6 +780,36 @@
       </tags>
   </entry>
   <entry>
+    <title>Homebrew使用指南</title>
+    <url>/posts/homebrew%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</url>
+    <content><![CDATA[<h1>Homebrew使用指南</h1>
+<p><code>brew outdated</code> ：查看所有可更新软件。</p>
+<p><code>brew cleanup</code> ：清除旧版本软件。</p>
+<p><code>brew upgrade</code> ：更新所有的软件，或者 <code>brew upgrade [软件名]</code>更新指定软件。</p>
+<p><code>brew update</code> ：更新 Homebrew。</p>
+<h2 id="管理后台软件">管理后台软件</h2>
+<p>诸如 Nginx、MySQL 等软件，都是有一些服务端软件在后台运行，可以使用 <code>brew services</code> 命令来进行管理</p>
+<ul>
+<li><code>brew services list</code>： 查看所有服务</li>
+<li><code>brew services run [服务名]</code>: 单次运行某个服务</li>
+<li><code>brew services start [服务名]</code>: 运行某个服务，并设置开机自动运行。</li>
+<li><code>brew services stop [服务名]</code>：停止某个服务</li>
+<li><code>brew services restart</code>：重启某个服务。</li>
+</ul>
+<h2 id="检查-Homebrew-环境">检查 Homebrew 环境</h2>
+<p>如果你的 Homebrew 没有办法正常的工作，你可以执行 <code>brew doctor</code> 来开启 Homebrew 自带的检查，从而确认有哪些问题，并进行修复。</p>
+<h2 id="换源">换源</h2>
+<p><a href="http://mirrors.ustc.edu.cn/help/homebrew-bottles.html">http://mirrors.ustc.edu.cn/help/homebrew-bottles.html</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles/bottles&#x27;</span> &gt;&gt; ~/.zshrc</span><br><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Other</category>
+      </categories>
+      <tags>
+        <tag>MacOS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【Python Crawler】学习笔记</title>
     <url>/posts/py_spider/</url>
     <content><![CDATA[<h1>Python 爬虫</h1>
@@ -889,247 +847,45 @@
       </tags>
   </entry>
   <entry>
-    <title>vim的使用</title>
-    <url>/posts/vim/</url>
-    <content><![CDATA[<h1>配置Git代理</h1>
-<p>设置代理：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//http || https</span><br><span class="line">git config --global http.proxy http://127.0.0.1:1087</span><br><span class="line">git config --global https.proxy https://127.0.0.1:1087</span><br><span class="line"></span><br><span class="line">//sock5代理</span><br><span class="line">git config --global http.proxy socks5://127.0.0.1:8001</span><br><span class="line">git config --global https.proxy socks5://127.0.0.1:8001</span><br></pre></td></tr></table></figure>
-<p>查看代理：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global --get http.proxy</span><br><span class="line">git config --global --get https.proxy</span><br></pre></td></tr></table></figure>
-<p>取消代理：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global --<span class="built_in">unset</span> http.proxy</span><br><span class="line">git config --global --<span class="built_in">unset</span> https.proxy</span><br></pre></td></tr></table></figure>
-<h1>快捷键</h1>
-<h2 id="Normal-mode">Normal mode</h2>
-<p><code>u</code>:	撤销</p>
-<p><code>ctrl+r</code>:	返回撤销</p>
-<p><code>:syntax on</code>  高亮</p>
-<p><code>:set autoindent</code>	自动缩进</p>
-<p>在命令模式<code>:</code>下，<code>ctrl+p</code>显示上一条命令</p>
-<h2 id="Insert-mode">Insert mode</h2>
-<p><code>ESC</code> or <code>ctrl+c</code> or <code>ctrl+[</code>	// insert -&gt; normal</p>
-<p><code>a</code>	// append<br>
-<code>i</code>	// insert<br>
-<code>o</code>	// open a line below</p>
-<p><code>A</code>	// append after line<br>
-<code>I</code>	// insert before line<br>
-<code>O</code>	// append a line above</p>
-<h3 id="Tips">Tips</h3>
-<p><code>ctrl+h</code>	// delete last characterwise<br>
-<code>ctrl+w</code>	// delete last word<br>
-<code>ctrl+u</code>	// delete current row<br>
-<code>gi</code>		// quickly jump to the last edit and enter insert mode</p>
-<h2 id="Command-mode">Command mode</h2>
-<p><code>:w</code>	// save<br>
-<code>:q</code>	// quit<br>
-<code>:vs</code>	// vertical split,  <code>:vs b.txt</code><br>
-<code>:sp</code>	// split,  <code>:sp c.txt</code><br>
-<code>:s/old/new/g</code>	// replace. s(switch), g(global)</p>
-<h2 id="Visual-mode">Visual mode</h2>
-<p><code>v</code>	// Characterwise visual mode<br>
-<code>V</code>	// Linewise visual mode<br>
-<code>ctrl+v</code>		// Blockwise visual mode</p>
-<h1>Vim 快速移动</h1>
-<p>normal 移动的快捷方式：</p>
-<p><code>w/W</code>: 移动到下一个word/WORD 开头</p>
-<p><code>e/E</code>: 移动到下一个 word/WORD 结尾</p>
-<p><code>b/B</code>: 移动到上一个 word/WORD 开头  (backword)</p>
-<p>( word指的是以非空白符分割的单词，WORD以空白符分割的单词 )</p>
-<p>行间搜索移动</p>
-<p><code>f&#123;char&#125;</code>: 当前光标往行后搜索字符, 分号(;)下一个找到的字符，逗号(,)上一个找到的字符</p>
-<p><code>F&#123;char&#125;</code>: 当前光标往前搜索字符</p>
-<p><code>0</code>: 移动到行首第一个字符</p>
-<p><code>^</code>: 移动到第一个非空白字符</p>
-<p><code>$</code>: 移动到行尾</p>
-<p><code>g_</code>: 移动到行尾非空白字符</p>
-<p>页面移动</p>
-<p><code>gg</code>: 文件开头</p>
-<p><code>G</code>: 文件结尾</p>
-<p><code>H</code>: 屏幕的开头(Head)</p>
-<p><code>M</code>: 屏幕的中间(Middle)</p>
-<p><code>L</code>: 屏幕的结尾(Lower)</p>
-<p><code>crtl+u</code>: 上翻页（upword）</p>
-<p><code>ctrl+f</code>: 下翻页（forword）</p>
-<p><code>zz</code>: 屏幕置为中间</p>
-<h1>Vim 快速删除</h1>
-<h2 id="normal-mode">normal mode</h2>
-<p><code>x</code>:	delete a char</p>
-<p><code>dw</code>:	delete a word		// <code>daw</code>: delete a word (include spaces)</p>
-<p><code>dw</code>:	删除单词光标及之后的</p>
-<p><code>daw</code>:	删除单词包括之后的空格</p>
-<p><code>diw</code>:	删除单词 ( 不包含空格 )</p>
-<p><code>d$</code>: 	快速删除到行尾	 <code>d0</code>:	快速删除到行开头</p>
-<p><code>dt&#123;char&#125;</code> etc : 	 delete to char	// 从光标删除到指定char字符</p>
-<p>数字加命令表示多次执行，如<code>2dd</code>删除2行，<code>4x</code>删除4个字符。</p>
-<h1>Vim 快速编辑</h1>
-<h2 id="normal-mode-2">normal mode</h2>
-<p><code>r&#123;char&#125;</code>:	replace，替换一个字符。</p>
-<p><code>s</code>： 删除当前字符并进入insert mode.   <code>S</code>:  删除当前行并进入insert mode.</p>
-<p>使用<code>c</code>配合文本对象，快速进行修改。</p>
-<p><code>cw</code>:	删除一个单词并进入insert mode.</p>
-<h1>Vim 快速查找</h1>
-<p>使用<code>:/</code> or <code>:?</code>进行前向或者反向搜索。<code>:set hls</code>高亮</p>
-<p>使用<code>n/N</code>跳转到下一个或者上一个匹配。</p>
-<p>使用<code>*</code>或者<code>#</code>进行当前单词的前向和后向匹配。</p>
-<h1>搜索替换</h1>
-<p>substitute命令允许我们查找并且替换掉文本，并且支持正则表达式</p>
+    <title>关于tomcat、 nginx、apache的理解</title>
+    <url>/posts/others_web_server/</url>
+    <content><![CDATA[<h1>关于tomcat 与 nginx、apache的理解</h1>
+<blockquote>
+<p>转载自  - 知乎用户的回答 - 知乎 <a href="https://www.zhihu.com/question/32212996/answer/87524617">https://www.zhihu.com/question/32212996/answer/87524617</a></p>
+</blockquote>
+<p>HTTP 服务器本质上也是一种应用程序——它通常运行在服务器之上，绑定服务器的 IP 地址并监听某一个 tcp 端口来接收并处理 HTTP 请求，这样客户端（一般来说是 IE, Firefox，Chrome 这样的浏览器）就能够通过 HTTP 协议来获取服务器上的网页（HTML 格式）、文档（PDF 格式）、音频（MP4 格式）、视频（MOV 格式）等等资源。下图描述的就是这一过程：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://pic3.zhimg.com/904696074e077934e601f175913f42fd_r.jpg?source=1940ef5c" alt="img"></p>
+<p>不仅仅是 Apache HTTP Server 和 Nginx，绝大多数编程语言所包含的类库中也都实现了简单的 HTTP 服务器方便开发者使用：</p>
 <ul>
-<li>
-<p><code>:[range]s[ubstiute]/&#123;pattern&#125;/&#123;string&#125;/[flags]</code></p>
-</li>
-<li>
-<p>range表示范围比如:10,20表示10-20行，%表示全部</p>
-</li>
-<li>
-<p>pattern要替换的模式，string是替换后的文本</p>
-</li>
+<li>HttpServer (Java HTTP Server)</li>
+<li>Python SimpleHTTPServer</li>
 </ul>
-<h2 id="替换标志位">替换标志位</h2>
-<p>flags有几个常用的标志</p>
+<p>使用这些类库能够非常容易的运行一个 HTTP 服务器，它们都能够通过绑定 IP 地址并监听 tcp 端口来提供 HTTP 服务。</p>
+<p>Apache Tomcat 则是 Apache 基金会下的另外一个项目，与 Apache HTTP Server 相比，Tomcat 能够<strong>动态</strong>的生成资源并返回到客户端。Apache HTTP Server 和 Nginx 都能够将某一个文本文件的内容通过 HTTP 协议返回到客户端，但是这个文本文件的内容是固定的——也就是说无论何时、任何人访问它得到的内容都是完全相同的，这样的资源我们称之为<strong>静态</strong>资源。动态资源则与之相反，在不同的时间、不同的客户端访问得到的内容是不同的，例如：</p>
 <ul>
-<li>
-<p>g（global）表示全局范围内执行</p>
-</li>
-<li>
-<p>c（confirm）表示确认，可以确认或者拒绝</p>
-</li>
-<li>
-<p>n（number)报告匹配到的次数而不替换，可以用来查询匹配次数</p>
-</li>
+<li>包含显示当前时间的页面</li>
+<li>显示当前 IP 地址的页面</li>
 </ul>
-<p>如：<code>:% s/self/this/g</code></p>
-<p><code>:% s/\&lt;word\&gt;/string/g</code>  使用<strong>正则表达式</strong>精准匹配单词并替换</p>
-<h1>Vim 多文件操作</h1>
-<p><strong>Buffer</strong>：指打开的一个文件的内存缓冲区</p>
-<p><strong>窗口</strong>：是Buffer可视化的分割区域</p>
-<p><strong>Tab</strong>：可以组织窗口为一个工作区</p>
-<p>![image-20210724163510732](/Users/tea/Library/Application Support/typora-user-images/image-20210724163510732.png)</p>
-<p>![image-20210724163710391](/Users/tea/Library/Application Support/typora-user-images/image-20210724163710391.png)</p>
-<p>![image-20210724163833453](/Users/tea/Library/Application Support/typora-user-images/image-20210724163833453.png)</p>
-<p><code>TAB</code>：补全命令</p>
-<p><code>:ls</code>：列举当前缓冲区</p>
-<p><code>:e [filename]</code>：打开新文件</p>
-<p><code>:b [num]</code>： 跳转到[num]缓冲区</p>
-<p><code>:b [name]</code>： 跳转到[name]缓冲区</p>
-<p><code>:bprevious/bnext/bfirst/blast</code> ：跳转到上一个/下一个/第一个/最后一个缓冲区</p>
-<p><code>ctrl+w s</code>： 水平分割窗口 or <code>:sp</code></p>
-<p><code>Ctrl+w v</code>：垂直分割窗口 or <code>:vs</code></p>
-<p><code>Ctrl+w w</code>：循环切换窗口</p>
-<p><code>ctrl+w h/j/k/l</code>： 切换到←/↓/↑/→窗口</p>
-<p><code>ctrl+w H/J/K/L</code>： 将当前窗口向←/↓/↑/→移动</p>
-<p>``ctrl+w =`： 所有窗口等宽高</p>
-<p>``ctrl+w _/|`： 当前窗口最大化高度/宽度</p>
-<p><code>[num]ctrl+w _/|</code>： 当前窗口高度设为[num]行/列</p>
-<h2 id="Tab">Tab</h2>
-<p>可以容纳一系列窗口的容器</p>
-<p><code>:tabe[dit] &#123;filename&#125;</code>：新标签页中打开{filename}</p>
-<p><code>:tabnew &#123;filename&#125;</code> 在新标签中打开{filename}</p>
-<p><code>ctrl+w T</code>：  把当前窗口移到一个新的标签页</p>
-<p><code>:tabc[lose]</code>：  关闭当前标签页及其中所有的窗口</p>
-<p><code>:tabo[nly]</code>：    只保留活动标签页，关闭所有其他标签页</p>
-<p>Tab切换操作</p>
-<table>
-<thead>
-<tr>
-<th>Ex命令</th>
-<th>普通模式命令</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>:tabn[ext] &#123;n&#125;</code></td>
-<td><code>&#123;n&#125;gt</code></td>
-<td>切换到编号为n的标签页</td>
-</tr>
-<tr>
-<td><code>:tabn[ext]</code></td>
-<td><code>gt</code></td>
-<td>gt 切换下一个标签页</td>
-</tr>
-<tr>
-<td><code>:tabp[revious]</code></td>
-<td><code>gT</code></td>
-<td>gT 切换上一个标签页</td>
-</tr>
-</tbody>
-</table>
-<h1>Text Object</h1>
-<p><code>[number]&lt;command&gt;[text object]</code></p>
+<p>Apache HTTP Server 和 Nginx 本身不支持生成动态页面，但它们可以通过其他模块来支持（例如通过 Shell、PHP、Python 脚本程序来动态生成内容）。<br>
+如果想要使用 Java 程序来动态生成资源内容，使用这一类 HTTP 服务器很难做到。Java Servlet 技术以及衍生的 Java Server Pages技术可以让 Java 程序也具有处理 HTTP 请求并且返回内容（由程序动态控制）的能力，Tomcat 正是支持运行 Servlet/JSP 应用程序的容器（Container）:</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://pic2.zhimg.com/2651b72ce2170336d10ad17fd020ae7a_r.jpg?source=1940ef5c" alt="img"></p>
+<p>Tomcat 运行在 JVM 之上，它和 HTTP 服务器一样，绑定 IP 地址并监听 TCP 端口，同时还包含以下指责：</p>
 <ul>
-<li>number表示次数，command是命令，d(elete)，c(hange)，y(ank)复制</li>
-<li>text object 是要操作的文本对象，比如单词w，句子s，段落p</li>
+<li>管理 Servlet 程序的生命周期</li>
+<li>将 URL 映射到指定的 Servlet 进行处理</li>
+<li>与 Servlet 程序合作处理 HTTP 请求——根据 HTTP 请求生成 HttpServletResponse 对象并传递给 Servlet 进行处理，将 Servlet 中的 HttpServletResponse 对象生成的内容返回给浏览器</li>
 </ul>
-<h2 id="示例">示例</h2>
-<p><code>iw</code>表示<strong>inner word</strong>。如果键入viw，那么首先v将进入选择模式，然后iw将选中当前单词。</p>
-<p><code>aw</code>表示<strong>a (around) word</strong>，它不但会选中当前单词，还会包含当前单词之后的空格。</p>
-<p>![image-20210724184322039](/Users/tea/Library/Application Support/typora-user-images/image-20210724184322039.png)</p>
-<p>![image-20210724184433486](/Users/tea/Library/Application Support/typora-user-images/image-20210724184433486.png)</p>
-<h1>复制粘贴与寄存器的使用</h1>
+<p>虽然 Tomcat 也可以认为是 HTTP 服务器，但通常它仍然会和 Nginx 配合在一起使用：</p>
 <ul>
-<li>
-<p>normal模式下复制粘贴分别使用y (yank) 和 p (put)，剪贴d和p</p>
-</li>
-<li>
-<p>可使用<code>v</code> （visual）选中要复制的地方，然后使用p粘贴</p>
-</li>
-<li>
-<p>配合文本对象：比如dw删除，yiw复制一个单词，yy复制一行</p>
-</li>
+<li>动静态资源分离——运用 Nginx 的反向代理功能分发请求：所有动态资源的请求交给 Tomcat，而静态资源的请求（例如图片、视频、CSS、JavaScript 文件等）则直接由 Nginx 返回到浏览器，这样能大大减轻 Tomcat 的压力。</li>
+<li>负载均衡，当业务压力增大时，可能一个 Tomcat 的实例不足以处理，那么这时可以启动多个 Tomcat 实例进行水平扩展，而 Nginx 的负载均衡功能可以把请求通过算法分发到各个不同的实例进行处理。</li>
 </ul>
-<h2 id="Insert模式下的复制粘贴">Insert模式下的复制粘贴</h2>
-<p>![image-20210724192714819](/Users/tea/Library/Application Support/typora-user-images/image-20210724192714819.png)</p>
-<p>![image-20210724192921707](/Users/tea/Library/Application Support/typora-user-images/image-20210724192921707.png)</p>
-<p>![image-20210724193258690](/Users/tea/Library/Application Support/typora-user-images/image-20210724193258690.png)</p>
-<p><code>:reg &#123;register name&#125;</code>：查看指定寄存器中的内容</p>
-<p>![image-20210724193407739](/Users/tea/Library/Application Support/typora-user-images/image-20210724193407739.png)</p>
-<p><code>:set clipboard=unnamed</code>：可以直接复制粘贴系统剪贴板的内容</p>
-<h1>Vim宏</h1>
-<p>宏可以看成是一系列命令的集合，我们可以使用宏“录制”一系列操作，然后用于“回放”，将一系列命令用在多行文本上。</p>
-<p>normal模式下：</p>
-<ul>
-<li>
-<p><code>q</code>：开始录制，再按一次<code>q</code>结束录制。</p>
-</li>
-<li>
-<p>使用<code>q&#123;register&#125;</code>选择要保存的寄存器，把录制的指令保存其中，如<code>qa</code>，将指令保存在a寄存器中。</p>
-</li>
-<li>
-<p>使用<code>@&#123;register&#125;</code>回放寄存器中保存的一系列命令。</p>
-</li>
-</ul>
-<p>normal 就是使用normal模式下的命令，<code>V</code> <code>G</code> 全选，<code>:normal @a</code> 就可以将剩下的全部执行记录下的宏。如<code>:normal A&quot;</code>，行尾加&quot;。</p>
-<h1>Vim 补全</h1>
-<p>vim中有很多种补全方式</p>
-<p><code>ctrl+n</code> 	补全关键字</p>
-<p><code>ctrl+x</code>	 <code>ctrl+n</code>  当前缓冲区关键字</p>
-<p><code>C-x</code>  	<code>C-i</code>  包含文件关键字</p>
-<p><code>ctrl+x</code>	 <code>ctrl+j</code>	  标签关键字</p>
-<p><code>ctrl+x</code>	 <code>ctrl+k</code>  字典查找</p>
-<p><code>ctrl+x</code>	<code>ctrl+l</code>	  整行补全</p>
-<p><code>ctrl+x</code>	 <code>ctrl+f</code>  文件名补全</p>
-<p><code>ctrl+x</code>	<code>ctrl+o</code> 全能（Omin）补全</p>
-<h2 id="常见的三种补全类型">常见的三种补全类型</h2>
-<ul>
-<li>
-<p>使用<code>ctrl+n</code>和<code>ctrl+p</code>补全单词</p>
-</li>
-<li>
-<p>使用<code>ctrl+x</code> and <code>ctrl+f</code>补全文件名</p>
-</li>
-<li>
-<p>使用<code>ctrl+x</code> and <code>ctrl+o</code>补全代码，需要开启文件类型检查，安装插件</p>
-</li>
-</ul>
-<h1>Vim 配置文件</h1>
-<p>持久化配置，比如<code>:set nu(mber)</code>，设置行号，设置主题，插件配置等。</p>
-<p>Linux/Unix系统下新建一个隐藏文件<code>vim ~/.vimrc</code></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot; 常用设置</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&quot;</span> 设置行号</span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> number</span><br><span class="line"></span><br><span class="line">colorscheme hybrid</span><br><span class="line"></span><br><span class="line"><span class="string">&quot; 按F2进入粘贴模式</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">set pastetoggle=&lt;F2&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&quot;</span> 高亮搜索</span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> hlsearch</span><br><span class="line"></span><br><span class="line"><span class="string">&quot; 设置折叠方式</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">set foldmethod=indent</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">” 一些方便的映射</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Let mapleader= &#x27; ,&#x27;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">let g:mapleader=&#x27;,&#x27;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&quot;</span> 使用jj进入normal模式</span><br><span class="line"></span><br><span class="line">inoremap jj &lt;Esc&gt;`^</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;使用leader+w 直接保存</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">inoremap &lt;leader&gt;w &lt;Esc&gt; :w&lt;cr&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">noremap &lt; leader&gt;w :w&lt;Cr&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&quot;</span> 切换buffer</span><br><span class="line"></span><br><span class="line">nnoremap &lt;silent&gt; [b :bprevious&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">nnoremap &lt;silent&gt; [n :bnext&lt;CR&gt;</span><br><span class="line"></span><br><span class="line"><span class="string">&quot; use ctrl+h/j/k/L switch window</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">noremap &lt;C-h&gt; &lt;C-w&gt;h</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">noremap &lt;C-j&gt; &lt;C-w&gt;j</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">noremap &lt;C-k&gt; &lt;C-w&gt;k</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">noremap &lt;C-1&gt; &lt;C-w&gt;l</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&quot;</span>Sudo to write</span><br><span class="line"></span><br><span class="line">cnoremap w!! w !sudo tee % &gt;/dev/null</span><br><span class="line"></span><br><span class="line"><span class="string">&quot; json格式化</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">com! FormatJSON %!python3 -m json.tool</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&quot;</span> 插件设置，这里使用了vim-plug</span><br><span class="line"></span><br><span class="line">call plug<span class="comment">#begin(&#x27;~/ . vim/plugged&#x27;)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;安装插件只需要把github 地址放到这里重启后执行:PlugInstall 就好了</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">PLug &#x27;mhinz/vim-startify&#x27;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">PLug &#x27;scrooloose/nerdtree&#x27;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">call plug#end()</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>Other</category>
+        <category>Web</category>
       </categories>
       <tags>
-        <tag>vim</tag>
+        <tag>零碎知识</tag>
       </tags>
   </entry>
   <entry>
