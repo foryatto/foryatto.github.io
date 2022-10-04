@@ -6,9 +6,9 @@
 
 - [Go刷题](go/Go刷题.md)
 
-## 工具
+## Python
 
-- [Homebrew使用指南](other/homebrew.md)
+- [Python基础](python/python.md)
 
 ## 算法
 
@@ -19,3 +19,7 @@
 - [KMP - 字符串匹配算法](algorithm/kmp.md)
   
 - [快速幂](algorithm/快速幂.md)
+
+## 工具
+
+- [Homebrew使用指南](other/homebrew.md)
