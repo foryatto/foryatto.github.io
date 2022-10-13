@@ -1,7 +1,3 @@
-## Rust
-
-- [Rust学习笔记](rust/rust.md)
-
 ## Go
 
 - [Go刷题](go/Go刷题.md)
@@ -9,6 +5,10 @@
 ## Python
 
 - [Python基础](python/python.md)
+
+## Rust
+
+- [Rust学习笔记](rust/rust.md)
 
 ## 算法
 
